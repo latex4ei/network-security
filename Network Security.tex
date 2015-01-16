@@ -1,0 +1,237 @@
+	
+% .:: Laden der LaTeX4EI Formelsammlungsvorlage
+\documentclass[fs, footer]{latex4ei}
+
+% Dokumentbeginn
+% ======================================================================
+\begin{document}
+
+
+% Aufteilung in Spalten
+\begin{multicols*}{4}
+\fstitle{Network Security}
+
+\section{Introduction} 
+\sectionbox{
+\subsection{Security Trends} 
+Network security is an issue since \emph{critical infrastructures} in the open systems with a growing user base (\ra \emph{increasing risk}) are threatend by \emph{organized crime}.
+}
+\sectionbox{
+\subsection{Security Threats} 
+\textbf{Asymmetric Threat:} Defenders must protect against all exploits on all systems but attackers can attack only a few.
+
+\textbf{Attacker Motivation:} Ego, Revenge, Destruction, Criminal intend, Aquisition of resources, Acquistion of sensitive information
+}
+\sectionbox{
+\subsection{Security concepts}
+\textbf{CIA Triad}
+\begin{itemize}
+ 	\item Confidentiality (prevention of unauthorized disclosure)
+ 	\item Integrity (prevention of unauthorized modification or deletion)
+ 	\item Availability (prevention of unauthorized withholding)
+ \end{itemize} 
+
+ Also: Authenticity, Accountability, Non-repudiation (Nichtabstreitbarkeit), Privacy
+
+ \textbf{Passive attacks:} Confidentiality (Content compromise, Traffic analysis)
+
+ \textbf{Active attacks:} Availabilty (Denial of service), Integrity and Authenticity (Modification, Replay, Fabrication)
+
+ \textbf{Secure Channel:} secure = authentic (of the sender) and confidential (no eavesdropping)   
+
+ \textbf{Security on OSI-Layers:} Physical (Link encryption), Network (IPSEC), Transport (SSL), Application (SSH)
+
+ }
+\section{(In)securtity, Risk and the Lifecycle of Vulnerablities}
+\sectionbox{
+\subsection{(In)security Landscape}
+General: complexity is bad (but increases fast)
+
+Security of a system := Security of its weakest link
+}
+\sectionbox{
+\subsection{Vulnerablity Lifecycle}
+
+\textbf{Security vulnerability} \\
+a weakness in a system allowing an attacker to violate the confidentiality, integrity, availability of the system or the data and applications it hosts
+
+disagreement on what is a vulnerability possible (it's a a feature not a vulnerability)
+
+\textbf{CVE}
+Standard names for all publicly known vulnerabilities and security exposures. De facto standard.
+
+Form: \emph{CVE-Year-AnyDigits}
+
+\includegraphics[width=\columnwidth]{img/VUL-LC.png}
+
+
+\textbf{Numbers:}\\ 
+50 \% of vulnerabilities known to insiders 30 or more days before disclosure (less-than-zero-day)
+
+At disclosure:  $\approx 50 \%$ unpatched
+
+A month after disclosure: $\approx 50 \%$ unpatched \\ 
+
+\textbf{Zero-day} Date when the vulnerability becomes known by the public 
+
+\textbf{Zero-day-exploit} Attack that exploits a previously unknown vulnerability
+}
+\sectionbox{
+\subsection{Dynamics of (In) Security}
+\begin{itemize}
+	\item extremely high dynamics around the disclosure 
+	\item exploit availability stays higher than the patch availability
+	\item insiders: may know undisclosed vulnerabilites
+\end{itemize}
+
+\textbf{Gap of insecurity:} Difference between the exploit and patch (the bad a consistently faster than the good)
+
+}
+
+\sectionbox{
+\subsection{Risk}
+There is such thing as absolute security
+
+Trade-Off between security and financial, social, functional, \ldots
+
+\subsubsection{Risk analysis}
+\begin{itemize}
+	\item What assets are we trying to protect?
+	\item what are the risk to those assets?
+	\item How well does the security solution mitigate those risks?
+	\item What other risks does the security solution cause?
+	\item What costs and trade-offs does the security solution impose?
+\end{itemize}
+\ra is the trade-off worth if?
+
+\subsubsection{Risk management}
+Security is relative \Ra manage risks
+
+Options: avoid, decrease, transfer, accept risk
+
+Business sense: risk $<$ opportunity
+}
+
+
+\section{Identity and Authentication}
+
+\subsection{Identity and Identity Theft}
+
+\textbf{Identity:} An identity specifies a principal (a unique entity)
+
+e.g. Individuals, Physical objects, Logical objects, Groups
+
+\textbf{Identitfy theft:} Identity theft is a crime in which imposters obtain key pieces of personally identifying information and use them for their own personal gain or to do harm
+
+Variants: Financial, Criminal, Identity cloning, Business
+
+(12.6 million US-citizens in 2012 with 4.6 billion total damage)
+
+\subsection{Authentication}
+
+\textbf{Authentication:} Authentication is the process of verifying an identity claim of an entity. It binds the principal to an identity
+
+\textbf{Criteria:}
+\begin{itemize}
+	\item Something an entity knows (e.g. password, PIN)
+	\item Something an entity has (e.g. key, card)
+	\item Something an entity is (e.g. biometric characteristic)
+	\item rarely used: location, ability
+\end{itemize}
+
+\textbf{Weak authentication:} checking only one authentication criteria
+
+\textbf{Strong authentication:} checking two or more authentication criteria
+
+\subsection{Authentication Protocols}
+\subsubsection{OpenID}
+
+Standard for decentralised user authentication:
+use existing account to sign in to multiple websites without creating a new password
+
+\includegraphics[width=\columnwidth]{img/OpenID.png}
+
+\subsubsection{OAuth}
+A web user (resource owner) grants a
+printing service (client) access to her protected photos stored at a photo sharing service (resource server), without sharing her username and password with the printing service.
+Instead, she authenticates directly with a server trusted by the photo sharing service (authorization server) which issues the printing service delegation-specific credentials (access token).
+
+\includegraphics[width=\columnwidth]{img/OAuth.png}
+
+(A) Client requests authorisation from the resource owner or authorization server. \\
+(B) Client receives an authorisation grant by the resource owner. Authorization grant type depends on the method used by the client and supported by the authorisation server to obtain it. \\
+(C) Client requests an access token by authenticating with the authorization server using its client credentials (prearranged between the client and authorization server) and presenting the authorization grant. \\
+(D) Authorisation server validates  client credentials and the authorization grant, and if valid issues an access token.\\
+(E) Client requests protected resource from the resource server. Authentication by access token.\\
+(F) Resource server validates the access token \ra valid \ra serves request\\
+
+\subsubsection{3D Secure}
+A protocol used widely to authenticate online card transactions. 
+
+\includegraphics[width=\columnwidth]{img/3DSecure.png}
+After entering payment card details on merchant site:
+\begin{itemize}
+\item 3D Secure pops up a password entry form to a bank customer
+\item customer enters a password and, if it was correct,
+\item customer is returned to the merchant website to complete the
+transaction and
+\item the merchant gets an authorisation code to submit to his bank
+\end{itemize}
+
+\textbf{Problems:} Pop-Up blockers, Activation during shopping, SLL verification not visible, liability shift, weak bank authentication, no password reset procedure, privacy issues\\
+\subsubsection{802.1x}
+Client-server based access control protocol that restricts unauthorised devices from connecting to a (W)LAN through publicly accessible ports
+
+\includegraphics[width=\columnwidth]{img/8021x.png}
+
+\textbf{EAP} (Extensible Authentication Protocol): Authentication framework supporting multiple methods
+
+\textbf{Identity and Security}: Authentication (Who?) , Authorisation (What?) , Access Control, Policy enforcement
+
+\textbf{Benefits:} Standard based technology, control at link layer, interoperating wifi and wired, centralised user administration
+
+\textbf{Drawbacks:} Authenticator authentication, Man-in-the-middle, session hijacking
+
+
+% Identity
+% Authentication (Def, Trusted 3P, Auth-Prot)
+% Pseudonyms
+% Anonymization (Onion Routing, Attacks, no perfect annonymity)
+\subsection{Anonymization}
+
+\section{Firewalls, IDS and NAT Traversal}
+
+\section{The Domain Name System Security}
+
+\section{Availability and Denial of Service}
+\section{Secure Channels: Principles, VPN, SSH}
+
+\section{TLS}
+
+\section{Crypto-Refresher}
+
+\section{Web Application Security: Session State}
+\section{Web Application Security: SQL Injection}
+\section{Cross-Site Scripting (XSS)}
+
+
+\section{Malware}
+
+\section{Botnets + Malware Development and Demo}
+
+\section{Security Ecosystem and Detection Failures}
+
+\section{E-Mail Spam}
+\subsection{Define Spam}
+\textbf{UCE}: Unsolicited Commercial Email
+
+\textbf{UBE}: Unsolicited Bulk Email (not nescessaryliy commercial)
+% Ende der Spalten
+\end{multicols*}
+
+% Dokumentende
+% ======================================================================
+\end{document}
+
+% ToDos:
+
