@@ -2,6 +2,7 @@
 % .:: Laden der LaTeX4EI Formelsammlungsvorlage
 \documentclass[fs, footer]{latex4ei}
 
+\usepackage{listings}
 % Dokumentbeginn
 % ======================================================================
 \begin{document}
@@ -226,7 +227,7 @@
 }
 
 \section{Firewalls, IDS and NAT Traversal}
-
+\sectionbox{
 \subsection{Firewalls}
 Hardware or software device which is configured to permit, deny or proxy data through a computer network with different levels of trust. The configuration is called \emph{policy}.
 
@@ -261,6 +262,83 @@ protects web-based applications from malicious requests (often reverse proxy)
 Filtering: signatures, black/whitelisting
 
  \subsubsection{Firewall Attack techniques}
+ \begin{itemize}
+ 	\item IP source spoofing
+ 	\item artificial fragmentation
+ 	\item vulnerabilites
+ 	\item Denial of Service (state explosion)
+ 	\item Tunneling/Covert channel (ICMP, DNS, \ldots)
+ \end{itemize}
+
+ \subsubsection{Firewall detection} 
+
+ Port scanning: traceroute, src IP of response
+
+ TTL:  let expire TTL one hop past firewall
+
+ \subsubsection{Oranizational challenges}
+ \begin{itemize}
+  	\item Large rulesets
+  	\item Big Organizations
+  	\item Conflict: Networking vs. security staff
+  \end{itemize} 
+
+  \subsubsection{IP Tables} 
+	Netfilter rule: 
+	iptables -A INPUT -i eth0 -m state --state ESTABLISHED, RELATED -j ACCEPT
+	
+	Iptables rule:  iptables -A INPUT -p tcp -s 0/0 -d 0/0 --destination-port 80 --syn -j ACCEPT
+
+	\subsubsection{NAT (Network Address Translation)} 
+	One way to the Internet (multiple hosts on private network using the same public IP address). IP Address rewriting.
+
+	Benefits: Prevents malicous activity from outside, saves address space
+
+	Drawbacks: no end-to-end connectivity, some protocols don't work
+
+	\subsubsection{NAT UDP Hole Punching}
+
+	$\Ra$ exam relevant?
+}
+\sectionbox{
+\subsection{Intrustion Detection and Prevention Systems}
+try to detect intrusions on the network by comparing to attack signatures. Block traffic after detection.
+
+\subsubsection{Classification}
+\textbf{Object of observation:}
+
+Packet:
+
+Flow: scalabilty (+), encryption (+), not content-based (-)
+
+\textbf{Point of observation:}
+
+Host: hard deployment (-), context information (+), one sensore per machine (+)
+
+Network: easy deployment (+), multiple machines (+), unknown machines(-), preformance (-)
+
+\textbf{Method of observation:}
+
+Signature: precision (+), not detecting unknown attacks (-)
+
+Behavior: unknown attacks (+), difficult to find ground truth (-), false positives (-)
+
+\subsubsection{Challenges}
+\begin{itemize}
+ 	\item false alarms
+ 	\item high network speeds
+ 	\item sensor management and signature distribution
+ 	\item policy management
+ 	\item manpower
+ \end{itemize} 
+
+ \subsubsection{Attacks}
+ \begin{itemize}
+ 	\item Flooding / resource exhaustion
+ 	\item algorithmic Complexity Attacks (e.g. on hash table)
+
+ \end{itemize}
+}
 
 \section{The Domain Name System Security}
 
