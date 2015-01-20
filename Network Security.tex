@@ -9,7 +9,7 @@
 
 % Aufteilung in Spalten
 \begin{multicols*}{4}
-\fstitle{Network Security}
+\title{Network Security}
 
 
 \section{Introduction}
@@ -120,7 +120,7 @@
 
 
 \section{Identity and Authentication}
-
+\sectionbox{
 	\subsection{Identity and Identity Theft}
 
 	\textbf{Identity:} An identity specifies a principal (a unique entity)
@@ -132,7 +132,8 @@
 	Variants: Financial, Criminal, Identity cloning, Business
 
 	(12.6 million US-citizens in 2012 with 4.6 billion total damage)
-
+	}
+\sectionbox{
 	\subsection{Authentication}
 
 	\textbf{Authentication:} Authentication is the process of verifying an identity claim of an entity. It binds the principal to an identity
@@ -148,15 +149,18 @@
 	\textbf{Weak authentication:} checking only one authentication criteria
 
 	\textbf{Strong authentication:} checking two or more authentication criteria
+}
 
 	\subsection{Authentication Protocols}
+\sectionbox{
 	\subsubsection{OpenID}
 
 	Standard for decentralised user authentication:
 	use existing account to sign in to multiple websites without creating a new password
 
 	\includegraphics[width=\columnwidth]{img/OpenID.png}
-
+}
+\sectionbox{
 	\subsubsection{OAuth}
 	A web user (resource owner) grants a
 	printing service (client) access to her protected photos stored at a photo sharing service (resource server), without sharing her username and password with the printing service.
@@ -170,7 +174,8 @@
 	(D) Authorisation server validates  client credentials and the authorization grant, and if valid issues an access token.\\
 	(E) Client requests protected resource from the resource server. Authentication by access token.\\
 	(F) Resource server validates the access token \ra valid \ra serves request\\
-
+}
+\sectionbox{
 	\subsubsection{3D Secure}
 	A protocol used widely to authenticate online card transactions.
 
@@ -185,28 +190,77 @@
 	\end{itemize}
 
 	\textbf{Problems:} Pop-Up blockers, Activation during shopping, SLL verification not visible, liability shift, weak bank authentication, no password reset procedure, privacy issues\\
+}
+\sectionbox{
+
 	\subsubsection{802.1x}
 	Client-server based access control protocol that restricts unauthorised devices from connecting to a (W)LAN through publicly accessible ports
 
 	\includegraphics[width=\columnwidth]{img/8021x.png}
 
-	\textbf{EAP} (Extensible Authentication Protocol): Authentication framework supporting multiple methods
+	\textbf{EAP} (Extensible Authentication Protocol): Authentication framework on the data link layer supporting multiple methods (MD5, OTP, TLS, TTLS) without requiring an IP.
 
 	\textbf{Identity and Security}: Authentication (Who?) , Authorisation (What?) , Access Control, Policy enforcement
 
 	\textbf{Benefits:} Standard based technology, control at link layer, interoperating wifi and wired, centralised user administration
 
 	\textbf{Drawbacks:} Authenticator authentication, Man-in-the-middle, session hijacking
+}
 
-
-	% Identity
-	% Authentication (Def, Trusted 3P, Auth-Prot)
-	% Pseudonyms
-	% Anonymization (Onion Routing, Attacks, no perfect annonymity)
+\sectionbox{
 	\subsection{Anonymization}
 
+	\textbf{Levels of Anonymity:} Identity (principal known), Pseudonymity (indirectly kown as pseudonym), anonymity (part of anonymity set but within no distinguishing)
+
+	\textbf{Pseudonyms:} public (\ra identification), non-public (\ra pseudonymity), unlinkable (\ra anonymity)
+
+	\textbf{Use cases:} \\
+	physical: feedback, voting, whistleblowing, censorship \\
+	digital: digital cash, digital voting, illegal activities
+
+	\textbf{Oninon routing: } Data is encapsulated multiple times and only the next hop is known to each node
+
+	\textbf{Mixnet:} proxy handles messages in batches (transformed and premutated) \Ra unlinkablity of incoming and outgoing messages
+
+	\textbf{Attacks:} Traceback (break systems on path), Collusion (bad nodes), Traffic analysis (tagging with bit errors, replay messages - defense: heartbeats, traffic shaping, padding) , Logging (???)
+}
 
 \section{Firewalls, IDS and NAT Traversal}
+
+\subsection{Firewalls}
+Hardware or software device which is configured to permit, deny or proxy data through a computer network with different levels of trust. The configuration is called \emph{policy}.
+
+\textbf{Types:} simple packet filter, stateful filter, application layer proxy
+
+\textbf{Rules:} Filtering (outgoing, incoming), Default (accept, reject), Deny (Drop, Reject), Addressing Transparency (firewall and network fingerprinting)
+
+\subsubsection{Stateless Firewall}
+Functionality: examine on network layer, decision based on header
+
+Pro: application independent, good performance
+
+Cons: no state or application context 
+
+\subsubsection{Stateful Firewall}
+keeps track of state. Decision based on \emph{session state}
+
+Pro: more powerful
+
+Cons: no state for UDP, host vs. firewall state, state explosion
+  
+ \subsubsection{Application Layer Firewall}
+ take application state into account
+
+ Pro: application aware
+
+ Cons: many application protocols, performance
+
+ \subsubsection{Web Application Firewall}
+protects web-based applications from malicious requests (often reverse proxy)
+
+Filtering: signatures, black/whitelisting
+
+ \subsubsection{Firewall Attack techniques}
 
 \section{The Domain Name System Security}
 
