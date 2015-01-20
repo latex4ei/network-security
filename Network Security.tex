@@ -341,10 +341,122 @@ Behavior: unknown attacks (+), difficult to find ground truth (-), false positiv
 }
 
 \section{The Domain Name System Security}
+\sectionbox{
+\subsection{DNS}
+\emphbox{DNS is a global, distributed, robust system for name to IP address resolution}
+
+DNS is the glue of the internet: Nearly all activities start with a DNS lookup
+
+Orgiginally: no security considerations
+
+Design:	
+\begin{itemize}
+	\item Client-Server application
+	\item Hierarchical System
+\end{itemize}
+
+\textbf{Zone:} Collection of hostnames/IP pairs managed together
+
+\textbf{Nameserver (authoritative): } Server that answers DNS queries (Responsible DNS Server for each zone)
+
+\textbf{Resolver:} Client part of DNS that resolves domain names
+
+\textbf{Recursive name server:}  Answers queries for all zones
+
+\textbf{Stub resolver:} Forwards request to recursive name server (typically used by end-hosts)
+
+\textbf{Caching:} Reduces overhead. Lifetime controlled by TTL 
+}
+\sectionbox{
+\subsection{Attacks on DNS}
+
+\subsubsection{Denial of Service on DNS} 
+Tageting the 13 DNS root servers which are a bottleneck resource. However overprovisioning (13 clusters) prevents most attacks.
+
+\subsubsection{Account-Takeover} 
+Attacking the web interfaces of registrars and try to enter malicious name servers. 
+
+\subsubsection{Manipulate local DNS settings}
+\begin{itemize}
+	\item Manipulate local host configurations (access to the local machine nescessary)
+	\item Spoof DHCP replies (access to LAN nescessary) \ra countermeasure: authentification for DHCP messages
+	\item Set up Malicious DHCP server that is faster than the vaild one
+\end{itemize}
+
+\subsubsection{Manipulate DNS lookup process}
+
+\textbf{Bailiwick Checking:} Is the server authorized to respond to DNS requests for the domain.
+
+\textbf{Weak authentication:} Port, TXID, Query string - first good answer wins
+
+3 possible answers to DNS queries:
+\begin{itemize}
+   	\item Here is your answer
+   	\item go away
+   	\item I don't know ask \ldots
+\end{itemize}   
+
+
+\subsubsection{The Kaminsky Attack}
+\begin{itemize}
+	\item Inject query on the client Random.www.bank.com
+	\item reply multiple times  (TXID 0-200)
+	\item Send name server redirections
+\end{itemize}
+$\Ra$ Fix: Source Port Randomization. Chance: $65536 \cdot (65536 - 1024)$ to 1
+}
+
+\sectionbox{
+\subsection{DNSSEC}
+Provides:
+\begin{itemize}
+	\item Authenticity
+	\item Integrity
+	\item Backward compatibility
+\end{itemize}
+
+Drawbacks
+\begin{itemize}
+	\item No confidentiality
+	\item No protection against DoS
+\end{itemize}
+
+All records are signed: Key pairs for each zone $\ra$ Integrity
+
+Chain of trust $\ra$ Authenticity
+}
 
 \section{Availability and Denial of Service}
 
 \section{Secure Channels: Principles, VPN, SSH}
+
+\subsection{Security by Layer of the TCP/IP Model}
+Properties of a secure channel: secure = authentic and confidential
+
+\subsubsection{Security at Link Layer}
+\begin{itemize}
+	\item All traffic over a specific Link
+	\item Often implemented in hardware
+\end{itemize}
+
+Pro: Speed, Seamless
+
+Drawbacks: every link seperately, trust in link operator
+
+\subsubsection{Security at Internet Layer}
+
+\subsubsection{Security at Transport Layer}
+
+\subsubsection{Security at Application Layer}
+
+\subsection{VPN}
+
+\subsection{SSH} 
+
+% Network layers (and security in different layers)
+% VPN technologies (bluilding blocks, IPSec)
+% SSH (algorithms parameters)
+% Passwords
 
 \section{TLS}
 
