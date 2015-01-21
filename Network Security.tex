@@ -521,6 +521,13 @@ How Realtime Blacklists Lists Differ:
 	\item Goal
 \end{itemize}
 
+Email Auth:
+\begin{itemize}
+	\item DomainKeys Identified Mail (DKIM): Pub/Priv Key Signing; pubkey distributed via DNS
+	\item Sender Policy Framework: Domain owners publish list of IPs that are authorized
+	\item SenderID: Match PRA domain against source IP via DNS (PRA is often From: header)
+	\end{itemize}
+
 \end{multicols*}
 
 % Dokumentende
