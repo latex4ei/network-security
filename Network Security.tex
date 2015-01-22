@@ -528,6 +528,33 @@ TBD
 
 \subsection{SQL code injection} 
 A SQL injection attack consits of insertion of a SQL query via the input data from the client to the application.
+
+Possible causes:
+\begin{itemize}
+	\item read / modify data in the database
+	\item execute administration opertations
+	\item issue commands on the OS
+\end{itemize}
+
+\textbf{Example:} \lstinline|$login="' or ''=''"|
+
+\lstinline|;| terminates a command \lstinline|--| considers everything afterwards as a comment.
+
+\lstinline|union| merges the output of two select commands.
+
+Error messages can provide hints on which DB is used.
+
+\textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
+
+\subsection{SQL Injection Defense}
+\begin{itemize}
+	\item constrain and sanitize all client data on the server
+	\item use stored procedures
+	\item avoid disclosing error information
+	\item run DB with reduced privileges
+	\item input validation
+\end{itemize}
+
 \section{Cross-Site Scripting (XSS)}
 \subsection{Same-origin policy}
 A script can only access content and properties of a document loaded from the same origin.
