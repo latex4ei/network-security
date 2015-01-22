@@ -241,7 +241,7 @@ Functionality: examine on network layer, decision based on header
 
 Pro: application independent, good performance
 
-Cons: no state or application context 
+Cons: no state or application context
 
 \subsubsection{Stateful Firewall}
 keeps track of state. Decision based on \emph{session state}
@@ -249,7 +249,7 @@ keeps track of state. Decision based on \emph{session state}
 Pro: more powerful
 
 Cons: no state for UDP, host vs. firewall state, state explosion
-  
+
  \subsubsection{Application Layer Firewall}
  take application state into account
 
@@ -271,7 +271,7 @@ Filtering: signatures, black/whitelisting
  	\item Tunneling/Covert channel (ICMP, DNS, \ldots)
  \end{itemize}
 
- \subsubsection{Firewall detection} 
+ \subsubsection{Firewall detection}
 
  Port scanning: traceroute, src IP of response
 
@@ -282,15 +282,15 @@ Filtering: signatures, black/whitelisting
   	\item Large rulesets
   	\item Big Organizations
   	\item Conflict: Networking vs. security staff
-  \end{itemize} 
+  \end{itemize}
 
-  \subsubsection{IP Tables} 
-	Netfilter rule: 
+  \subsubsection{IP Tables}
+	Netfilter rule:
 	iptables -A INPUT -i eth0 -m state --state ESTABLISHED, RELATED -j ACCEPT
-	
+
 	Iptables rule:  iptables -A INPUT -p tcp -s 0/0 -d 0/0 --destination-port 80 --syn -j ACCEPT
 
-	\subsubsection{NAT (Network Address Translation)} 
+	\subsubsection{NAT (Network Address Translation)}
 	One way to the Internet (multiple hosts on private network using the same public IP address). IP Address rewriting.
 
 	Benefits: Prevents malicous activity from outside, saves address space
@@ -331,7 +331,7 @@ Behavior: unknown attacks (+), difficult to find ground truth (-), false positiv
  	\item sensor management and signature distribution
  	\item policy management
  	\item manpower
- \end{itemize} 
+ \end{itemize}
 
  \subsubsection{Attacks}
  \begin{itemize}
@@ -350,7 +350,7 @@ DNS is the glue of the internet: Nearly all activities start with a DNS lookup
 
 Orgiginally: no security considerations
 
-Design:	
+Design:
 \begin{itemize}
 	\item Client-Server application
 	\item Hierarchical System
@@ -366,16 +366,16 @@ Design:
 
 \textbf{Stub resolver:} Forwards request to recursive name server (typically used by end-hosts)
 
-\textbf{Caching:} Reduces overhead. Lifetime controlled by TTL 
+\textbf{Caching:} Reduces overhead. Lifetime controlled by TTL
 }
 \sectionbox{
 \subsection{Attacks on DNS}
 
-\subsubsection{Denial of Service on DNS} 
+\subsubsection{Denial of Service on DNS}
 Tageting the 13 DNS root servers which are a bottleneck resource. However overprovisioning (13 clusters) prevents most attacks.
 
-\subsubsection{Account-Takeover} 
-Attacking the web interfaces of registrars and try to enter malicious name servers. 
+\subsubsection{Account-Takeover}
+Attacking the web interfaces of registrars and try to enter malicious name servers.
 
 \subsubsection{Manipulate local DNS settings}
 \begin{itemize}
@@ -395,7 +395,7 @@ Attacking the web interfaces of registrars and try to enter malicious name serve
    	\item Here is your answer
    	\item go away
    	\item I don't know ask \ldots
-\end{itemize}   
+\end{itemize}
 
 
 \subsubsection{The Kaminsky Attack}
@@ -452,7 +452,7 @@ Drawbacks: every link seperately, trust in link operator
 
 \subsection{VPN}
 
-\subsection{SSH} 
+\subsection{SSH}
 
 % Network layers (and security in different layers)
 % VPN technologies (bluilding blocks, IPSec)
@@ -468,7 +468,59 @@ Drawbacks: every link seperately, trust in link operator
 \section{Web Application Security: SQL Injection}
 
 \section{Cross-Site Scripting (XSS)}
+\subsection{Same-origin policy}
+A script can only access content and properties of a document loaded from the same origin.
+\begin{itemize}
+  \item same protocol
+  \item same hostname
+  \item same port
+\end{itemize}
+URL path is ignored for the same-origin policy
 
+\textbf{Interaction of different origins}
+\begin{itemize}
+  \item Link
+  \item Iframe: Shown inside me.tld but cannot exit iframe
+  \item POST: POSTing data to you.tld
+  \item script include: Evaluted in context of me.tld ($\ra$ dangerous)
+  \item Asynchronous Requests (AJAX): Different origin only possible if allowed by target domain (with Access-Control-Allow-Origin Header)
+\end{itemize}
+
+\subsection{Cross-Site Scripting (XSS) Attacks}
+XSS flaws occur whenever a web app takes user supplied data and sends it to the browser without first \emph{validating} or \emph{encoding} the content.
+
+\textbf{Target:} The user of the app insted of the app itself
+
+\textbf{Infection path:} email, chat, uploaded files \ldots
+
+\textbf{Dangerous content:} advertisments, user contributed content, widgets (counters, scripts \ldots)
+
+\subsection{XSS prevention}
+\begin{itemize}
+  \item test your web app
+  \item input sanitization (check user submitted content)
+  \item HTML output encoding
+\end{itemize}
+
+\subsection{Data Leakage Attack}
+Attacker includes script that reads session cookies and sends them to an evil server. $\ra$ Solution: HTTPOnly cookies
+
+\subsection{Request Forgery (XSRF)}
+A form form one domain posts a request to a different domain through an authenticated session.
+
+\begin{itemize}
+  \item write-only attack
+\end{itemize}
+
+\textbf{Solution:} CSRF Token, ask for password, check HTTP referer, show captcha
+
+\subsection{Script inclusion (XSSI)}
+
+\emph{Never include a script you do not trust!}
+
+Data is retrieved from the web server with a request on the API endpoint. The browser automatically sends cookie and the JavaScript function in the evil website is called with the AJAX return data.
+
+\textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
 
 \section{Malware}
 
