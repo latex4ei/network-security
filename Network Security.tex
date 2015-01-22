@@ -525,7 +525,8 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 \section{Malware}
 
 \section{Botnets + Malware Development and Demo}
-Objectives:
+\sectionbox{
+\subsection{Objectives}
 	\begin{itemize}
 		\item Buildup efficient infection and spreading
 		\item prevent detection and removal
@@ -534,8 +535,20 @@ Objectives:
 		\item to business and technology challenges
 		\item Anonymity prevent identification of operator
 	\end{itemize}
+} \sectionbox{
+\subsection{Target exploitation}
+\begin{itemize}
+	\item Persist and avoid detection (explore, steal information, load functionality, maximize yield)
+	\item Move to active attacks (load attack functionality $\ra$ higher chance of detection)
+	\item Throw away agent (sell to idiots)
+\end{itemize}
 
-Exploitation Phases:
+} \sectionbox{
+\subsection{Bot command modes}
+
+\includegraphics[width=\columnwidth]{img/bot-command-modes.png}
+} \sectionbox{
+\subsection{Exploitation Phases}
 	\begin{itemize}
 		\item ID Theft
 		\item Peer and Social Attacks (Trust misuse)
@@ -544,18 +557,41 @@ Exploitation Phases:
 		\item External/Noisy Attacks (Scanning, Spam, DDoS)
 	\end{itemize}
 
-Fluxing Technologies:
+\textbf{CnC Topologies:} Star, multi-server, hierarchical, random 
+} \sectionbox{
+\subsection{Fluxing Technologies}
 \begin{itemize}
 	\item IP-Flux: Constant change of IP address information related to a particular fully-qualified domain name (FQDN)
 	\item Domain Flux: Constant change and allocation of multiple fully-qualified domain names (FQDN)
 	\item Single-Flux: The FQDN of the CnC’s host has multiple IP addresses assigned (DNS A record)
 	\item Double-Flux: The name servers of the CnC’s FQDN as well as the FQDN of the CnC’s host have multiple IP addresses assigned (DNS A and NS records)
 \end{itemize}
-
-Malware Development Process:
+} \sectionbox{
+\subsection{Malware Development Process}
 \\
 Develop, Crypt, Protect, Pack, Bind, QA
 
+} \sectionbox{
+\subsection{Detection Evasion Tactics}
+\begin{itemize}
+ 	\item Create unique samples of malware at massive scale
+ 	\item Protect malware from analysis
+ 	\item Detect sandboxing
+ 	\item Test detectability before deployment
+ \end{itemize} 
+} \sectionbox{
+\subsection{Takedown}
+leagal and technical measures to sever the connection  between the CnC stucture the bot agents
+} \sectionbox{
+\subsection{Defense}
+\begin{itemize}
+ 	\item Firewalls
+ 	\item Antivirus (up-to-date), know limits
+ 	\item patch
+ 	\item brain.exe
+ \end{itemize} 
+
+ }
 \section{Security Ecosystem and Detection Failures}
 
 \section{E-Mail Spam}
