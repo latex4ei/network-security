@@ -428,9 +428,9 @@ Chain of trust $\ra$ Authenticity
 }
 
 \section{Availability and Denial of Service}
-
+TBD
 \section{Secure Channels: Principles, VPN, SSH}
-
+TBD
 \subsection{Security by Layer of the TCP/IP Model}
 Properties of a secure channel: secure = authentic and confidential
 
@@ -460,12 +460,24 @@ Drawbacks: every link seperately, trust in link operator
 % Passwords
 
 \section{TLS}
-
+TBD
 \section{Crypto-Refresher}
-
+TBD
 \section{Web Application Security: Session State}
-
+TBD
 \section{Web Application Security: SQL Injection}
+
+\subsection{Code Injection} 
+\textbf{Code injection:} Code injection refers to attacks which insert code that is afterwards interpreted by a process
+
+\textbf{Code injection process:}
+\begin{itemize}
+	\item Data enters app from untrusted source
+	\item Data is part of a string executed as a command by app
+	\item app gives the attacker a privilege or capability that the attacker would otherwise not have
+\end{itemize}
+
+\subsection{SQL code injection} 
 
 \section{Cross-Site Scripting (XSS)}
 \subsection{Same-origin policy}
@@ -523,6 +535,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
 
 \section{Malware}
+TBD
 
 \section{Botnets + Malware Development and Demo}
 \sectionbox{
@@ -558,7 +571,9 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 	\end{itemize}
 
 \textbf{CnC Topologies:} Star, multi-server, hierarchical, random 
-} \sectionbox{
+} 
+
+\sectionbox{
 \subsection{Fluxing Technologies}
 \begin{itemize}
 	\item IP-Flux: Constant change of IP address information related to a particular fully-qualified domain name (FQDN)
@@ -566,12 +581,16 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 	\item Single-Flux: The FQDN of the CnC’s host has multiple IP addresses assigned (DNS A record)
 	\item Double-Flux: The name servers of the CnC’s FQDN as well as the FQDN of the CnC’s host have multiple IP addresses assigned (DNS A and NS records)
 \end{itemize}
-} \sectionbox{
+} 
+
+\sectionbox{
 \subsection{Malware Development Process}
 \\
 Develop, Crypt, Protect, Pack, Bind, QA
 
-} \sectionbox{
+} 
+
+\sectionbox{
 \subsection{Detection Evasion Tactics}
 \begin{itemize}
  	\item Create unique samples of malware at massive scale
@@ -579,10 +598,14 @@ Develop, Crypt, Protect, Pack, Bind, QA
  	\item Detect sandboxing
  	\item Test detectability before deployment
  \end{itemize} 
-} \sectionbox{
+} 
+
+\sectionbox{
 \subsection{Takedown}
 leagal and technical measures to sever the connection  between the CnC stucture the bot agents
-} \sectionbox{
+}
+
+\sectionbox{
 \subsection{Defense}
 \begin{itemize}
  	\item Firewalls
@@ -592,8 +615,9 @@ leagal and technical measures to sever the connection  between the CnC stucture 
  \end{itemize} 
 
  }
-\section{Security Ecosystem and Detection Failures}
 
+\section{Security Ecosystem and Detection Failures}
+TBD
 \section{E-Mail Spam}
 \subsection{Define Spam}
 \textbf{UCE}: Unsolicited Commercial Email
