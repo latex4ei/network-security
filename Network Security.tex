@@ -428,7 +428,56 @@ Chain of trust $\ra$ Authenticity
 }
 
 \section{Availability and Denial of Service}
-TBD
+SLA:
+		\begin{tabular}{ l | l | l }
+		Level & Percentage & Downtime \\ \hline
+		Two-nines & 99 & 3.5 days \\
+		Three-nines & 99.9 & 9 hours \\
+		Four-nines & 99.99 & 53 minutes \\
+		Five-nines & 99.999 & 5 minutes \\
+		Six-nines & 99.9999 & 31 seconds \\
+		\end{tabular}
+
+How to achieve 99.999:
+\begin{itemize}
+	\item High Redundancy
+	\item Failure Resilience
+	\item Over Provisioning
+	\item Backup and Fast Recovery 
+\end{itemize}
+
+DoS: Resource starvation of CPU, Storage, Network
+
+Attacks:
+\begin{itemize}
+	\item SYN-Flood: Spam Server with TCP SYNs $\rightarrow$ needs to keep state $\rightarrow$ Solution: Choose carefully constructed initial sequence number (crypto based)
+	\item Compression Bomb
+	\item Source Spoofing/Reflector Attack
+	\item Mail Bounce: reply-to: @victim.com, To: and multiple Bcc: @target.com
+	\item DNS Amplification: Send small request to recursive servers with spoofed source
+\end{itemize}
+
+Dos Countermeasures:
+
+Prevention
+\begin{itemize}
+	\item secure systems (e.g. prevent machine compromise to build bot
+	nets by patching, IDS/IPS, firewall etc.)
+	\item secure protocols (e.g. prevent IP spoofing, use TCP SYN
+	cookies, HashCash: add client CPU cycles)
+	\item resource accounting (server commits resources only to
+	authenticated/trustworthy clients)
+	\item resource multiplication (resource over provisioning for the case
+	of an attack)
+	\item late resource binding (bind resources as late as possible)
+\end{itemize}
+
+Reaction:
+\begin{itemize}
+	\item detect (using pattern, anomaly, third party)
+	\item react (rate-limit, filter, reconfigure, identify agents)
+\end{itemize}
+
 \section{Secure Channels: Principles, VPN, SSH}
 TBD
 \subsection{Security by Layer of the TCP/IP Model}
