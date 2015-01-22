@@ -494,12 +494,37 @@ Pro: Speed, Seamless
 Drawbacks: every link seperately, trust in link operator
 
 \subsubsection{Security at Internet Layer}
+secure traffic over multiple links between end points (e.g. IPSec)
+
+Pro: seamless security to above layers, IPSec part of IPv6 + IPv4
+
+Cons: complex configuration, tunnel mode encrypts only part of a route
+
 
 \subsubsection{Security at Transport Layer}
+e.g. TLS/SSL, SSH
+
+implemented in end-hosts
+
+Pro: can be added to existing apps, portable and easy configuration
+
+Cons (of TLS): protocol specific, application must be TLS/SSL aware
+
 
 \subsubsection{Security at Application Layer}
 
+implemented in end hosts (PGP, S/MIME, Skype, \ldots)
+
+Pros: extend app without involving OS, applications understand data
+
+Cons: seperate security for each app
+
 \subsection{VPN}
+connect networks or machines over an existing network
+
+\subsubsection{Tunnel mode}
+
+\subsubsection{Transport mode}
 
 \subsection{SSH}
 
