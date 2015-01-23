@@ -903,7 +903,10 @@ Data is retrieved from the web server with a request on the API endpoint. The br
  }
 
 \section{Security Ecosystem and Detection Failures}
-SIP: Organizations that efficiently monitor the primary sources of security information, validate the content found, and publish their findings as security advisories in a consistent format
+
+\emphbox{A vulnerability is a weakness in software (or hardware) that enables an attacker to compromise the software or the data that it processes}
+
+SIP: Organizations that efficiently monitor the primary sources of security information, validate the content found, and publish their findings as security advisories in a consistent format (NVD, CVE)
 
 Disclosure Options:
 \begin{itemize}
@@ -943,6 +946,7 @@ Email Auth:
 	\item SenderID: Match PRA domain against source IP via DNS (PRA is often From: header)
 	\end{itemize}
 	
+	\includegraphics[width=\columnwidth]{img/emailauth.png}
 \section{Guest Lectures}
 DMZ: Compromised hosts in DMZ are no danger for internal network e.g.:(external - webserver(dmz) - database(internal))
 
