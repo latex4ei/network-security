@@ -235,6 +235,7 @@ Hardware or software device which is configured to permit, deny or proxy data th
 \textbf{Types:} simple packet filter, stateful filter, application layer proxy
 
 \textbf{Rules:} Filtering (outgoing (egress), incoming), Default (accept, reject), Deny (Drop, Reject), Addressing Transparency (firewall and network fingerprinting)
+\includegraphics[width=\columnwidth]{img/firewallrule.png}
 
 \subsubsection{Stateless Firewall}
 Functionality: examine on network layer, decision based on header
@@ -261,8 +262,8 @@ Cons: no state for UDP, host vs. firewall state, state explosion
 protects web-based applications from malicious requests (often reverse proxy)
 
 Filtering: signatures, black/whitelisting
-
- \subsubsection{Firewall Attack techniques}
+ } \sectionbox {
+ \subsection{Firewall Attack techniques}
  \begin{itemize}
  	\item IP source spoofing
  	\item artificial fragmentation
@@ -270,27 +271,28 @@ Filtering: signatures, black/whitelisting
  	\item Denial of Service (state explosion)
  	\item Tunnelling/Covert channel (ICMP, DNS, \ldots)
  \end{itemize}
-
- \subsubsection{Firewall detection}
+ } \sectionbox {
+ \subsection{Firewall detection}
 
  Port scanning: traceroute, src IP of response
 
  TTL:  let expire TTL one hop past firewall
-
- \subsubsection{Oranizational challenges}
+ } \sectionbox {
+ \subsection{Oranizational challenges}
  \begin{itemize}
   	\item Large rulesets
   	\item Big Organisations
   	\item Conflict: Networking vs. security staff
   \end{itemize}
-
-  \subsubsection{IP Tables}
+ } \sectionbox {
+  \subsection{IP Tables}
 	Netfilter rule:
 	iptables -A INPUT -i eth0 -m state --state ESTABLISHED, RELATED -j ACCEPT
 
 	Iptables rule:  iptables -A INPUT -p tcp -s 0/0 -d 0/0 --destination-port 80 --syn -j ACCEPT
-
-	\subsubsection{NAT (Network Address Translation)}
+\includegraphics[width=\columnwidth]{img/netfilter.png}
+	 } \sectionbox {
+	\subsection{NAT (Network Address Translation)}
 	One way to the Internet (multiple hosts on private network using the same public IP address). IP Address rewriting.
 
 	Benefits: Prevents malicous activity from outside, saves address space
@@ -299,7 +301,7 @@ Filtering: signatures, black/whitelisting
 
 	\subsubsection{NAT UDP Hole Punching}
 
-	$\Ra$ exam relevant?
+\includegraphics[width=\columnwidth]{img/nathole.png}
 }
 \sectionbox{
 \subsection{Intrustion Detection and Prevention Systems}
