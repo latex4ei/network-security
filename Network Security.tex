@@ -428,7 +428,8 @@ Chain of trust $\ra$ Authenticity
 }
 
 \section{Availability and Denial of Service}
-SLA:
+\sectionbox{
+\subsection{System Level Agreements (SLA)}
 		\begin{tabular}{ l | l | l }
 		Level & Percentage & Downtime \\ \hline
 		Two-nines & 99 & 3.5 days \\
@@ -445,7 +446,10 @@ How to achieve 99.999:
 	\item Over Provisioning
 	\item Backup and Fast Recovery 
 \end{itemize}
+}
+\sectionbox{
 
+\subsection{Denial of service}
 DoS: Resource starvation of CPU, Storage, Network
 
 Attacks:
@@ -456,8 +460,9 @@ Attacks:
 	\item Mail Bounce: reply-to: @victim.com, To: and multiple Bcc: @target.com
 	\item DNS Amplification: Send small request to recursive servers with spoofed source
 \end{itemize}
-
-Dos Countermeasures:
+}
+\sectionbox{
+\subsection{Dos Countermeasures}
 
 Prevention
 \begin{itemize}
@@ -477,9 +482,10 @@ Reaction:
 	\item detect (using pattern, anomaly, third party)
 	\item react (rate-limit, filter, reconfigure, identify agents)
 \end{itemize}
-
+}
 \section{Secure Channels: Principles, VPN, SSH}
-TBD
+
+\sectionbox{
 \subsection{Security by Layer of the TCP/IP Model}
 Properties of a secure channel: secure = authentic and confidential
 
@@ -518,7 +524,7 @@ implemented in end hosts (PGP, S/MIME, Skype, \ldots)
 Pros: extend app without involving OS, applications understand data
 
 Cons: seperate security for each app
-
+}
 \subsection{VPN}
 connect networks or machines over an existing network
 
@@ -536,7 +542,8 @@ connect networks or machines over an existing network
 \section{TLS}
 Cipher Suite = key exchange + cipher spec
 
-Key Exchange Methods:
+\sectionbox{
+\subsection{Key Exchange Methods}
 \begin{itemize}
 	\item RSA:  secure against PA, AA, no PFS, no cont. key agreement
 	\item RSA with temp. pub/priv: secure against PA, AA, PFS, no cont. key agreement
@@ -544,8 +551,8 @@ Key Exchange Methods:
 	\item Ephemeral DH: secure against PA, AA, PFS, cont. key agreement
 	\item Anonymous DH: secure against PA, not against AA, PFS, cont. key
 \end{itemize}
-
-DH key agreement:
+} \sectionbox{
+\subsection{DH key agreement}
 \begin{itemize}
 	
     \item Public	values:	large	prime	p,	generator	g
@@ -556,7 +563,8 @@ DH key agreement:
     \item Alice	computes $(g^b)^a$	=	$g^{ab}$	(mod	p)
 	\item Eve	cannot	compute	$g^{ab}$	(mod	p)	
 \end{itemize}
-
+} \sectionbox{
+\subsection{TLS session}
 Sample TLS Session (no client auth):
 \begin{itemize}
 	\item C $\rightarrow$ S:  client\_hello
@@ -602,11 +610,11 @@ Phase 4: Finish
 	\item S $\rightarrow$ C: change\_cipher\_spec
 	\item S $\rightarrow$ C: finished 
 \end{itemize}
-
+}
 \section{Web Application Security: Session State}
 TBD
 \section{Web Application Security: SQL Injection}
-
+\sectionbox{
 \subsection{Code Injection} 
 \textbf{Code injection:} Code injection refers to attacks which insert code that is afterwards interpreted by a process
 
@@ -616,7 +624,7 @@ TBD
 	\item Data is part of a string executed as a command by app
 	\item app gives the attacker a privilege or capability that the attacker would otherwise not have
 \end{itemize}
-
+} \sectionbox{
 \subsection{SQL code injection} 
 A SQL injection attack consits of insertion of a SQL query via the input data from the client to the application.
 
@@ -636,7 +644,7 @@ Possible causes:
 Error messages can provide hints on which DB is used.
 
 \textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
-
+} \sectionbox{
 \subsection{SQL Injection Defense}
 \begin{itemize}
 	\item constrain and sanitize all client data on the server
@@ -645,7 +653,7 @@ Error messages can provide hints on which DB is used.
 	\item run DB with reduced privileges
 	\item input validation
 \end{itemize}
-
+} \sectionbox{
 \section{Cross-Site Scripting (XSS)}
 \subsection{Same-origin policy}
 A script can only access content and properties of a document loaded from the same origin.
@@ -664,7 +672,7 @@ URL path is ignored for the same-origin policy
   \item script include: Evaluted in context of me.tld ($\ra$ dangerous)
   \item Asynchronous Requests (AJAX): Different origin only possible if allowed by target domain (with Access-Control-Allow-Origin Header)
 \end{itemize}
-
+} \sectionbox{
 \subsection{Cross-Site Scripting (XSS) Attacks}
 XSS flaws occur whenever a web app takes user supplied data and sends it to the browser without first \emph{validating} or \emph{encoding} the content.
 
@@ -673,17 +681,17 @@ XSS flaws occur whenever a web app takes user supplied data and sends it to the 
 \textbf{Infection path:} email, chat, uploaded files \ldots
 
 \textbf{Dangerous content:} advertisments, user contributed content, widgets (counters, scripts \ldots)
-
+} \sectionbox{
 \subsection{XSS prevention}
 \begin{itemize}
   \item test your web app
   \item input sanitization (check user submitted content)
   \item HTML output encoding
 \end{itemize}
-
+} \sectionbox{
 \subsection{Data Leakage Attack}
 Attacker includes script that reads session cookies and sends them to an evil server. $\ra$ Solution: HTTPOnly cookies
-
+} \sectionbox{
 \subsection{Request Forgery (XSRF)}
 A form form one domain posts a request to a different domain through an authenticated session.
 
@@ -692,7 +700,7 @@ A form form one domain posts a request to a different domain through an authenti
 \end{itemize}
 
 \textbf{Solution:} CSRF Token, ask for password, check HTTP referer, show captcha
-
+} \sectionbox{
 \subsection{Script inclusion (XSSI)}
 
 \emph{Never include a script you do not trust!}
@@ -700,9 +708,11 @@ A form form one domain posts a request to a different domain through an authenti
 Data is retrieved from the web server with a request on the API endpoint. The browser automatically sends cookie and the JavaScript function in the evil website is called with the AJAX return data.
 
 \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
-
+}
 \section{Malware}
 
+\sectionbox{
+\subsection{Definitions} 
 \textbf{computer virus} is computer program which does: infection, propagation, mutation (polymorphism), executing malcode
 
 \textbf{Malicious software (Malware)} is software that is intentionally included or inserted in a computer system for a harmful purpose.
@@ -713,14 +723,14 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 
 \textbf{Bot:} malicious software agent running on a compromised machine executing commands by the bot master by listening to the command and control center
 
-
+} \sectionbox{
 \subsection{Malware on portable storage}
 
 \begin{itemize}
  	\item uses sneakernet as non-local propagation
  	\item variants: boot code virus (replaces boot sector), host program infection (embedding into executables)
  \end{itemize} 
-
+} \sectionbox{
  \subsection{Problem of malware}
 
  \begin{itemize}
@@ -729,7 +739,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
   	\item Espionage
   	\item Lowering of system security
   \end{itemize} 
-
+} \sectionbox{
 
   \subsection{Malware detection}
 
@@ -762,7 +772,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
     	\item cleanup
     	\item enterprise deployment features
     \end{itemize} 
-
+} \sectionbox{
     \subsection{Advanced Presistent Threat}
     Sophisitcated stealth customized attack on selected high value targets
     \begin{itemize}
@@ -770,7 +780,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
      	\item Persistent: might launch any time and hide well, hard to detect
      	\item Threat: specific objective, skilled, well funded
      \end{itemize} 
-
+} \sectionbox{
      \subsection{Antivirus Detection Evasion}
      \begin{itemize}
       	\item Polymorphism
@@ -780,7 +790,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
       	\item sandbox detection
       	\item bootstrapping / multi stage
       \end{itemize} 
-
+} \sectionbox{
 
       \subsection{Worm Propagation Mechanism}
       \begin{itemize}
@@ -806,14 +816,14 @@ Data is retrieved from the web server with a request on the API endpoint. The br
         $\delta$: cure rate\\
         $k$: number of outgoing edges at each node\\ 
         $\diff \rho (t) / \diff t = \beta k (1 - \rho (t)) \rho (t)  - \delta \rho (t)$\\
-
+} \sectionbox{
         \subsection{Worm Network Impact}
         \begin{itemize}
          	\item ARP flooding
          	\item ICMP destination unreachable
          	\item higher network and traffic flows
          \end{itemize} 
-
+} \sectionbox{
          \subsection{Malware countermeasures}
          \begin{itemize}
           	\item End system: patching, firewall, IPS, Antivirus
@@ -824,6 +834,8 @@ Data is retrieved from the web server with a request on the API endpoint. The br
           	\item No trusted intranet
           	\item Thin Client (e.g. ChromeOS)
           \end{itemize} 
+
+          }
 \section{Botnets + Malware Development and Demo}
 \sectionbox{
 \subsection{Objectives}
@@ -905,10 +917,11 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 \section{Security Ecosystem and Detection Failures}
 
 \emphbox{A vulnerability is a weakness in software (or hardware) that enables an attacker to compromise the software or the data that it processes}
-
+\sectionbox{
+\subsection{Security Information Provider}
 SIP: Organizations that efficiently monitor the primary sources of security information, validate the content found, and publish their findings as security advisories in a consistent format (NVD, CVE)
-
-Disclosure Options:
+} \sectionbox{
+\subsection{Disclosure Options}
 \begin{itemize}
 	\item Exploit
 	\item Sell on Black Market
@@ -916,14 +929,17 @@ Disclosure Options:
 	\item Coordinated/Responsible Disclosure
 	\item Sell on White Market
 \end{itemize}
-
+} 
 \section{E-Mail Spam}
+ \sectionbox{
 \subsection{Define Spam}
 \textbf{UCE}: Unsolicited Commercial Email
 
 \textbf{UBE}: Unsolicited Bulk Email (not nescessaryliy commercial)
 % Ende der Spalten
 
+} \sectionbox{
+\subsection{Blacklists}
 How Realtime Blacklists Lists Differ:
 \begin{itemize}
 	\item Nomination (how to get on the list)
@@ -938,8 +954,8 @@ Blacklist Caveats:
 	\item Blacklist evasion (spammer use botnet machines, stolen email accounts)
 	\item Denial of service (if you are on blacklists $\rightarrow$ sucks)
 \end{itemize}
-
-Email Auth:
+} \sectionbox{
+\subsection{Email Auth}
 \begin{itemize}
 	\item DomainKeys Identified Mail (DKIM): Pub/Priv Key Signing; pubkey distributed via DNS
 	\item Sender Policy Framework: Domain owners publish list of IPs that are authorized
@@ -947,6 +963,8 @@ Email Auth:
 	\end{itemize}
 	
 	\includegraphics[width=\columnwidth]{img/emailauth.png}
+
+	}
 \section{Guest Lectures}
 DMZ: Compromised hosts in DMZ are no danger for internal network e.g.:(external - webserver(dmz) - database(internal))
 
