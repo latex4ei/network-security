@@ -234,7 +234,7 @@ Hardware or software device which is configured to permit, deny or proxy data th
 
 \textbf{Types:} simple packet filter, stateful filter, application layer proxy
 
-\textbf{Rules:} Filtering (outgoing, incoming), Default (accept, reject), Deny (Drop, Reject), Addressing Transparency (firewall and network fingerprinting)
+\textbf{Rules:} Filtering (outgoing (egress), incoming), Default (accept, reject), Deny (Drop, Reject), Addressing Transparency (firewall and network fingerprinting)
 
 \subsubsection{Stateless Firewall}
 Functionality: examine on network layer, decision based on header
@@ -612,7 +612,41 @@ Phase 4: Finish
 \end{itemize}
 }
 \section{Web Application Security: Session State}
-TBD
+
+\subsection{Anatomy of Web App}
+\includegraphics[width=\columnwidth]{img/webapp.png}
+
+\subsection{Threat vectors}
+\includegraphics[width=\columnwidth]{img/threatvectors.png}
+
+
+\subsection{HTTP  and Session management}
+HTTP is stateless $\ra$ state needs to be implemented with session ID
+
+SessionID: needed for state, generated on the server, stored on the client, transmitted for every request
+
+Crucial processes: Generation, Transport, Destruction, Revocation
+
+ \subsubsection{Possible transport ways}
+\begin{itemize}
+ 	\item GET: easy, compatible (+) , logged, referer (-)
+ 	\item POST: compatible, not obvious (+), more complex development, slightly harder to manipulate (-)
+ 	\item Cookie: more option, not recorded, https restriction (+), internet cafes, may be disabled by users (-)
+ \end{itemize} 
+
+ \subsubsection{Generation} strong random value
+
+ \subsubsection{Revocation}
+ Session validity: client and server side revocation, session information time limited
+
+ Session timeout: extremely imported for shared computers, expiry time should be kept to minimum
+
+ \subsection{Attacks}
+ \begin{itemize}
+ 	\item Network sniffing $\ra$ HTTPS
+ 	\item Do not mix HTTP and HTTPS sessions
+ 	\item Random SessionID is important
+ \end{itemize}
 \section{Web Application Security: SQL Injection}
 \sectionbox{
 \subsection{Code Injection} 
