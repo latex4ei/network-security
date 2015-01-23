@@ -702,8 +702,128 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
 
 \section{Malware}
-TBD
 
+\textbf{computer virus} is computer program which does: infection, propagation, mutation (polymorphism), executing malcode
+
+\textbf{Malicious software (Malware)} is software that is intentionally included or inserted in a computer system for a harmful purpose.
+
+\textbf{Trojan} seemingly offers usefu functionality but contains hidden functionality which undermine system security
+
+\textbf{Worm:} Software that can replicate itself from computer to computer across network connections
+
+\textbf{Bot:} malicious software agent running on a compromised machine executing commands by the bot master by listening to the command and control center
+
+
+\subsection{Malware on portable storage}
+
+\begin{itemize}
+ 	\item uses sneakernet as non-local propagation
+ 	\item variants: boot code virus (replaces boot sector), host program infection (embedding into executables)
+ \end{itemize} 
+
+ \subsection{Problem of malware}
+
+ \begin{itemize}
+  	\item Unauthorized use of system/network resources
+  	\item Sabotage
+  	\item Espionage
+  	\item Lowering of system security
+  \end{itemize} 
+
+
+  \subsection{Malware detection}
+
+  \textbf{Goal:} Detect malware and disinfect system 
+
+  \textbf{Deployment:} endpoint, network
+
+  \textbf{Evaluation:} recognition rate (high true positive), false alarm rate 
+
+
+  \subsubsection{Signature Based}
+  \begin{itemize}
+   	\item Reactive (based on known malware binaries)
+   	\item Signature database (keeps growing, polymorphism)
+   	\item Metrics: update delay, coverage, resource consumption
+   \end{itemize} 
+
+     \subsubsection{Behaviour Based}
+  \begin{itemize}
+   	\item requires bahaviour model (ground truth, baseline)
+   	\item problematic: user alerting
+   \end{itemize} 
+
+   \subsubsection{Evaluating Antivirus products}
+
+   \begin{itemize}
+    	\item Detection (reactive, proactive)
+    	\item support for compression
+    	\item self-protection
+    	\item cleanup
+    	\item enterprise deployment features
+    \end{itemize} 
+
+    \subsection{Advanced Presistent Threat}
+    Sophisitcated stealth customized attack on selected high value targets
+    \begin{itemize}
+     	\item Advanced: sophisticated attack techniques
+     	\item Persistent: might launch any time and hide well, hard to detect
+     	\item Threat: specific objective, skilled, well funded
+     \end{itemize} 
+
+     \subsection{Antivirus Detection Evasion}
+     \begin{itemize}
+      	\item Polymorphism
+      	\item code obfuscation
+      	\item encryption of code
+      	\item code changes to prevent disassembly
+      	\item sandbox detection
+      	\item bootstrapping / multi stage
+      \end{itemize} 
+
+
+      \subsection{Worm Propagation Mechanism}
+      \begin{itemize}
+       	\item Select a target
+       	\item contact target
+       	\item check if target is vulnerable
+       	\item exploit
+       	\item install copy of worm
+       	\item start copy
+       \end{itemize} 
+
+       Propagation speed: scan rate, vulnerable population, system compromise delay, worm transfer speed
+
+
+       \subsubsection{SIS Model}
+       SIS: susceptible infected susceptible
+       \begin{itemize}
+        	\item two states: susceptible and infected
+        \end{itemize} 
+
+        $\rho (t)$ fraction of infected nodes \\
+        $\beta$: infection rate \\
+        $\delta$: cure rate\\
+        $k$: number of outgoing edges at each node\\ 
+        $\diff \rho (t) / \diff t = \beta k (1 - \rho (t)) \rho (t)  - \delta \rho (t)$\\
+
+        \subsection{Worm Network Impact}
+        \begin{itemize}
+         	\item ARP flooding
+         	\item ICMP destination unreachable
+         	\item higher network and traffic flows
+         \end{itemize} 
+
+         \subsection{Malware countermeasures}
+         \begin{itemize}
+          	\item End system: patching, firewall, IPS, Antivirus
+          	\item Anti-Virus: useful but not too effective
+          	\item Monocultures are targeted first
+          	\item Slow patching is a huge risk
+          	\item Application whitelisting
+          	\item No trusted intranet
+          	\item Thin Client (e.g. ChromeOS)
+          \end{itemize} 
 \section{Botnets + Malware Development and Demo}
 \sectionbox{
 \subsection{Objectives}
