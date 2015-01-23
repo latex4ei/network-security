@@ -525,15 +525,94 @@ Pros: extend app without involving OS, applications understand data
 
 Cons: seperate security for each app
 }
+
+\sectionbox{
 \subsection{VPN}
 connect networks or machines over an existing network
 
 \subsubsection{Tunnel mode}
-
+\includegraphics[width=\columnwidth]{img/vpntunnel.png}
+\begin{itemize}
+	\item encrypt and authenticate orgininal IP packet
+	\item transport htis as payload in new IP packet
+\end{itemize}
+\includegraphics[width=\columnwidth]{img/vpntunnel2.png}
 \subsubsection{Transport mode}
+\includegraphics[width=\columnwidth]{img/vpntransport.png}
+\begin{itemize}
+	\item end-to-end communication between hosts
+	\item encrypt and authenticate payload only
+\end{itemize}
+\includegraphics[width=\columnwidth]{img/vpntransport2.png}
 
+\begin{itemize}
+	\item encryption
+	\item randomized IVs
+	\item replay protection
+	\item authentication (HMAC)
+\end{itemize}
+
+\subsubsection{Security Association (SA)}
+A Security Association (SA) is the establishment of shared security attributes between two network entities to support secure communication. An SA may include attributes such as: cryptographic algorithm and mode; traffic encryption key; and parameters for the network data to be passed over the connection.
+} \sectionbox{
+\subsection{Message Authentication Code (MAC)}
+Provide data and integrity
+\begin{itemize}
+	\item message not modigied in transit
+	\item source is authentic
+	\item not delayed
+	\item sequence order
+\end{itemize}
+
+MAC (K, M) = DES (K, M) take last 32 bits
+
+\subsubsection*{HMAC (Mac with Hash functions)}
+\begin{itemize}
+	\item use hash functions (MD5, SHA)
+	\item faster
+	\item easy availible
+\end{itemize}
+
+HMAC (K, M) = H(K' xor opad | H (K' xor ipad | M))
+
+
+} \sectionbox{
 \subsection{SSH}
+standard for remote login and encrypted file transfer
 
+\subsubsection{Protocols}
+\includegraphics[width=\columnwidth]{img/sshproto.png}
+
+\subsubsection{SSH-Trans}
+\begin{itemize}
+	\item algorithm negotiation
+	\item session key exchange (e.g. Diffie-Hellman)
+	\item session id
+	\item server authentication
+	\item encryption, integrity, data compression
+\end{itemize}
+
+\subsubsection{SSH-Auth}
+\begin{itemize}
+ 	\item authenticates the client with multiple auth mechanisms
+ 	\item defines format of auth-requests (Username, Method name, Service name)
+ \end{itemize} 
+
+ \subsubsection{SSH-Conn}
+ \begin{itemize}
+ 	\item multiplexing multiple steams
+ 	\item port forwarding
+ 	\item compression handling
+ 	\item interactive and non-interactive sessions
+ \end{itemize}
+
+
+\subsubsection{Attacks}
+\begin{itemize}
+	\item password cracking
+	\item traffic analyis
+\end{itemize}
+}
 % Network layers (and security in different layers)
 % VPN technologies (bluilding blocks, IPSec)
 % SSH (algorithms parameters)
@@ -612,14 +691,14 @@ Phase 4: Finish
 \end{itemize}
 }
 \section{Web Application Security: Session State}
-
+\sectionbox {
 \subsection{Anatomy of Web App}
 \includegraphics[width=\columnwidth]{img/webapp.png}
-
+} \sectionbox {
 \subsection{Threat vectors}
 \includegraphics[width=\columnwidth]{img/threatvectors.png}
 
-
+} \sectionbox {
 \subsection{HTTP  and Session management}
 HTTP is stateless $\ra$ state needs to be implemented with session ID
 
@@ -640,13 +719,14 @@ Crucial processes: Generation, Transport, Destruction, Revocation
  Session validity: client and server side revocation, session information time limited
 
  Session timeout: extremely imported for shared computers, expiry time should be kept to minimum
-
+} \sectionbox {
  \subsection{Attacks}
  \begin{itemize}
  	\item Network sniffing $\ra$ HTTPS
  	\item Do not mix HTTP and HTTPS sessions
  	\item Random SessionID is important
  \end{itemize}
+ }
 \section{Web Application Security: SQL Injection}
 \sectionbox{
 \subsection{Code Injection} 
@@ -1000,15 +1080,17 @@ Blacklist Caveats:
 
 	}
 \section{Guest Lectures}
-DMZ: Compromised hosts in DMZ are no danger for internal network e.g.:(external - webserver(dmz) - database(internal))
-
-Certificate Transparency  main goals:
+\sectionbox {
+\subsection{DMZ}
+ Compromised hosts in DMZ are no danger for internal network e.g.:(external - webserver(dmz) - database(internal))
+} \sectionbox {
+\subsection{Certificate Transparency  main goals}
 \begin{itemize}
 	\item Make it impossible (or at least very difficult) for a CA to issue a SSL certificate for a domain without the certificate being visible to the owner of that domain.
 	\item Provide an open auditing and monitoring system that lets any domain owner or CA determine whether certificates have been mistakenly or maliciously issued.
 	\item Protect users from being duped by certificates that were mistakenly or maliciously issued.
 \end{itemize}
-
+}
 \end{multicols*}
 
 % Dokumentende
