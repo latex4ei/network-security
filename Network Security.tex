@@ -1,24 +1,22 @@
-
-% .:: Laden der LaTeX4EI Formelsammlungsvorlage
+% Load document class
 \documentclass[fs, footer]{latex4ei}
 
 \usepackage{listings}
-% Dokumentbeginn
-% ======================================================================
+
 \begin{document}
 
 
-% Aufteilung in Spalten
 \begin{multicols*}{4}
+
 \title{Network Security}
 
 
 \section{Introduction}
 
-	\sectionbox{
-	\subsection{Security Trends}
-	Network security is an issue since \emph{critical infrastructures} in the open systems with a growing user base (\ra \emph{increasing risk}) are threatend by \emph{organized crime}.
-	}
+\sectionbox{
+  \subsection{Security Trends}
+  Network security is an issue since \emph{critical infrastructures} in the open systems with a growing user base (\ra \emph{increasing risk}) are threatend by \emph{organized crime}.
+}
 	\sectionbox{
 	\subsection{Security Threats}
 	\textbf{Asymmetric Threat:} Defenders must protect against all exploits on all systems but attackers can attack only a few.
@@ -446,7 +444,7 @@ How to achieve 99.999:
 	\item High Redundancy
 	\item Failure Resilience
 	\item Over Provisioning
-	\item Backup and Fast Recovery 
+	\item Backup and Fast Recovery
 \end{itemize}
 }
 \sectionbox{
@@ -598,7 +596,7 @@ standard for remote login and encrypted file transfer
 \begin{itemize}
  	\item authenticates the client with multiple auth mechanisms
  	\item defines format of auth-requests (Username, Method name, Service name)
- \end{itemize} 
+ \end{itemize}
 
  \subsubsection{SSH-Conn}
  \begin{itemize}
@@ -635,61 +633,61 @@ Cipher Suite = key exchange + cipher spec
 } \sectionbox{
 \subsection{DH key agreement}
 \begin{itemize}
-	
+
     \item Public	values:	large	prime	p,	generator	g
     \item Alice	has	secret	value	a,	Bob	has	secret	b
-    \item A	$\rightarrow$ B:	$g^a$	(mod	p)	
-    \item B	$\rightarrow$ A:	$g^b$  (mod	p)	
-    \item Bob computes	$(g^a)^b$	=	$g^{ab}$	(mod	p)	
+    \item A	$\rightarrow$ B:	$g^a$	(mod	p)
+    \item B	$\rightarrow$ A:	$g^b$  (mod	p)
+    \item Bob computes	$(g^a)^b$	=	$g^{ab}$	(mod	p)
     \item Alice	computes $(g^b)^a$	=	$g^{ab}$	(mod	p)
-	\item Eve	cannot	compute	$g^{ab}$	(mod	p)	
+	\item Eve	cannot	compute	$g^{ab}$	(mod	p)
 \end{itemize}
 } \sectionbox{
 \subsection{TLS session}
 Sample TLS Session (no client auth):
 \begin{itemize}
 	\item C $\rightarrow$ S:  client\_hello
-	\item S $\rightarrow$ C:  server\_hello: Ephemeral DH  key exchange,   RC4 encryption,  MD5-based   MAC 
-	\item S $\rightarrow$ C:  Server  certificate, containing  RSA public  key : Client checks  validity + verifies URL matches certificate! 
-	\item S $\rightarrow$ C:  Server\_key\_exchange: g, p, $g^s$, ${H(g, p, g^s)}_{KS^-1}$  
+	\item S $\rightarrow$ C:  server\_hello: Ephemeral DH  key exchange,   RC4 encryption,  MD5-based   MAC
+	\item S $\rightarrow$ C:  Server  certificate, containing  RSA public  key : Client checks  validity + verifies URL matches certificate!
+	\item S $\rightarrow$ C:  Server\_key\_exchange: g, p, $g^s$, ${H(g, p, g^s)}_{KS^-1}$
 	\item S $\rightarrow$ C:  server\_hello\_done
 	\item C $\rightarrow$ S:  client\_key\_exchange: $g^c$
 	\item C $\rightarrow$ S:  change\_cipher\_spec
-	\item C $\rightarrow$ S:  finished    
+	\item C $\rightarrow$ S:  finished
 	\item S $\rightarrow$ C:  change\_cipher\_spec
 	\item S $\rightarrow$ C:  finished
 \end{itemize}
 
 Phase 1: (Client,Server)\_hello\_message:
 \begin{itemize}
-	\item Highest   supported   version 
-	\item Random    =   32  bit Timestamp  $||$  28  bytes   random  
-	\item Session   id  
-	\item Client\_hello: Supported   cipher  suite,  ciphers are listed  
-	in  decreasing  order   of  preference  
-	\item Server\_hello: chosen  cipher  
+	\item Highest   supported   version
+	\item Random    =   32  bit Timestamp  $||$  28  bytes   random
+	\item Session   id
+	\item Client\_hello: Supported   cipher  suite,  ciphers are listed
+	in  decreasing  order   of  preference
+	\item Server\_hello: chosen  cipher
 \end{itemize}
- 
+
 Phase 2:  Server  authentication    and key exchange
 \begin{itemize}
-	\item S $\rightarrow$ C:  certificate  
-	\item S $\rightarrow$ C:  server\_key\_exchange: Anonymous DH, Ephemeral   DH, RSA key exchange    with    sign-only   key 
-	\item S $\rightarrow$ C:  certificate\_request: Cert\_type (RSA    or  DSS for key exchange); List  of  acceptable  certificate  authorities  
+	\item S $\rightarrow$ C:  certificate
+	\item S $\rightarrow$ C:  server\_key\_exchange: Anonymous DH, Ephemeral   DH, RSA key exchange    with    sign-only   key
+	\item S $\rightarrow$ C:  certificate\_request: Cert\_type (RSA    or  DSS for key exchange); List  of  acceptable  certificate  authorities
 	\item S $\rightarrow$ C:  server\_hello\_done
 \end{itemize}
 
-Phase 3:  Client  authentication and key exchange 
+Phase 3:  Client  authentication and key exchange
 \begin{itemize}
-	\item C $\rightarrow$ S: client\_key\_exchange: RSA: client generates 48  byte pre-master  secret, encrypts it  with server’s 
-	public  key; Eph or  anon DH: client  public  DH  value; Fixed DH: null (certificate contained DH  key)   
+	\item C $\rightarrow$ S: client\_key\_exchange: RSA: client generates 48  byte pre-master  secret, encrypts it  with server’s
+	public  key; Eph or  anon DH: client  public  DH  value; Fixed DH: null (certificate contained DH  key)
 \end{itemize}
 
-Phase 4: Finish 
+Phase 4: Finish
 \begin{itemize}
-	\item C $\rightarrow$ S: change\_cipher\_spec: Establish set up cipher and keys 
-	\item C $\rightarrow$ S: finished: MD5( master\_secret $||$ pad2 $||$ MD5( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )) $||$ SHA-1( master\_secret $||$ pad2 $||$ SHA-1( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )); Handshake messages contains all messages up to now 
+	\item C $\rightarrow$ S: change\_cipher\_spec: Establish set up cipher and keys
+	\item C $\rightarrow$ S: finished: MD5( master\_secret $||$ pad2 $||$ MD5( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )) $||$ SHA-1( master\_secret $||$ pad2 $||$ SHA-1( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )); Handshake messages contains all messages up to now
 	\item S $\rightarrow$ C: change\_cipher\_spec
-	\item S $\rightarrow$ C: finished 
+	\item S $\rightarrow$ C: finished
 \end{itemize}
 }
 \section{Web Application Security: Session State}
@@ -713,7 +711,7 @@ Crucial processes: Generation, Transport, Destruction, Revocation
  	\item GET: easy, compatible (+) , logged, referer (-)
  	\item POST: compatible, not obvious (+), more complex development, slightly harder to manipulate (-)
  	\item Cookie: more option, not recorded, https restriction (+), internet cafes, may be disabled by users (-)
- \end{itemize} 
+ \end{itemize}
 
  \subsubsection{Generation} strong random value
 
@@ -731,7 +729,7 @@ Crucial processes: Generation, Transport, Destruction, Revocation
  }
 \section{Web Application Security: SQL Injection}
 \sectionbox{
-\subsection{Code Injection} 
+\subsection{Code Injection}
 \textbf{Code injection:} Code injection refers to attacks which insert code that is afterwards interpreted by a process
 
 \textbf{Code injection process:}
@@ -741,7 +739,7 @@ Crucial processes: Generation, Transport, Destruction, Revocation
 	\item app gives the attacker a privilege or capability that the attacker would otherwise not have
 \end{itemize}
 } \sectionbox{
-\subsection{SQL code injection} 
+\subsection{SQL code injection}
 A SQL injection attack consits of insertion of a SQL query via the input data from the client to the application.
 
 Possible causes:
@@ -828,7 +826,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 \section{Malware}
 
 \sectionbox{
-\subsection{Definitions} 
+\subsection{Definitions}
 \textbf{computer virus} is computer program which does: infection, propagation, mutation (polymorphism), executing malcode
 
 \textbf{Malicious software (Malware)} is software that is intentionally included or inserted in a computer system for a harmful purpose.
@@ -845,7 +843,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 \begin{itemize}
  	\item uses sneakernet as non-local propagation
  	\item variants: boot code virus (replaces boot sector), host program infection (embedding into executables)
- \end{itemize} 
+ \end{itemize}
 } \sectionbox{
  \subsection{Problem of malware}
 
@@ -854,16 +852,16 @@ Data is retrieved from the web server with a request on the API endpoint. The br
   	\item Sabotage
   	\item Espionage
   	\item Lowering of system security
-  \end{itemize} 
+  \end{itemize}
 } \sectionbox{
 
   \subsection{Malware detection}
 
-  \textbf{Goal:} Detect malware and disinfect system 
+  \textbf{Goal:} Detect malware and disinfect system
 
   \textbf{Deployment:} endpoint, network
 
-  \textbf{Evaluation:} recognition rate (high true positive), false alarm rate 
+  \textbf{Evaluation:} recognition rate (high true positive), false alarm rate
 
 
   \subsubsection{Signature Based}
@@ -871,13 +869,13 @@ Data is retrieved from the web server with a request on the API endpoint. The br
    	\item Reactive (based on known malware binaries)
    	\item Signature database (keeps growing, polymorphism)
    	\item Metrics: update delay, coverage, resource consumption
-   \end{itemize} 
+   \end{itemize}
 
      \subsubsection{Behaviour Based}
   \begin{itemize}
    	\item requires bahaviour model (ground truth, baseline)
    	\item problematic: user alerting
-   \end{itemize} 
+   \end{itemize}
 
    \subsubsection{Evaluating Antivirus products}
 
@@ -887,7 +885,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
     	\item self-protection
     	\item cleanup
     	\item enterprise deployment features
-    \end{itemize} 
+    \end{itemize}
 } \sectionbox{
     \subsection{Advanced Presistent Threat}
     Sophisitcated stealth customized attack on selected high value targets
@@ -895,7 +893,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
      	\item Advanced: sophisticated attack techniques
      	\item Persistent: might launch any time and hide well, hard to detect
      	\item Threat: specific objective, skilled, well funded
-     \end{itemize} 
+     \end{itemize}
 } \sectionbox{
      \subsection{Antivirus Detection Evasion}
      \begin{itemize}
@@ -905,7 +903,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
       	\item code changes to prevent disassembly
       	\item sandbox detection
       	\item bootstrapping / multi stage
-      \end{itemize} 
+      \end{itemize}
 } \sectionbox{
 
       \subsection{Worm Propagation Mechanism}
@@ -916,7 +914,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
        	\item exploit
        	\item install copy of worm
        	\item start copy
-       \end{itemize} 
+       \end{itemize}
 
        Propagation speed: scan rate, vulnerable population, system compromise delay, worm transfer speed
 
@@ -925,12 +923,12 @@ Data is retrieved from the web server with a request on the API endpoint. The br
        SIS: susceptible infected susceptible
        \begin{itemize}
         	\item two states: susceptible and infected
-        \end{itemize} 
+        \end{itemize}
 
         $\rho (t)$ fraction of infected nodes \\
         $\beta$: infection rate \\
         $\delta$: cure rate\\
-        $k$: number of outgoing edges at each node\\ 
+        $k$: number of outgoing edges at each node\\
         $\diff \rho (t) / \diff t = \beta k (1 - \rho (t)) \rho (t)  - \delta \rho (t)$\\
 } \sectionbox{
         \subsection{Worm Network Impact}
@@ -938,7 +936,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
          	\item ARP flooding
          	\item ICMP destination unreachable
          	\item higher network and traffic flows
-         \end{itemize} 
+         \end{itemize}
 } \sectionbox{
          \subsection{Malware countermeasures}
          \begin{itemize}
@@ -949,7 +947,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
           	\item Application whitelisting
           	\item No trusted intranet
           	\item Thin Client (e.g. ChromeOS)
-          \end{itemize} 
+          \end{itemize}
 
           }
 \section{Botnets + Malware Development and Demo}
@@ -985,8 +983,8 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 		\item External/Noisy Attacks (Scanning, Spam, DDoS)
 	\end{itemize}
 
-\textbf{CnC Topologies:} Star, multi-server, hierarchical, random 
-} 
+\textbf{CnC Topologies:} Star, multi-server, hierarchical, random
+}
 
 \sectionbox{
 	\subsection{Fluxing Technologies}
@@ -996,13 +994,13 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 		\item Single-Flux: The FQDN of the CnC’s host has multiple IP addresses assigned (DNS A record)
 		\item Double-Flux: The name servers of the CnC’s FQDN as well as the FQDN of the CnC’s host have multiple IP addresses assigned (DNS A and NS records)
 	\end{itemize}
-} 
+}
 
 \sectionbox{
 	\subsection{Malware Development Process}
 	Develop, Crypt, Protect, Pack, Bind, QA
 
-} 
+}
 
 \sectionbox{
 	\subsection{Detection Evasion Tactics}
@@ -1011,8 +1009,8 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 	 	\item Protect malware from analysis
 	 	\item Detect sandboxing
 	 	\item Test detectability before deployment
-	 \end{itemize} 
-} 
+	 \end{itemize}
+}
 
 \sectionbox{
 	\subsection{Takedown}
@@ -1026,7 +1024,7 @@ Data is retrieved from the web server with a request on the API endpoint. The br
 	 	\item Antivirus (up-to-date), know limits
 	 	\item patch
 	 	\item brain.exe
-	 \end{itemize} 
+	 \end{itemize}
 
  }
 
@@ -1041,11 +1039,11 @@ SIP: Organizations that efficiently monitor the primary sources of security info
 \begin{itemize}
 	\item Exploit
 	\item Sell on Black Market
-	\item Full Disclosure 
+	\item Full Disclosure
 	\item Coordinated/Responsible Disclosure
 	\item Sell on White Market
 \end{itemize}
-} 
+}
 \section{E-Mail Spam}
  \sectionbox{
 \subsection{Define Spam}
@@ -1077,7 +1075,7 @@ Blacklist Caveats:
 	\item Sender Policy Framework: Domain owners publish list of IPs that are authorized
 	\item SenderID: Match PRA domain against source IP via DNS (PRA is often From: header)
 	\end{itemize}
-	
+
 	\includegraphics[width=\columnwidth]{img/emailauth.png}
 
 	}
