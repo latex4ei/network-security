@@ -1,13 +1,15 @@
 % Load document class
-\documentclass[fs, footer]{latex4ei}
 
-\usepackage{listings}
+% possible options: color/nocolor, english/german, threecolumn
+% default: color, english
+\documentclass[english, leagacyboxes, nologo]{latex4ei/latex4ei_sheet}
 
 \begin{document}
-\begin{multicols*}{4}
-
 \title{Network Security}
-
+\author{Stephan Dollberg, Martin Zellner}
+\myemail{zellnerm@ethz.ch}      % optional, delete if unchanged
+\mywebsite{www.latex4ei.de}     % optional, delete if unchanged
+\maketitle
 \section{Introduction}
 
   \sectionbox{
@@ -1080,5 +1082,4 @@
     \end{itemize}
 }
 
-\end{multicols*}
 \end{document}

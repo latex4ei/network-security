@@ -1,0 +1,70 @@
+%
+% Leagacy Boxes for LaTeX4EI
+%
+% Authors: Emanuel Regnath, Martin Zellner
+% Contact: info@latex4ei.de
+% Version: 1.0
+% License: TBD
+% 
+% © 2011-2015, LaTeX4EI
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% D E P R E C A T E D
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{latex4ei_leagacy_boxes}[]
+
+
+	\RequirePackage{pbox}				% Intelligent parbox: \pbox{maximum width}{blabalbalb \\ blabal}	
+
+	% colored boxes
+	\providecommand{\topicbox}[2]{
+	\fcolorbox{col_topicbox}{col_topicbox!10}{\color{col_topicbox}\parbox{\columnwidth-2\fboxsep}{{\large \textbf{ #1}}\\\hspace*{-\fboxsep}\rule[2pt]{\columnwidth}{0.5pt}\\ \color{black}#2}}}
+
+	\providecommand{\emphbox}[1]{{\fboxrule1pt\fcolorbox{col_emphbox}{col_emphbox!10}{\parbox{\columnwidth-2\fboxsep-2pt}{\centering #1}}}}
+	\providecommand{\symbolbox}[1]{{\fboxrule1pt\fcolorbox{col_symbolbox}{col_symbolbox!10}{\parbox{\columnwidth-2\fboxsep-2pt}{#1}}}}
+	\providecommand{\tablebox}[1]{{\fboxsep0pt\colorbox{col_table!10}{\parbox{\columnwidth}{#1}}}}
+	\providecommand{\sectionbox}[1]{{\fboxsep0.5em\hspace*{-1.5\fboxsep}
+	\fcolorbox{col_sectionbox}{col_sectionbox!3}{%
+	\parbox{\columnwidth}{%
+		\titlespacing{\subsection}{0em}{0.2em}{0.2em}%
+		\titlespacing{\subsubsection}{0em}{0.2em}{0.2em}%
+	#1
+	}}}}
+
+
+	% blue cook box
+	\providecommand{\cookbox}[2]{{\fboxsep0pt\colorbox{col_cookbox!10}{\parbox{\columnwidth}{
+	{\color{col_cookbox}\hrule\hrule}\vspace{2pt}
+	  \begin{center}
+	\textbf{#1}
+	\end{center}
+	\vspace{3pt}{\color{col_cookbox!55}\hrule\hrule}
+	\vspace{3pt}
+	\begin{itemize}
+	#2
+	\end{itemize}
+	\vspace{2pt}{\color{col_cookbox}\hrule\hrule}
+	}}}}
+
+	% blue cook box as list
+	\providecommand{\cooknumbox}[2]{{\fboxsep0pt\colorbox{col_cookbox!10}{\parbox{\columnwidth}{
+	{\color{col_cookbox}\hrule\hrule}\vspace{2pt}
+	  \begin{center}
+	\textbf{#1}
+	\end{center}
+	\vspace{3pt}{\color{col_cookbox!55}\hrule\hrule}
+	\vspace{3pt}
+	\begin{enumerate}
+	#2
+	\end{enumerate}
+	\vspace{2pt}{\color{col_cookbox}\hrule\hrule}
+	}}}}
+
+
+% Ende von \input
+\endinput
