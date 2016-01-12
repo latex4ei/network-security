@@ -42,6 +42,31 @@
 
      \textbf{Security on OSI-Layers:} Physical (Link encryption), Network (IPSEC), Transport (SSL), Application (SSH)
    }
+   \sectionbox{
+   \subsection{OSI (Open Systems Interconnection)}
+   \begin{tabular}{ | l | l | l |}
+     \hline
+     OSI Model & Data Seq. & Protocols + Port  \\
+     \hline
+     Application & Message & FTP 20-21, SSH 22, Telnet 23 \\
+     \cline{1-1}
+     Presentation* & & SMTP 25, HTTP/s 80/443 \\
+     \cline{1-1}
+     Session* & & DHCP, NTP, BGP 179 \\
+     \hline
+     Transport & Segment & TCP, UDP\\
+     \hline
+     Network & Datagram & IP, IPSec, ARP, ICMP, IGMP\\
+     %& & ARP, ICMP \\
+     \hline
+     Data Link* & Frames & Ethernet\\
+     \cline{1-2}
+     Physical  & Bit Stream & 802.11 (WiFi)\\
+     \hline
+   \end{tabular}\\
+   * \textit{Don't exist in TCP/IP Model}
+
+   }
 
 
 \section{(In)securtity, Risk and the Lifecycle of Vulnerablities}
@@ -90,7 +115,7 @@
 
   \sectionbox{
   \subsection{Risk}
-    There is such thing as absolute security
+    There is no such thing as absolute security
 
     Trade-Off between security and financial, social, functional, \ldots
 
@@ -170,8 +195,8 @@
     \textbf{Problems:} Pop-Up blockers, Activation during shopping, SLL verification not visible, liability shift, weak bank authentication, no password reset procedure, privacy issues\\
   }
   \sectionbox{
-  \subsubsection{802.1x}
-    Client-server based access control protocol that restricts unauthorised devices from connecting to a (W)LAN through publicly accessible ports
+  \subsubsection{802.1x : Port-Based Network Access Control}
+    Client-server based access control protocol that restricts unauthorised devices from connecting to a (W)LAN through publicly accessible ports.
 
     \includegraphics[width=\columnwidth]{img/8021x.png}
 
@@ -268,13 +293,15 @@
    }
    \sectionbox {
    \subsection{NAT (Network Address Translation)}
-    One way to the Internet (multiple hosts on private network using the same public IP address). IP Address rewriting.
+    One-to-many (multiple hosts on private network using the same public IP address). IP Address rewriting.
 
-    Benefits: Prevents malicous activity from outside, saves address space
+    \textbf{Benefits}: Saves address space + Prevents malicious activity from outside (Don't use it for security as a Firewall)
 
-    Drawbacks: no end-to-end connectivity, some protocols don't work
+    \textbf{Drawbacks}: no end-to-end connectivity + P2P and IPSec don't work
 
-    \subsubsection{NAT UDP Hole Punching}
+    \textbf{NAPT} = Network Address and Port Translation (Most used one)
+
+    \subsubsection{NAT UDP Hole Punching (using RDV server)}
 
     \includegraphics[width=\columnwidth]{img/nathole.png}
   }
@@ -324,14 +351,13 @@
   \subsection{DNS}
     \emphbox{DNS is a global, distributed, robust system for name to IP address resolution}
 
-    DNS is the glue of the internet: Nearly all activities start with a DNS lookup
-
-    Orgiginally: no security considerations
+    DNS is the glue of the internet: Nearly all activities start with a DNS lookup (Orginally: no security considerations)
 
     Design:
     \begin{itemize}
     \item Client-Server application
     \item Hierarchical System
+    \item Use UDP on port 53
     \end{itemize}
 
     \textbf{Zone:} Collection of hostnames/IP pairs managed together
@@ -349,7 +375,7 @@
   \sectionbox{
   \subsection{Attacks on DNS}
     \subsubsection{Denial of Service on DNS}
-    Tageting the 13 DNS root servers which are a bottleneck resource. However overprovisioning (13 clusters) prevents most attacks.
+    Targeting the 13 DNS root servers which are a bottleneck resource. However over-provisioning (13 clusters) + Anycast (\textgreater 500) (1 address to multiple potential receivers) prevents most attacks.
 
     \subsubsection{Account-Takeover}
     Attacking the web interfaces of registrars and try to enter malicious name servers.
@@ -357,8 +383,8 @@
     \subsubsection{Manipulate local DNS settings}
     \begin{itemize}
     \item Manipulate local host configurations (access to the local machine nescessary)
-    \item Spoof DHCP replies (access to LAN nescessary) \ra countermeasure: authentification for DHCP messages
-    \item Set up Malicious DHCP server that is faster than the vaild one
+    \item Spoof DHCP replies (access to LAN nescessary) \ra countermeasure: authentication for DHCP messages
+    \item Set up Malicious DHCP server that is faster than the valid one
     \end{itemize}
 
     \subsubsection{Manipulate DNS lookup process}
@@ -377,7 +403,7 @@
 
     \subsubsection{The Kaminsky Attack}
     \begin{itemize}
-    \item Inject query on the client Random.www.bank.com
+    \item Inject query on the client \textit{\$Random}.www.bank.com
     \item reply multiple times  (TXID 0-200)
     \item Send name server redirections
     \end{itemize}
@@ -397,6 +423,7 @@
     \begin{itemize}
       \item No confidentiality
       \item No protection against DoS
+      \item Must be installed from a trusted source
     \end{itemize}
 
     All records are signed: Key pairs for each zone $\ra$ Integrity
@@ -418,7 +445,7 @@
 
     How to achieve 99.999:
     \begin{itemize}
-      \item High Redundancy
+      \item High Redundancy + Fast Failover (Quick Change)
       \item Failure Resilience
       \item Over Provisioning
       \item Backup and Fast Recovery
