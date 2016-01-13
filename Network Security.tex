@@ -44,27 +44,32 @@
    }
    \sectionbox{
    \subsection{OSI (Open Systems Interconnection)}
-   \begin{tabular}{ | l | l | l |}
-     \hline
-     OSI Model & Data Seq. & Protocols + Port  \\
-     \hline
-     Application & Message & FTP 20-21, SSH 22, Telnet 23 \\
-     \cline{1-1}
-     Presentation* & & SMTP 25, HTTP/s 80/443 \\
-     \cline{1-1}
-     Session* & & DHCP, NTP, BGP 179 \\
-     \hline
-     Transport & Segment & TCP, UDP\\
-     \hline
-     Network & Datagram & IP, IPSec, ARP, ICMP, IGMP\\
-     %& & ARP, ICMP \\
-     \hline
-     Data Link* & Frames & Ethernet\\
-     \cline{1-2}
-     Physical  & Bit Stream & 802.11 (WiFi)\\
-     \hline
-   \end{tabular}\\
-   * \textit{Don't exist in TCP/IP Model}
+     \begin{tabular}{ | l | l | l |}
+       \hline
+       OSI Model & Data Seq. & Protocols + Port  \\
+       \hline
+       Application & Message & FTP 20-21, SSH 22, Telnet 23 \\
+       \cline{1-1}
+       Presentation* & & SMTP 25, HTTP/s 80/443 \\
+       \cline{1-1}
+       Session* & & DHCP, NTP, BGP 179 \\
+       \hline
+       Transport & Segment & TCP, UDP\\
+       \hline
+       Network & Datagram & IP, IPSec, ARP, ICMP, IGMP\\
+       %& & ARP, ICMP \\
+       \hline
+       Data Link* & Frames & Ethernet\\
+       \cline{1-2}
+       Physical  & Bit Stream & 802.11 (WiFi)\\
+       \hline
+     \end{tabular}\\
+     * \textit{Don't exist in TCP/IP Model}
+   }
+
+   \sectionbox{
+   \subsection{ARP (Address Resolution Protocol)}
+   % TODO is ARP link layer or Network layer protocol ?
 
    }
 
@@ -696,69 +701,103 @@
 
 
 \section{Web Application Security: Session State}
+
   \sectionbox {
   \subsection{Anatomy of Web App}
-  \includegraphics[width=\columnwidth]{img/webapp.png}
-  } \sectionbox {
+    \includegraphics[width=\columnwidth]{img/webapp.png}
+  }
+
+  \sectionbox {
   \subsection{Threat vectors}
-  \includegraphics[width=\columnwidth]{img/threatvectors.png}
+    \includegraphics[width=\columnwidth]{img/threatvectors.png}
+  }
 
-  } \sectionbox {
+  \sectionbox {
   \subsection{HTTP  and Session management}
-  HTTP is stateless $\ra$ state needs to be implemented with session ID
+    HTTP is stateless $\ra$ state needs to be implemented with session ID
 
-  SessionID: needed for state, generated on the server, stored on the client, transmitted for every request
+    SessionID: needed for state, generated on the server, stored on the client, transmitted for every request
 
-  Crucial processes: Generation, Transport, Destruction, Revocation
+    Crucial processes: Generation, Transport, Destruction, Revocation
 
   \subsubsection{Possible transport ways}
-  \begin{itemize}
-  \item GET: easy, compatible (+) , logged, referer (-)
-  \item POST: compatible, not obvious (+), more complex development, slightly harder to manipulate (-)
-  \item Cookie: more option, not recorded, https restriction (+), internet cafes, may be disabled by users (-)
-  \end{itemize}
+    \begin{itemize}
+      \item GET: easy, compatible (+) , logged, referer (-)
+      \item POST: compatible, not obvious (+), more complex development, slightly harder to manipulate (-)
+      \item Cookie: more option, not recorded, https restriction (+), internet cafes, may be disabled by users (-)
+    \end{itemize}
 
   \subsubsection{Generation} strong random value
 
   \subsubsection{Revocation}
-  Session validity: client and server side revocation, session information time limited
+    Session validity: client and server side revocation, session information time limited
 
-  Session timeout: extremely imported for shared computers, expiry time should be kept to minimum
-  } \sectionbox {
+    Session timeout: extremely imported for shared computers, expiry time should be kept to minimum
+  }
+
+  \sectionbox {
   \subsection{Attacks}
-  \begin{itemize}
-  \item Network sniffing $\ra$ HTTPS
-  \item Do not mix HTTP and HTTPS sessions
-  \item Random SessionID is important
-  \end{itemize}
+    \begin{itemize}
+      \item Network sniffing $\ra$ HTTPS
+      \item Do not mix HTTP and HTTPS sessions
+      \item Random SessionID is important
+    \end{itemize}
   }
 
 %Web Application Security: SQL Injection
-\section{Web Application Security: SQL Injection}
+\section{Web Application Security}
+  \sectionbox{
+  \subsection{Top 10 Application Security Flaws}
+    \begin{tabular}{ l | l }
+      A1 & Injection (SQLi, LDAP, XPATH, OS Command)\\
+      \hline
+      A2 & Broken Authentication and Session Management\\
+      \hline
+      A3 & Cross-Site Scripting (XSS)\\
+      \hline
+      A4 & Insecure Direct Object References\\
+      \hline
+      A5 & Security Misconfiguration\\
+      \hline
+      A6 & Sensitive Data Exposure\\
+      \hline
+      A7 & Missing Function Level Access Control\\
+      \hline
+      A8 & Cross-Site Request Forgery (XSRF)\\
+      \hline
+      A9 & Using Components with Known Vulnerabilities\\
+      \hline
+      A10 & Unvalidated Redirects and Forward\\
+    \end{tabular}
+    \textit{OWASP (Open Web App Security Project), Nov. 2013}
+  }
+\section*{SQL Injection}
   \sectionbox{
   \subsection{Code Injection}
-  \textbf{Code injection:} Code injection refers to attacks which insert code that is afterwards interpreted by a process
+    \textbf{Code injection:} Code injection refers to attacks which insert code that is afterwards interpreted by a process
 
-  \textbf{Code injection process:}
-  \begin{itemize}
-  \item Data enters app from untrusted source
-  \item Data is part of a string executed as a command by app
-  \item app gives the attacker a privilege or capability that the attacker would otherwise not have
-  \end{itemize}
-  } \sectionbox{
+    \textbf{Code injection process:}
+    \begin{itemize}
+      \item Data enters app from untrusted source
+      \item Data is part of a string executed as a command by app
+      \item app gives the attacker a privilege or capability that the attacker would otherwise not have
+    \end{itemize}
+  }
+
+  \sectionbox{
   \subsection{SQL code injection}
-  A SQL injection attack consits of insertion of a SQL query via the input data from the client to the application.
+  A SQL injection attack consists of insertion of a SQL query via the input data from the client to the application.
 
   Possible causes:
   \begin{itemize}
   \item read / modify data in the database
-  \item execute administration opertations
+  \item execute administration operations
   \item issue commands on the OS
   \end{itemize}
 
-  \textbf{Example:} \lstinline|$login="' or ''=''"|
+  \textbf{Example:} \lstinline{\$login="' or \'\'=''"}
 
-  \lstinline|;| terminates a command \lstinline|--| considers everything afterwards as a comment.
+  \lstinline{;} terminates a command \lstinline|--| considers everything afterwards as a comment.
 
   \lstinline|union| merges the output of two select commands.
 
@@ -774,26 +813,30 @@
   \item run DB with reduced privileges
   \item input validation
   \end{itemize}
-  } \sectionbox{
-  \section{Cross-Site Scripting (XSS)}
-  \subsection{Same-origin policy}
-  A script can only access content and properties of a document loaded from the same origin.
-  \begin{itemize}
-  \item same protocol
-  \item same hostname
-  \item same port
-  \end{itemize}
-  URL path is ignored for the same-origin policy
+  }
 
-  \textbf{Interaction of different origins}
-  \begin{itemize}
-  \item Link
-  \item Iframe: Shown inside me.tld but cannot exit iframe
-  \item POST: POSTing data to you.tld
-  \item script include: Evaluted in context of me.tld ($\ra$ dangerous)
-  \item Asynchronous Requests (AJAX): Different origin only possible if allowed by target domain (with Access-Control-Allow-Origin Header)
-  \end{itemize}
-  } \sectionbox{
+  \section*{Cross-Site Scripting (XSS)}
+  \sectionbox{
+    \subsection{Same-origin policy}
+      A script can only access content and properties of a document loaded from the same origin.
+      \begin{itemize}
+        \item same protocol
+        \item same hostname
+        \item same port
+      \end{itemize}
+      URL path is ignored for the same-origin policy
+
+      \textbf{Interaction of different origins}
+      \begin{itemize}
+        \item Link
+        \item Iframe: Shown inside me.tld but cannot exit iframe
+        \item POST: POSTing data to you.tld
+        \item script include: Evaluted in context of me.tld ($\ra$ dangerous)
+        \item Asynchronous Requests (AJAX): Different origin only possible if allowed by target domain (with Access-Control-Allow-Origin Header)
+      \end{itemize}
+  }
+
+  \sectionbox{
   \subsection{Cross-Site Scripting (XSS) Attacks}
   XSS flaws occur whenever a web app takes user supplied data and sends it to the browser without first \emph{validating} or \emph{encoding} the content.
 
