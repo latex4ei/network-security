@@ -4,6 +4,8 @@
 % default: color, english
 \documentclass[english, leagacyboxes, nologo]{latex4ei/latex4ei_sheet}
 
+\usepackage{upquote}
+
 \begin{document}
 \title{Network Security}
 \author{Stephan Dollberg, Martin Zellner, Lucas Vandroux}
@@ -787,48 +789,70 @@
     \end{itemize}
   }
 
-\section*{SQL Injection}
+\section*{SQL Injection (SQLi)}
   \sectionbox{
   \subsection{Code Injection}
-    \textbf{Code injection:} Code injection refers to attacks which insert code that is afterwards interpreted by a process
+    Attack which insert code that is afterwards interpreted by a process.
 
-    \textbf{Code injection process:}
-    \begin{itemize}
+    \textbf{Process:}
+    \begin{enumerate}
       \item Data enters app from untrusted source
       \item Data is part of a string executed as a command by app
-      \item app gives the attacker a privilege or capability that the attacker would otherwise not have
-    \end{itemize}
+      \item App gives attacker privilege or info that he would otherwise not have
+    \end{enumerate}
   }
 
   \sectionbox{
   \subsection{SQL code injection}
-  A SQL injection attack consists of insertion of a SQL query via the input data from the client to the application.
+    SQLi = insertion of SQL query via input data from client to app.
 
-  Possible causes:
-  \begin{itemize}
-  \item read / modify data in the database
-  \item execute administration operations
-  \item issue commands on the OS
-  \end{itemize}
+    \textbf{What can you do with it ?}
+    \begin{itemize}
+      \item Read / Modify data in the database
+      \item Execute admin operations on the DB
+      \item issue commands on the OS
+    \end{itemize}
 
-  \textbf{Example:} \lstinline{\$login="' or \'\'=''"}
+    \subsubsection{Tautology}
+      Inject code in conditional statement(s) $\Ra$ always evaluate to true\\
+      \texttt{SELECT uid FROM users WHERE login='\textcolor{red}{' OR ''='}' AND pwd='\textcolor{red}{' OR ''='}';}
 
-  \lstinline{;} terminates a command \lstinline|--| considers everything afterwards as a comment.
+    \subsubsection{Union Query}
+      Inject \texttt{UNION} query $\Ra$ get union of the 2 queries\\
+      \texttt{SELECT uid FROM users WHERE login=’\textcolor{red}{’ UNION SELECT cardNo from CreditCards WHERE uid=123; --} AND pass=’’;}
 
-  \lstinline|union| merges the output of two select commands.
+    \subsubsection{Piggy-Backed Queries}
+      Inject query at the end of another query ($\Leftarrow$ Misconfiguration)\\
+      \texttt{SELECT * FROM users WHERE uid=’abc’ AND password=’\textcolor{red}{’; DROP TABLE users; --}';}
 
-  Error messages can provide hints on which DB is used.
+    \subsubsection{Stored Procedure}
+      Execute stored procedures present in the database\\
+      \texttt{SELECT * FROM users WHERE uid=’abc’ AND password=’\textcolor{red}{’; SHUTDOWN; --}';}
 
-  \textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
-  } \sectionbox{
+    \subsubsection{Inference}
+      If DB doesn't return error msg $\Ra$ change behaviour of it to guess.
+      % TODO --- Blind Injection (ok)
+      %\texttt{http://www.example.com/product.php?product_id=\textcolor{red}{100 AND IF(version() like ‘5\%’, sleep(15), ‘false’));--}}
+
+    \subsubsection{Alternate Encodings}
+    % TODO 
+
+    \lstinline{;} terminates a command \lstinline|--| considers everything afterwards as a comment.
+
+    Error messages can provide hints on which DB is used.
+
+    \textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
+  }
+
+  \sectionbox{
   \subsection{SQL Injection Defense}
-  \begin{itemize}
-  \item constrain and sanitize all client data on the server
-  \item use stored procedures
-  \item avoid disclosing error information
-  \item run DB with reduced privileges
-  \item input validation
-  \end{itemize}
+    \begin{itemize}
+    \item constrain and sanitize all client data on the server
+    \item use stored procedures
+    \item avoid disclosing error information
+    \item run DB with reduced privileges
+    \item input validation
+    \end{itemize}
   }
 
   \section*{Cross-Site Scripting (XSS)}
