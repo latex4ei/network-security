@@ -67,11 +67,24 @@
      * \textit{Don't exist in TCP/IP Model}
    }
 
-   \sectionbox{
-   \subsection{ARP (Address Resolution Protocol)}
-   % TODO is ARP link layer or Network layer protocol ?
+ \sectionbox{
+ \subsection{ARP (Address Resolution Protocol)}
+ % TODO is ARP link layer or Network layer protocol ?
 
-   }
+ }
+
+ \sectionbox {
+ \subsection{HTTP (Hypertext Transfer Protocol)}
+   \begin{itemize}
+     \item Stateless protocol (Server doesn't know which client connects again)
+     \item Status Code : 1xx info, 2xx success, 3xx redirection, 4xx client error, 5xx server error
+     \item HTTP methods : GET, POST, PUT, DELETE, HEAD
+     \item HTTP cookie : name$\leftrightarrow$value (expiration date, stored by client)
+     \begin{itemize}
+       \item Use for session management, secure cookie (HTTPS only)
+     \end{itemize}
+   \end{itemize}
+ }
 
 
 \section{(In)securtity, Risk and the Lifecycle of Vulnerablities}
@@ -734,7 +747,7 @@
   }
 
   \sectionbox {
-  \subsection{HTTP and Session management}
+  \subsection{HTTP and Session Management}
     HTTP is stateless $\ra$ state needs to be implemented with session ID
 
     SessionID: needed for state, generated on the server, stored on the client, transmitted for every request
