@@ -699,21 +699,42 @@
   \end{itemize}
   }
 
+\section{Web Application Security}
+  \sectionbox{
+  \subsection{Top 10 Application Security Flaws}
+    \begin{tabular}{ l | l }
+      A1 & Injection (SQLi, LDAP, XPATH, OS Command)\\
+      \hline
+      A2 & Broken Authentication and Session Management\\
+      \hline
+      A3 & Cross-Site Scripting (XSS)\\
+      \hline
+      A4 & Insecure Direct Object References\\
+      \hline
+      A5 & Security Misconfiguration\\
+      \hline
+      A6 & Sensitive Data Exposure\\
+      \hline
+      A7 & Missing Function Level Access Control\\
+      \hline
+      A8 & Cross-Site Request Forgery (XSRF)\\
+      \hline
+      A9 & Using Components with Known Vulnerabilities\\
+      \hline
+      A10 & Unvalidated Redirects and Forward\\
+    \end{tabular}\\
+    \textit{OWASP (Open Web App Security Project), Nov. 2013}
+  }
 
-\section{Web Application Security: Session State}
+\section*{Session Management}
 
   \sectionbox {
-  \subsection{Anatomy of Web App}
-    \includegraphics[width=\columnwidth]{img/webapp.png}
+  \subsection{Anatomy of a Web App \& Threat Vectors}
+    \includegraphics[width=\columnwidth]{img/webapp-threatvectors.png}
   }
 
   \sectionbox {
-  \subsection{Threat vectors}
-    \includegraphics[width=\columnwidth]{img/threatvectors.png}
-  }
-
-  \sectionbox {
-  \subsection{HTTP  and Session management}
+  \subsection{HTTP and Session management}
     HTTP is stateless $\ra$ state needs to be implemented with session ID
 
     SessionID: needed for state, generated on the server, stored on the client, transmitted for every request
@@ -744,33 +765,6 @@
     \end{itemize}
   }
 
-%Web Application Security: SQL Injection
-\section{Web Application Security}
-  \sectionbox{
-  \subsection{Top 10 Application Security Flaws}
-    \begin{tabular}{ l | l }
-      A1 & Injection (SQLi, LDAP, XPATH, OS Command)\\
-      \hline
-      A2 & Broken Authentication and Session Management\\
-      \hline
-      A3 & Cross-Site Scripting (XSS)\\
-      \hline
-      A4 & Insecure Direct Object References\\
-      \hline
-      A5 & Security Misconfiguration\\
-      \hline
-      A6 & Sensitive Data Exposure\\
-      \hline
-      A7 & Missing Function Level Access Control\\
-      \hline
-      A8 & Cross-Site Request Forgery (XSRF)\\
-      \hline
-      A9 & Using Components with Known Vulnerabilities\\
-      \hline
-      A10 & Unvalidated Redirects and Forward\\
-    \end{tabular}\\
-    \textit{OWASP (Open Web App Security Project), Nov. 2013}
-  }
 \section*{SQL Injection}
   \sectionbox{
   \subsection{Code Injection}
