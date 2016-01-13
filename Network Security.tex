@@ -750,31 +750,40 @@
   \subsection{HTTP and Session Management}
     HTTP is stateless $\ra$ state needs to be implemented with session ID
 
-    SessionID: needed for state, generated on the server, stored on the client, transmitted for every request
+    \textbf{SessionID}: generated on server, stored on client, transmitted with every request
 
-    Crucial processes: Generation, Transport, Destruction, Revocation
+    After login $\ra$ Identification by SessionID (Target for attacker)
 
-  \subsubsection{Possible transport ways}
+  \subsubsection{Generation}
+  \begin{itemize}
+    \item Strong $\ra$ not predictive + impossible to guess next value
+    \item Random $\ra$ not based on predictable values (no MD5 or SHA-1)
+  \end{itemize}
+
+  \subsubsection{Transport}
     \begin{itemize}
-      \item GET: easy, compatible (+) , logged, referer (-)
-      \item POST: compatible, not obvious (+), more complex development, slightly harder to manipulate (-)
-      \item Cookie: more option, not recorded, https restriction (+), internet cafes, may be disabled by users (-)
+      \item GET: easy (in URL), compatible(+) , logged(-), HTTP referer(-)
+      \item POST: compatible(+)(works with cookies disabled), not obvious(+), more complex development(-), slightly harder to manipulate(-)
+      \item Cookie: more options(+), not recorded(+), https restriction(+), store on client(-), may be disabled by users(-)
     \end{itemize}
 
-  \subsubsection{Generation} strong random value
-
   \subsubsection{Revocation}
-    Session validity: client and server side revocation, session information time limited
+  \begin{itemize}
+    \item Session Validity: client and server side revocation + time limited
+    \item Session Timeout: important with shared computers, expiry time should be minimum
+  \end{itemize}
 
-    Session timeout: extremely imported for shared computers, expiry time should be kept to minimum
+  \subsubsection{Destruction}
+  ??? %TODO See if we need to add something in Destruction
   }
 
   \sectionbox {
   \subsection{Attacks}
     \begin{itemize}
-      \item Network sniffing $\ra$ HTTPS
-      \item Do not mix HTTP and HTTPS sessions
+      \item Network sniffing $\ra$ use HTTPS to prevent it
+      \item Don't mix HTTP and HTTPS SessionID
       \item Random SessionID is important
+      \item Brute Force $\ra$ Not predictable Username and Password
     \end{itemize}
   }
 
