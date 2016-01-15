@@ -641,77 +641,82 @@
   % SSH (algorithms parameters)
   % Passwords
 
-\section{TLS}
+\section{TLS (Transport Layer Security)}
   Cipher Suite = key exchange + cipher spec
-
+  Session or Application layer (OSI model)
+  SSL (Secure Socket Layer) was predecessor of TLS
   \sectionbox{
   \subsection{Key Exchange Methods}
-  \begin{itemize}
-  \item RSA:  secure against PA, AA, no PFS, no cont. key agreement
-  \item RSA with temp. pub/priv: secure against PA, AA, PFS, no cont. key agreement
-  \item Fixed DH: secure against PA, AA, no PFS, cont. key agreement
-  \item Ephemeral DH: secure against PA, AA, PFS, cont. key agreement
-  \item Anonymous DH: secure against PA, not against AA, PFS, cont. key
-  \end{itemize}
-  } \sectionbox{
-  \subsection{DH key agreement}
-  \begin{itemize}
+    \begin{itemize}
+      \item RSA:  secure against PA, AA, no PFS, no cont. key agreement
+      \item RSA with temp. pub/priv: secure against PA, AA, PFS, no cont. key agreement
+      \item Fixed DH: secure against PA, AA, no PFS, cont. key agreement
+      \item Ephemeral DH: secure against PA, AA, PFS, cont. key agreement
+      \item Anonymous DH: secure against PA, not against AA, PFS, cont. key
+    \end{itemize}
+  }
 
-    \item Public	values:	large	prime	p,	generator	g
-    \item Alice	has	secret	value	a,	Bob	has	secret	b
-    \item A	$\rightarrow$ B:	$g^a$	(mod	p)
-    \item B	$\rightarrow$ A:	$g^b$  (mod	p)
-    \item Bob computes	$(g^a)^b$	=	$g^{ab}$	(mod	p)
-    \item Alice	computes $(g^b)^a$	=	$g^{ab}$	(mod	p)
-  \item Eve	cannot	compute	$g^{ab}$	(mod	p)
-  \end{itemize}
-  } \sectionbox{
+  \sectionbox{
+  \subsection{Diffie-Hellman Key Exchange}
+    \begin{itemize}
+      \item \textbf{Public	values}:	large	prime	$p$,	generator	$g$
+      \item \textbf{Secret values}: Alice	has	$a$,	Bob	has $b$
+      \item Alice	$\ra$ Bob:	$A = g^a \pmod{p}$
+      \item Bob	$\ra$ Alice:	$B = g^b \pmod{p}$
+      \item Bob computes	$A^b	\pmod{p}=	g^{ab}\pmod{p}$
+      \item Alice	computes $(B)^a	\pmod{p}=	g^{ab}\pmod{p}$
+      \item Alice and Bob have now a shared secret $g^{ab}\pmod{p}$
+      \item Eve	cannot	compute	$g^{ab}	\pmod{p}$
+    \end{itemize}
+  }
+
+  \sectionbox{
   \subsection{TLS session}
-  Sample TLS Session (no client auth):
-  \begin{itemize}
-  \item C $\rightarrow$ S:  client\_hello
-  \item S $\rightarrow$ C:  server\_hello: Ephemeral DH  key exchange,   RC4 encryption,  MD5-based   MAC
-  \item S $\rightarrow$ C:  Server  certificate, containing  RSA public  key : Client checks  validity + verifies URL matches certificate!
-  \item S $\rightarrow$ C:  Server\_key\_exchange: g, p, $g^s$, ${H(g, p, g^s)}_{KS^-1}$
-  \item S $\rightarrow$ C:  server\_hello\_done
-  \item C $\rightarrow$ S:  client\_key\_exchange: $g^c$
-  \item C $\rightarrow$ S:  change\_cipher\_spec
-  \item C $\rightarrow$ S:  finished
-  \item S $\rightarrow$ C:  change\_cipher\_spec
-  \item S $\rightarrow$ C:  finished
-  \end{itemize}
+    Sample TLS Session (no client auth):
+    \begin{itemize}
+      \item C $\rightarrow$ S:  client\_hello
+      \item S $\rightarrow$ C:  server\_hello: Ephemeral DH  key exchange,   RC4 encryption,  MD5-based   MAC
+      \item S $\rightarrow$ C:  Server  certificate, containing  RSA public  key : Client checks  validity + verifies URL matches certificate!
+      \item S $\rightarrow$ C:  Server\_key\_exchange: g, p, $g^s$, ${H(g, p, g^s)}_{KS^-1}$
+      \item S $\rightarrow$ C:  server\_hello\_done
+      \item C $\rightarrow$ S:  client\_key\_exchange: $g^c$
+      \item C $\rightarrow$ S:  change\_cipher\_spec
+      \item C $\rightarrow$ S:  finished
+      \item S $\rightarrow$ C:  change\_cipher\_spec
+      \item S $\rightarrow$ C:  finished
+    \end{itemize}
 
-  Phase 1: (Client,Server)\_hello\_message:
-  \begin{itemize}
-  \item Highest   supported   version
-  \item Random    =   32  bit Timestamp  $||$  28  bytes   random
-  \item Session   id
-  \item Client\_hello: Supported   cipher  suite,  ciphers are listed
-  in  decreasing  order   of  preference
-  \item Server\_hello: chosen  cipher
-  \end{itemize}
+    Phase 1: (Client,Server)\_hello\_message:
+    \begin{itemize}
+      \item Highest   supported   version
+      \item Random    =   32  bit Timestamp  $||$  28  bytes   random
+      \item Session   id
+      \item Client\_hello: Supported   cipher  suite,  ciphers are listed
+      in  decreasing  order   of  preference
+      \item Server\_hello: chosen  cipher
+    \end{itemize}
 
-  Phase 2:  Server  authentication    and key exchange
-  \begin{itemize}
-  \item S $\rightarrow$ C:  certificate
-  \item S $\rightarrow$ C:  server\_key\_exchange: Anonymous DH, Ephemeral   DH, RSA key exchange    with    sign-only   key
-  \item S $\rightarrow$ C:  certificate\_request: Cert\_type (RSA    or  DSS for key exchange); List  of  acceptable  certificate  authorities
-  \item S $\rightarrow$ C:  server\_hello\_done
-  \end{itemize}
+    Phase 2:  Server  authentication    and key exchange
+    \begin{itemize}
+      \item S $\rightarrow$ C:  certificate
+      \item S $\rightarrow$ C:  server\_key\_exchange: Anonymous DH, Ephemeral   DH, RSA key exchange    with    sign-only   key
+      \item S $\rightarrow$ C:  certificate\_request: Cert\_type (RSA    or  DSS for key exchange); List  of  acceptable  certificate  authorities
+      \item S $\rightarrow$ C:  server\_hello\_done
+    \end{itemize}
 
-  Phase 3:  Client  authentication and key exchange
-  \begin{itemize}
-  \item C $\rightarrow$ S: client\_key\_exchange: RSA: client generates 48  byte pre-master  secret, encrypts it  with server’s
-  public  key; Eph or  anon DH: client  public  DH  value; Fixed DH: null (certificate contained DH  key)
-  \end{itemize}
+    Phase 3:  Client  authentication and key exchange
+    \begin{itemize}
+      \item C $\rightarrow$ S: client\_key\_exchange: RSA: client generates 48  byte pre-master  secret, encrypts it  with server’s
+      public  key; Eph or  anon DH: client  public  DH  value; Fixed DH: null (certificate contained DH  key)
+    \end{itemize}
 
-  Phase 4: Finish
-  \begin{itemize}
-  \item C $\rightarrow$ S: change\_cipher\_spec: Establish set up cipher and keys
-  \item C $\rightarrow$ S: finished: MD5( master\_secret $||$ pad2 $||$ MD5( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )) $||$ SHA-1( master\_secret $||$ pad2 $||$ SHA-1( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )); Handshake messages contains all messages up to now
-  \item S $\rightarrow$ C: change\_cipher\_spec
-  \item S $\rightarrow$ C: finished
-  \end{itemize}
+    Phase 4: Finish
+    \begin{itemize}
+      \item C $\rightarrow$ S: change\_cipher\_spec: Establish set up cipher and keys
+      \item C $\rightarrow$ S: finished: MD5( master\_secret $||$ pad2 $||$ MD5( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )) $||$ SHA-1( master\_secret $||$ pad2 $||$ SHA-1( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )); Handshake messages contains all messages up to now
+      \item S $\rightarrow$ C: change\_cipher\_spec
+      \item S $\rightarrow$ C: finished
+    \end{itemize}
   }
 
 \section{Web Application Security}
