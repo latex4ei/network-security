@@ -698,13 +698,13 @@
         \item S $\ra$ C: \texttt{server\_hello}: Reply to every param.
       \end{enumerate}
 
-    \subsubsection{Phase 2:  Server  authentication    and key exchange}
-    \begin{itemize}
-      \item S $\rightarrow$ C:  certificate
-      \item S $\rightarrow$ C:  server\_key\_exchange: Anonymous DH, Ephemeral   DH, RSA key exchange    with    sign-only   key
-      \item S $\rightarrow$ C:  certificate\_request: Cert\_type (RSA    or  DSS for key exchange); List  of  acceptable  certificate  authorities
-      \item S $\rightarrow$ C:  server\_hello\_done
-    \end{itemize}
+    \subsubsection{Phase 2: Server Authentication and Key Exchange}
+      \begin{enumerate}
+        \item S $\ra$ C: \texttt{certificate}*: except for Anon DH, contains public DH param if DH fixed used
+        \item S $\ra$ C: \texttt{server\_key\_exchange}*: required for Anon DH, Ephemeral DH, RSA sign-only
+        \item S $\ra$ C: \texttt{certificate\_request}*: request types of cert. from client
+        \item S $\ra$ C: \texttt{server\_hello\_done}: no param. + wait for client response
+      \end{enumerate}
 
     \subsubsection{Phase 3:  Client  authentication and key exchange}
     \begin{itemize}
