@@ -830,28 +830,31 @@
       \texttt{SELECT * FROM users WHERE uid=’abc’ AND password=’\textcolor{red}{’; SHUTDOWN; --}';}
 
     \subsubsection{Inference}
-      If DB doesn't return error msg $\Ra$ change behaviour of it to guess.
-      % TODO --- Blind Injection (ok)
-      %\texttt{http://www.example.com/product.php?product_id=\textcolor{red}{100 AND IF(version() like ‘5\%’, sleep(15), ‘false’));--}}
+      If DB doesn't return error msg $\Ra$ change behaviour of DB to guess (Blind Injection or Time Injection (e.g. example)\\
+      \url{http://www.example.com/product.php?product_id=}\texttt{\textcolor{red}{100 AND IF(version() like ‘5\%’, sleep(15), ‘false’));--}}\\
+      $\ra$ check MySQL version 5.x or not $\Ra$ if yes server delays answer 15s
+
 
     \subsubsection{Alternate Encodings}
-    % TODO 
+    Fool scanning and detecting techniques with alternate encoding.\\
+    \texttt{SELECT * FROM users WHERE uid=’abc’ AND password=’\textcolor{red}{’; exec(char(Ox73687574646f776e)); --}'}
 
-    \lstinline{;} terminates a command \lstinline|--| considers everything afterwards as a comment.
+    \begin{itemize}
+      \item \texttt{;} $\ra$ terminates a command
+      \item \texttt{--} $\ra$ considers everything afterwards as a comment.
+      \item Error messages can provide hints on which DB is used.
+      \item \textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
+    \end{itemize}
 
-    Error messages can provide hints on which DB is used.
-
-    \textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
   }
 
   \sectionbox{
   \subsection{SQL Injection Defense}
     \begin{itemize}
     \item constrain and sanitize all client data on the server
-    \item use stored procedures
+    \item use stored procedures (restraint possible actions)
     \item avoid disclosing error information
     \item run DB with reduced privileges
-    \item input validation
     \end{itemize}
   }
 
