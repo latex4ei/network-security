@@ -633,7 +633,7 @@
   \subsubsection{Attacks}
   \begin{itemize}
   \item password cracking
-  \item traffic analyis
+  \item traffic analysis
   \end{itemize}
   }
   % Network layers (and security in different layers)
@@ -642,22 +642,18 @@
   % Passwords
 
 \section{TLS (Transport Layer Security)}
-  Cipher Suite = key exchange + cipher spec
-  Session or Application layer (OSI model)
-  SSL (Secure Socket Layer) was predecessor of TLS
   \sectionbox{
   \subsection{Key Exchange Methods}
-    \begin{itemize}
-      \item RSA:  secure against PA, AA, no PFS, no cont. key agreement
-      \item RSA with temp. pub/priv: secure against PA, AA, PFS, no cont. key agreement
-      \item Fixed DH: secure against PA, AA, no PFS, cont. key agreement
-      \item Ephemeral DH: secure against PA, AA, PFS, cont. key agreement
-      \item Anonymous DH: secure against PA, not against AA, PFS, cont. key
-    \end{itemize}
+  \includegraphics[width=\columnwidth]{img/Key-Exchange-Algorithms.png}
+
+  \begin{itemize}
+    \item \textbf{Contributory Key Agreement} = Both parties contribute to session key, no party can fully determine session key.
+    \item \textbf{Perfect Forward Secrecy} = knowing long-term private key does not reveal session key.
+  \end{itemize}
   }
 
   \sectionbox{
-  \subsection{Diffie-Hellman Key Exchange}
+  \subsection{Diffie-Hellman Key Exchange (DH)}
     \begin{itemize}
       \item \textbf{Public	values}:	large	prime	$p$,	generator	$g$
       \item \textbf{Secret values}: Alice	has	$a$,	Bob	has $b$
@@ -671,32 +667,38 @@
   }
 
   \sectionbox{
-  \subsection{TLS session}
-    Sample TLS Session (no client auth):
-    \begin{itemize}
-      \item C $\rightarrow$ S:  client\_hello
-      \item S $\rightarrow$ C:  server\_hello: Ephemeral DH  key exchange,   RC4 encryption,  MD5-based   MAC
-      \item S $\rightarrow$ C:  Server  certificate, containing  RSA public  key : Client checks  validity + verifies URL matches certificate!
-      \item S $\rightarrow$ C:  Server\_key\_exchange: g, p, $g^s$, ${H(g, p, g^s)}_{KS^-1}$
-      \item S $\rightarrow$ C:  server\_hello\_done
-      \item C $\rightarrow$ S:  client\_key\_exchange: $g^c$
-      \item C $\rightarrow$ S:  change\_cipher\_spec
-      \item C $\rightarrow$ S:  finished
-      \item S $\rightarrow$ C:  change\_cipher\_spec
-      \item S $\rightarrow$ C:  finished
-    \end{itemize}
+  \subsection{TLS session : Handshake Protocol}
+  Session or Application layer (OSI model)
+  SSL (Secure Socket Layer) = predecessor of TLS
+    % Sample TLS Session (no client auth):
+    % \begin{itemize}
+    %   \item C $\rightarrow$ S:  client\_hello
+    %   \item S $\rightarrow$ C:  server\_hello: Ephemeral DH  key exchange,   RC4 encryption,  MD5-based   MAC
+    %   \item S $\rightarrow$ C:  Server  certificate, containing  RSA public  key : Client checks  validity + verifies URL matches certificate!
+    %   \item S $\rightarrow$ C:  Server\_key\_exchange: g, p, $g^s$, ${H(g, p, g^s)}_{KS^-1}$
+    %   \item S $\rightarrow$ C:  server\_hello\_done
+    %   \item C $\rightarrow$ S:  client\_key\_exchange: $g^c$
+    %   \item C $\rightarrow$ S:  change\_cipher\_spec
+    %   \item C $\rightarrow$ S:  finished
+    %   \item S $\rightarrow$ C:  change\_cipher\_spec
+    %   \item S $\rightarrow$ C:  finished
+    % \end{itemize}
 
-    Phase 1: (Client,Server)\_hello\_message:
-    \begin{itemize}
-      \item Highest   supported   version
-      \item Random    =   32  bit Timestamp  $||$  28  bytes   random
-      \item Session   id
-      \item Client\_hello: Supported   cipher  suite,  ciphers are listed
-      in  decreasing  order   of  preference
-      \item Server\_hello: chosen  cipher
-    \end{itemize}
+    \subsubsection{Phase 1: Establish Security Capabilities (hello\_messages)}
+      \begin{enumerate}
+        \item C $\ra$ S: \texttt{client\_hello}
+        \begin{itemize}
+          \item \textbf{version}: highest supported version.
+          \item \textbf{ciphersuite}: Supported ciphers listed in $\searrow$ order of pref.\\
+          := Key exchange algo. + Cipher algo. (RC4, AES, 3DES…) + MAC algo. (MD5 or SHA-1) + \dots
+          \item \textbf{random}: 32-bit timestamp + 28 bytes random $\Ra$ prevent replay
+          \item \textbf{compression}: list of compression methods
+          \item \textbf{SessionID}: update (value=which session) or create (value=0)
+        \end{itemize}
+        \item S $\ra$ C: \texttt{server\_hello}: Reply to every param.
+      \end{enumerate}
 
-    Phase 2:  Server  authentication    and key exchange
+    \subsubsection{Phase 2:  Server  authentication    and key exchange}
     \begin{itemize}
       \item S $\rightarrow$ C:  certificate
       \item S $\rightarrow$ C:  server\_key\_exchange: Anonymous DH, Ephemeral   DH, RSA key exchange    with    sign-only   key
@@ -704,13 +706,13 @@
       \item S $\rightarrow$ C:  server\_hello\_done
     \end{itemize}
 
-    Phase 3:  Client  authentication and key exchange
+    \subsubsection{Phase 3:  Client  authentication and key exchange}
     \begin{itemize}
       \item C $\rightarrow$ S: client\_key\_exchange: RSA: client generates 48  byte pre-master  secret, encrypts it  with server’s
       public  key; Eph or  anon DH: client  public  DH  value; Fixed DH: null (certificate contained DH  key)
     \end{itemize}
 
-    Phase 4: Finish
+    \subsubsection{Phase 4: Finish}
     \begin{itemize}
       \item C $\rightarrow$ S: change\_cipher\_spec: Establish set up cipher and keys
       \item C $\rightarrow$ S: finished: MD5( master\_secret $||$ pad2 $||$ MD5( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )) $||$ SHA-1( master\_secret $||$ pad2 $||$ SHA-1( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )); Handshake messages contains all messages up to now
