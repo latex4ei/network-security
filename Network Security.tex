@@ -650,7 +650,7 @@ SSL (Secure Socket Layer) = predecessor of TLS
   \end{itemize}
 
   \subsubsection{RSA}
-    Pre-master secret(PMS)= 48-bytes (2 protocol version + 46 random)
+    Pre-master secret(PMS)= 48-bytes (2 protocol version + 46 random)\\
     \textbf{sign+enc}: client generates pre-master and encrypts it with $PU_{server}$.
     \begin{itemize}
       \item No \texttt{server\_key\_exchange} msg needed in phase 2
@@ -661,6 +661,29 @@ SSL (Secure Socket Layer) = predecessor of TLS
     \begin{itemize}
       \item Server creates temporary RSA keys, signs them with $PR_{server}$ and use \texttt{server\_key\_exchange} to send them
       \item PMS encrypted with temporary server public key
+    \end{itemize}
+
+  \subsubsection{Diffie-Hellman}
+    \textbf{Anonymous DH}: No authentication of client nor server
+    \begin{itemize}
+      \item \texttt{server\_key\_exchange}: DH public values + server public DH key
+      \item \texttt{client\_key\_exchange}: client public DH key
+      \item Vulnerable to MitM attacks
+    \end{itemize}
+
+    \textbf{Ephemeral DH}: create ephemeral (one-time) secret keys
+    \begin{itemize}
+      \item \texttt{server\_key\_exchange}: DH public values + server public DH key + signature of those parameters
+      \item \texttt{client\_key\_exchange}: client public DH key
+      \item Don't provide authentication but signing values with RSA does.
+      \item Most commonly used
+    \end{itemize}
+
+    \textbf{Fixed DH} : DH public values + server public values are fixed
+    \begin{itemize}
+      \item All DH parameters in server certificate signed by CA $\Ra$ no need of \texttt{server\_key\_exchange}
+      \item server can asked client to be authentified with \texttt{certificate\_request}
+      \item Rarely used
     \end{itemize}
 
   }
