@@ -721,17 +721,37 @@
       \item server can asked client to be authenticated with \texttt{certificate\_request}
       \item Rarely used
     \end{itemize}
-
   }
 
-  % OCSP, CRL and how to protect against malicious CAs Certificate Transparency (CT)Merkle hash tree
-  % Dumb-down
-  % SSL/TLS Pki Statistics
-  % MD5 Collision Vulnerability
-  % Homograph Vulnerability
-  % Trust Roots for Entity Validation
-  % SCION Approach
-  % Aki Goals
+  \sectionbox{
+  \subsection{Attacks against SSL/TLS}
+    \subsubsection{Dumbing Down}
+      \begin{itemize}
+        \item attacker forces to use old breakable algo. for communication (using the \texttt{ciphersuite})
+        \item only DOS except with anon DH where it can become real MitM
+      \end{itemize}
+
+    \subsubsection{Attacks against CAs}
+      \begin{itemize}
+        \item Attacks against CA to get false certificates signed
+        \item any CA can issue certs for any domain (weakest link)
+        \item 2010: Stuxnet signed itself 2 compromised Taiwan CAs' private keys
+        \item 2011: Comodo was duped into creating certificates for Google sites
+      \end{itemize}
+
+    \subsubsection{BEAST}
+      \begin{itemize}
+        \item Vulnerability in the Initialization Vector (IV) of the CBC mode of AES
+        \item  MitM can read msg by encrypting it multiple times
+        \item mitigated in TLS1.1 and above
+      \end{itemize}
+
+    \subsubsection{Assumption for Secure TLS}
+      \begin{itemize}
+        \item CA, Crypto, Browser, User
+        \item if a single assumption does not hold $\Ra$ TLS not secure
+      \end{itemize}
+  }
 
   \sectionbox{
   \subsection{Handshake Protocol}
@@ -783,6 +803,15 @@
 
   \textit{* = optional or situation-dependent messages that are not always sent}
   }
+
+  % OCSP, CRL and how to protect against malicious CAs Certificate Transparency (CT)Merkle hash tree
+  % Dumb-down
+  % SSL/TLS Pki Statistics
+  % MD5 Collision Vulnerability
+  % Homograph Vulnerability
+  % Trust Roots for Entity Validation
+  % SCION Approach
+  % Aki Goals
 
 \section{Web Application Security}
   \sectionbox{
