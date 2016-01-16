@@ -638,8 +638,44 @@
   }
 
 \section{TLS (Transport Layer Security)}
-Session or Application layer (OSI model)\\
-SSL (Secure Socket Layer) = predecessor of TLS
+  \sectionbox{
+    \begin{itemize}
+      \item Session or Application layer (OSI model)
+      \item SSL (Secure Socket Layer) = predecessor of TLS
+      \item SSLv3 and TLS almost same except some crypto algo.
+    \end{itemize}
+  }
+
+\sectionbox{
+\subsection{Diffie-Hellman Key Exchange (DH)}
+  \begin{itemize}
+    \item \textbf{Public	values}:	large	prime	$p$,	generator	$g$
+    \item \textbf{Secret values}: Alice	has	$a$,	Bob	has $b$
+    \item Alice	$\ra$ Bob:	$A = g^a \pmod{p}$
+    \item Bob	$\ra$ Alice:	$B = g^b \pmod{p}$
+    \item Bob computes	$A^b	\pmod{p}=	g^{ab}\pmod{p}$
+    \item Alice	computes $(B)^a	\pmod{p}=	g^{ab}\pmod{p}$
+    \item Alice and Bob have now a shared secret $g^{ab}\pmod{p}$
+    \item Eve	cannot	compute	$g^{ab}	\pmod{p}$
+  \end{itemize}
+}
+
+\sectionbox{
+\subsection{Generation of Crypto Parameters}
+  \textbf{Master Secret}(MS) created from pre-master secret(PS), client random(CR), server random(SR): MS = $h('A') || h('BB') || h('CCC')$
+
+  with $h(X) = MD5(PS || SHA(X || PS || CR || SR ))$
+
+  \textbf{Key materials} pairs client \& server: MAC key, write key and write IV \texttt{key\_block} = $h_2('A') || h_2('BB') || h_2('CCC') || \cdots$
+
+  with $h_2(X) = MD5(MS || SHA(X || MS || CR || SR ))$
+  \begin{itemize}
+    \item \texttt{key\_block} is the concatenation of the 6 keys
+    \item Nb of round depends on size of keys $\ra$ MD5 = 16 bytes per round
+    \item MS $\simeq$ pseudorandom seed value and CR and SR $\simeq$ salt values
+  \end{itemize}
+}
+
   \sectionbox{
   \subsection{Key Exchange Methods}
   \includegraphics[width=\columnwidth]{img/Key-Exchange-Algorithms.png}
@@ -682,42 +718,20 @@ SSL (Secure Socket Layer) = predecessor of TLS
     \textbf{Fixed DH} : DH public values + server public values are fixed
     \begin{itemize}
       \item All DH parameters in server certificate signed by CA $\Ra$ no need of \texttt{server\_key\_exchange}
-      \item server can asked client to be authentified with \texttt{certificate\_request}
+      \item server can asked client to be authenticated with \texttt{certificate\_request}
       \item Rarely used
     \end{itemize}
 
   }
 
-  \sectionbox{
-  \subsection{Diffie-Hellman Key Exchange (DH)}
-    \begin{itemize}
-      \item \textbf{Public	values}:	large	prime	$p$,	generator	$g$
-      \item \textbf{Secret values}: Alice	has	$a$,	Bob	has $b$
-      \item Alice	$\ra$ Bob:	$A = g^a \pmod{p}$
-      \item Bob	$\ra$ Alice:	$B = g^b \pmod{p}$
-      \item Bob computes	$A^b	\pmod{p}=	g^{ab}\pmod{p}$
-      \item Alice	computes $(B)^a	\pmod{p}=	g^{ab}\pmod{p}$
-      \item Alice and Bob have now a shared secret $g^{ab}\pmod{p}$
-      \item Eve	cannot	compute	$g^{ab}	\pmod{p}$
-    \end{itemize}
-  }
-
-  \sectionbox{
-  \subsection{Generation of Crypto Parameters}
-    \textbf{Master Secret}(MS) created from pre-master secret(PS), client random(CR), server random(SR): MS = $h('A') || h('BB') || h('CCC')$
-
-    with $h(X) = MD5(PS || SHA(X || PS || CR || SR ))$
-
-    \textbf{Key materials} pairs client \& server: MAC key, write key and write IV \texttt{key\_block} = $h_2('A') || h_2('BB') || h_2('CCC') || \cdots$
-
-    with $h_2(X) = MD5(MS || SHA(X || MS || CR || SR ))$
-    \begin{itemize}
-      \item \texttt{key\_block} is the concatenation of the 6 keys
-      \item Nb of round depends on size of keys $\ra$ MD5 = 16 bytes per round
-      \item MS $\simeq$ pseudorandom seed value and CR and SR $\simeq$ salt values
-    \end{itemize}
-
-  }
+  % OCSP, CRL and how to protect against malicious CAs Certificate Transparency (CT)Merkle hash tree
+  % Dumb-down
+  % SSL/TLS Pki Statistics
+  % MD5 Collision Vulnerability
+  % Homograph Vulnerability
+  % Trust Roots for Entity Validation
+  % SCION Approach
+  % Aki Goals
 
   \sectionbox{
   \subsection{Handshake Protocol}
