@@ -636,10 +636,6 @@
   \item traffic analysis
   \end{itemize}
   }
-  % Network layers (and security in different layers)
-  % VPN technologies (building blocks, IPSec)
-  % SSH (algorithms parameters)
-  % Passwords
 
 \section{TLS (Transport Layer Security)}
 Session or Application layer (OSI model)\\
@@ -652,6 +648,21 @@ SSL (Secure Socket Layer) = predecessor of TLS
     \item \textbf{Contributory Key Agreement} = Both parties contribute to session key, no party can fully determine session key.
     \item \textbf{Perfect Forward Secrecy} = knowing long-term private key does not reveal session key.
   \end{itemize}
+
+  \subsubsection{RSA}
+    Pre-master secret(PMS)= 48-bytes (2 protocol version + 46 random)
+    \textbf{sign+enc}: client generates pre-master and encrypts it with $PU_{server}$.
+    \begin{itemize}
+      \item No \texttt{server\_key\_exchange} msg needed in phase 2
+      \item Always same public/private keys used $\Ra$ no PFS $\Ra$ Not recommended
+    \end{itemize}
+
+    \textbf{sign-only}: Server RSA keys used for signature only
+    \begin{itemize}
+      \item Server creates temporary RSA keys, signs them with $PR_{server}$ and use \texttt{server\_key\_exchange} to send them
+      \item PMS encrypted with temporary server public key
+    \end{itemize}
+
   }
 
   \sectionbox{
