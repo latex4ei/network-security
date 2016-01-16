@@ -642,6 +642,8 @@
   % Passwords
 
 \section{TLS (Transport Layer Security)}
+Session or Application layer (OSI model)\\
+SSL (Secure Socket Layer) = predecessor of TLS
   \sectionbox{
   \subsection{Key Exchange Methods}
   \includegraphics[width=\columnwidth]{img/Key-Exchange-Algorithms.png}
@@ -667,23 +669,7 @@
   }
 
   \sectionbox{
-  \subsection{TLS session : Handshake Protocol}
-  Session or Application layer (OSI model)
-  SSL (Secure Socket Layer) = predecessor of TLS
-    % Sample TLS Session (no client auth):
-    % \begin{itemize}
-    %   \item C $\rightarrow$ S:  client\_hello
-    %   \item S $\rightarrow$ C:  server\_hello: Ephemeral DH  key exchange,   RC4 encryption,  MD5-based   MAC
-    %   \item S $\rightarrow$ C:  Server  certificate, containing  RSA public  key : Client checks  validity + verifies URL matches certificate!
-    %   \item S $\rightarrow$ C:  Server\_key\_exchange: g, p, $g^s$, ${H(g, p, g^s)}_{KS^-1}$
-    %   \item S $\rightarrow$ C:  server\_hello\_done
-    %   \item C $\rightarrow$ S:  client\_key\_exchange: $g^c$
-    %   \item C $\rightarrow$ S:  change\_cipher\_spec
-    %   \item C $\rightarrow$ S:  finished
-    %   \item S $\rightarrow$ C:  change\_cipher\_spec
-    %   \item S $\rightarrow$ C:  finished
-    % \end{itemize}
-
+  \subsection{Handshake Protocol}
     \subsubsection{Phase 1: Establish Security Capabilities (hello\_messages)}
       \begin{enumerate}
         \item C $\ra$ S: \texttt{client\_hello}
@@ -706,19 +692,31 @@
         \item S $\ra$ C: \texttt{server\_hello\_done}: no param. + wait for client response
       \end{enumerate}
 
-    \subsubsection{Phase 3:  Client  authentication and key exchange}
-    \begin{itemize}
-      \item C $\rightarrow$ S: client\_key\_exchange: RSA: client generates 48  byte pre-master  secret, encrypts it  with server’s
-      public  key; Eph or  anon DH: client  public  DH  value; Fixed DH: null (certificate contained DH  key)
-    \end{itemize}
+    \subsubsection{Phase 3: Client Authentication and Key Exchange}
+      Client should verify server certificate (if required) + server parameters
+      \begin{enumerate}
+          \item C $\ra$ S: \texttt{certificate}*: client cert. or \texttt{no\_certificate} alert
+          \item C $\ra$ S: \texttt{client\_key\_exchange}
+          \begin{itemize}
+            \item \textbf{RSA}: 48 bytes pre-master secret encrypted with server’s public key
+            \item \textbf{DH}: client public DH values
+          \end{itemize}
+          \item C $\ra$ S: \texttt{certificate\_verify}*: hash of master secret + previous msgs encrypted with client private key (except fixed DH)
+      \end{enumerate}
 
     \subsubsection{Phase 4: Finish}
-    \begin{itemize}
-      \item C $\rightarrow$ S: change\_cipher\_spec: Establish set up cipher and keys
-      \item C $\rightarrow$ S: finished: MD5( master\_secret $||$ pad2 $||$ MD5( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )) $||$ SHA-1( master\_secret $||$ pad2 $||$ SHA-1( handshake messages $||$ Sender $||$ master\_secret $||$ pad1 )); Handshake messages contains all messages up to now
-      \item S $\rightarrow$ C: change\_cipher\_spec
-      \item S $\rightarrow$ C: finished
-    \end{itemize}
+    \begin{enumerate}
+      \item C $\ra$ S: \texttt{change\_cipher\_spec}: Send 1 byte to confirm encryption.
+      \item C $\ra$ S: \texttt{finished}: hash( master\_secret $||$ pad2 $||$ hash( handshake\_messages $||$ Sender $||$ master\_secret $||$ pad1 ))
+      \begin{itemize}
+        \item once with MD5(...) and once with SAH-1(...)
+        \item \texttt{handshake\_messages} = all messages until now
+      \end{itemize}
+      \item S $\ra$ C: \texttt{change\_cipher\_spec}: server confirm encryption too
+      \item S $\ra$ C: \texttt{finished} 1st encrypted msg = hash of all previous msg
+    \end{enumerate}
+
+  \textit{* = optional or situation-dependent messages that are not always sent}
   }
 
 \section{Web Application Security}
