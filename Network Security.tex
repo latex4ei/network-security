@@ -804,9 +804,68 @@
   \textit{* = optional or situation-dependent messages that are not always sent}
   }
 
+  \section{Certificates and PKI (Public Key Infrastructure)}
+
+    \sectionbox{
+    \subsection{Public-Key Certificates}
+      Certificate = (public key + id of key owner)*signed by a trusted 3rd party
+      \begin{enumerate}
+        \item All can determine name + public key of the certificate’s owner
+        \item All can verify signature of CA
+        \item Only CA can create and update certificates
+        \item All can verify the currency of the certificate
+      \end{enumerate}
+
+      \subsubsection{Revocation of Certificates}
+      \begin{enumerate}
+        \item User’s private key is assumed to be compromised
+        \item User is no longer certified by this CA
+        \item CA’s certificate is assumed to be compromised.
+      \end{enumerate}
+      \textbf{CRL}(Certificates Revocation List): listing of all the revocated certifactes by a CA.
+    }
+
+    \sectionbox{
+    \subsection{OCSP (Online Certificate Status Protocol)}
+      \begin{itemize}
+        \item Small bandwidth needs $\Ra$ Real-time checks
+        \item Privacy issues $\leftarrow$ OCSP responder can track users
+        \item OCSP servers need to answer every client request (no cache)
+        \item if connection fails, client has to make the choice on its own
+        \item OCSP stapling: certificate owner give OCSP response with its certificate
+      \end{itemize}
+    }
+
+    \sectionbox{
+    \subsection{GL: Certificate Transparency}
+      Protocol for publicly logging the certificates activity.\\
+      $Ra$ augment chain-of-trust for the entire SSL certificate system.
+      \begin{itemize}
+        \item \textbf{Logs}: log cryptographically secured in a Merkle hash tree
+        \item \textbf{Monitors}: watch for suspicious or missing certificates in logs
+        \item \textbf{Auditors} : verify the overall integrity of logs
+      \end{itemize}
+
+      \includegraphics[width=\columnwidth]{img/CT.png}
+
+      \textbf{Benefits:} Gradual rollout + Minimal impact on existing infrastructure
+
+      \textbf{Disadvantages:} MitM, no support revocation, still need to contact log to verify
+    }
+
+    \sectionbox{
+    \subsection{AKI (Accountable Key Infrastructure)}
+      \begin{itemize}
+        \item New public-key validation infra. to reduce lvl of trust in CAs
+        \item Distribute trust $\ra$ no single point of failure
+        \item support revocation and update of certificates
+        \item Based on integrity tree (Efficient representation of the current state of all domains)
+      \end{itemize}
+    }
+
+
   % OCSP, CRL and how to protect against malicious CAs Certificate Transparency (CT)Merkle hash tree
-  % Dumb-down
-  % SSL/TLS Pki Statistics
+
   % MD5 Collision Vulnerability
   % Homograph Vulnerability
   % Trust Roots for Entity Validation
