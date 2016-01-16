@@ -703,6 +703,23 @@ SSL (Secure Socket Layer) = predecessor of TLS
   }
 
   \sectionbox{
+  \subsection{Generation of Crypto Parameters}
+    \textbf{Master Secret}(MS) created from pre-master secret(PS), client random(CR), server random(SR): MS = $h('A') || h('BB') || h('CCC')$
+
+    with $h(X) = MD5(PS || SHA(X || PS || CR || SR ))$
+
+    \textbf{Key materials} pairs client \& server: MAC key, write key and write IV \texttt{key\_block} = $h_2('A') || h_2('BB') || h_2('CCC') || \cdots$
+
+    with $h_2(X) = MD5(MS || SHA(X || MS || CR || SR ))$
+    \begin{itemize}
+      \item \texttt{key\_block} is the concatenation of the 6 keys
+      \item Nb of round depends on size of keys $\ra$ MD5 = 16 bytes per round
+      \item MS $\simeq$ pseudorandom seed value and CR and SR $\simeq$ salt values
+    \end{itemize}
+
+  }
+
+  \sectionbox{
   \subsection{Handshake Protocol}
     \subsubsection{Phase 1: Establish Security Capabilities (hello\_messages)}
       \begin{enumerate}
