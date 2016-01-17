@@ -1201,88 +1201,93 @@
       \end{itemize}
   }
 
-% Botnets
-\section{Botnets + Malware Development and Demo}
+\section{Botnets + Malware Development}
   \sectionbox{
-  \subsection{Objectives}
-  \begin{itemize}
-    \item Buildup efficient infection and spreading
-    \item prevent detection and removal
-    \item address changing functionality needs
-    \item handle large number of machines
-    \item to business and technology challenges
-    \item Anonymity prevent identification of operator
-  \end{itemize}
-  } \sectionbox{
-  \subsection{Target exploitation}
-  \begin{itemize}
-  \item Persist and avoid detection (explore, steal information, load functionality, maximize yield)
-  \item Move to active attacks (load attack functionality $\ra$ higher chance of detection)
-  \item Throw away agent (sell to idiots)
-  \end{itemize}
-
+  \subsection{Objectives to best utilize infected machines}
+    \begin{itemize}
+      \item \textbf{Buildup} efficient infection and spreading
+      \item \textbf{Persistence}: prevent detection and Removal
+      \item \textbf{Modularity}: address changing functionality needs
+      \item \textbf{Scalability}: handle large number of machines
+      \item \textbf{Adaptive}: to business and technology challenges
+      \item \textbf{Anonymity}: prevent identification of operator
+    \end{itemize}
   }
 
   \sectionbox{
-  \subsection{Bot command modes}
+    \subsection{Target exploitation}
+    \begin{itemize}
+      \item \textbf{Persist and avoid detection}: explore, steal information, load functionality, maximize yield
+      \item \textbf{Move to active attacks}: load attack functionality $\ra$ higher chance of detection
+      \item \textbf{Throw away agent}: sell to idiots
+    \end{itemize}
+  }
+
+  \sectionbox{
+  \subsection{Bot Command Modes}
     \includegraphics[width=\columnwidth]{img/bot-command-modes.png}
   }
 
   \sectionbox{
   \subsection{Exploitation Phases}
-  \begin{itemize}
-    \item ID Theft
-    \item Peer and Social Attacks (Trust misuse)
-    \item Local Attacks (Local Network, USB)
-    \item Attack Support (Host of Phising Site)
-    \item External/Noisy Attacks (Scanning, Spam, DDoS)
-  \end{itemize}
+    \begin{enumerate}
+      \item ID Theft (Keylogger, sniffer\ldots)
+      \item Peer and Social Attacks (Trust misuse)
+      \item Local Attacks (Local Network, USB, VPN)
+      \item Attack Support (Host of Phishing Site, Proxying)
+      \item External/Noisy Attacks (Scanning, Spam, DDoS)
+    \end{enumerate}
 
-  \textbf{CnC Topologies:} Star, multi-server, hierarchical, random
+    \textbf{CnC Topologies:} Star, multi-server, hierarchical, random
+  }
+
+  \sectionbox{
+  \subsection{CnC Topology}
+    \begin{itemize}
+      \item \textbf{Star}: Single centralized CnC (+ Speed of control, - 1 point of failure)
+      \item \textbf{Multi-server}: Multiple CnC communicating together (+ No single point of failure, + Geographical optimization, - Advanced planning required)
+      \item \textbf{Hierarchical}: Multiple layers below CnC (+ Botnet awareness, Ease or resale, - Latency)
+      \item \textbf{Random}: No centralized CnC (+ Highly resilient, - Latency,
+      - Botnet enumeration)
+    \end{itemize}
   }
 
   \sectionbox{
   \subsection{Fluxing Technologies}
   \begin{itemize}
-    \item IP-Flux: Constant change of IP address information related to a particular fully-qualified domain name (FQDN)
-    \item Domain Flux: Constant change and allocation of multiple fully-qualified domain names (FQDN)
-    \item Single-Flux: The FQDN of the CnC’s host has multiple IP addresses assigned (DNS A record)
-    \item Double-Flux: The name servers of the CnC’s FQDN as well as the FQDN of the CnC’s host have multiple IP addresses assigned (DNS A and NS records)
+    \item \textbf{IP-Flux}: Constant change of IP address information related to a particular fully-qualified domain name (FQDN) (cnc.net$\ra$multiple IPs)
+    \item \textbf{Domain Flux}: Constant change and allocation of multiple fully-qualified domain names (FQDN) (cnc.net, cnc.ru, abc.net$\ra$ multiple IPs)
+    \item \textbf{Single-Flux}: The FQDN of the CnC’s host has multiple IPs addresses assigned (DNS A record)
+    \item \textbf{Double-Flux}: The name servers of the CnC’s FQDN as well as the FQDN of the CnC’s host have multiple IP addresses assigned (DNS A and NS records)
   \end{itemize}
   }
 
   \sectionbox{
   \subsection{Malware Development Process}
-  Develop, Crypt, Protect, Pack, Bind, QA
-
-  }
-
-  \sectionbox{
-  \subsection{Detection Evasion Tactics}
-  \begin{itemize}
-    \item Create unique samples of malware at massive scale
-    \item Protect malware from analysis
-    \item Detect sandboxing
-    \item Test detectability before deployment
-   \end{itemize}
+    \begin{enumerate}
+      \item \textbf{Create} unique samples of malware at \underline{massive scale}
+      \item \textbf{Crypter}: encrypt malware to protect against signature detection
+      \item \textbf{Protector}: prevent debugging (against reverse engineering, sandboxing)
+      \item \textbf{Packers}: make it smaller + use polymorphism
+      \item \textbf{Binders}: hide it in another application
+      \item \textbf{Quality Assurance}: Test detectability before deployment
+    \end{enumerate}
   }
 
   \sectionbox{
   \subsection{Takedown}
-  legal and technical measures to sever the connection  between the CnC stucture the bot agents
+    Legal and technical measures to sever the connection between the CnC structure and the bot agents
   }
 
   \sectionbox{
   \subsection{Defense}
-  \begin{itemize}
-    \item Firewalls
-    \item Antivirus (up-to-date), know limits
-    \item patch
-    \item brain.exe
-   \end{itemize}
-
+    \begin{itemize}
+      \item Firewalls
+      \item Antivirus (up-to-date) but know its limits
+      \item Patch your system
+      \item brain.exe
+    \end{itemize}
   }
-
 
 % Security Ecosystem and Detection Failures
 \section{Security Ecosystem and Detection Failures}
