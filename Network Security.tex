@@ -863,15 +863,6 @@
       \end{itemize}
     }
 
-
-  % OCSP, CRL and how to protect against malicious CAs Certificate Transparency (CT)Merkle hash tree
-
-  % MD5 Collision Vulnerability
-  % Homograph Vulnerability
-  % Trust Roots for Entity Validation
-  % SCION Approach
-  % Aki Goals
-
 \section{Web Application Security}
   \sectionbox{
   \subsection{Top 10 Application Security Flaws}
@@ -1003,7 +994,6 @@
       \item Error messages can provide hints on which DB is used.
       \item \textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
     \end{itemize}
-
   }
 
   \sectionbox{
@@ -1016,66 +1006,58 @@
     \end{itemize}
   }
 
-  \section*{Cross-Site Scripting (XSS)}
+\section*{Cross-Site Scripting (XSS)}
   \sectionbox{
     \subsection{Same-origin policy}
-      A script can only access content and properties of a document loaded from the same origin.
-      \begin{itemize}
-        \item same protocol
-        \item same hostname
-        \item same port
-      \end{itemize}
-      URL path is ignored for the same-origin policy
+      A script can only access content and properties of a document loaded from the same origin ($\Leftrightarrow$ same protocol, same hostname, same port but ignoring URL path)
 
       \textbf{Interaction of different origins}
       \begin{itemize}
-        \item Link
-        \item Iframe: Shown inside me.tld but cannot exit iframe
-        \item POST: POSTing data to you.tld
-        \item script include: Evaluted in context of me.tld ($\ra$ dangerous)
+        \item Link (href)
+        \item iframe: Shown inside the website but can't exit iframe
+        \item POST: POSTing data to external source (php form \ldots)
+        \item script included: Evaluated in context of the website ($\Ra$ Dangerous)
         \item Asynchronous Requests (AJAX): Different origin only possible if allowed by target domain (with Access-Control-Allow-Origin Header)
       \end{itemize}
   }
 
   \sectionbox{
-  \subsection{Cross-Site Scripting (XSS) Attacks}
-  XSS flaws occur whenever a web app takes user supplied data and sends it to the browser without first \emph{validating} or \emph{encoding} the content.
+  \subsection{XSS Attacks}
+    XSS flaws occur whenever a web app takes user supplied datas and sends it to another web browser without first \emph{validating} or \emph{encoding} the content ($\Ra$ allows injection of malicious code).
 
-  \textbf{Target:} The user of the app insted of the app itself
+    \textbf{Target:} The user of the web app
 
-  \textbf{Infection path:} email, chat, uploaded files \ldots
+    \textbf{Infection path:} email, chat, uploaded files \ldots
 
-  \textbf{Dangerous content:} advertisments, user contributed content, widgets (counters, scripts \ldots)
-  } \sectionbox{
-  \subsection{XSS prevention}
-  \begin{itemize}
-  \item test your web app
-  \item input sanitization (check user submitted content)
-  \item HTML output encoding
-  \end{itemize}
-  } \sectionbox{
-  \subsection{Data Leakage Attack}
-  Attacker includes script that reads session cookies and sends them to an evil server. $\ra$ Solution: HTTPOnly cookies
-  } \sectionbox{
-  \subsection{Request Forgery (XSRF)}
-  A form form one domain posts a request to a different domain through an authenticated session.
+    \textbf{Dangerous content:} advertisements, user contributed content, widgets (counters, scripts \ldots)
 
-  \begin{itemize}
-  \item write-only attack
-  \end{itemize}
+    \textbf{Example}: Data Leakage = script reads session cookies and sends them to an evil server ($\ra$ Solution: HTTPOnly cookies)
 
-  \textbf{Solution:} CSRF Token, ask for password, check HTTP referer, show captcha
-  } \sectionbox{
-  \subsection{Script inclusion (XSSI)}
-
-  \emph{Never include a script you do not trust!}
-
-  Data is retrieved from the web server with a request on the API endpoint. The browser automatically sends cookie and the JavaScript function in the evil website is called with the AJAX return data.
-
-  \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
+    \subsubsection{Countermeasures}
+      \begin{itemize}
+        \item Test your web app
+        \item Input sanitization (check user submitted content)
+        \item HTML output encoding (escaping)
+      \end{itemize}
   }
 
+  \sectionbox{
+  \subsection{Request Forgery (XSRF)}
+    A form from one domain posts a request to a different domain through an authenticated session (= write-only attack)
 
+    \textbf{Countermeasures:} CSRF Token, ask for old password, check HTTP referer, show captcha
+  }
+
+  \sectionbox{
+  \subsection{Script inclusion (XSSI)}
+    \emph{Never include a script you do not trust!}
+
+    \textbf{Direct sourcing}: Malicious script directly include by careless dev.
+
+    \textbf{Call-back}: Use script from another website when user is still connected to this website from the malicious website.
+
+    \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
+  }
 
 % Malware
 \section{Malware}
