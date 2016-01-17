@@ -1064,24 +1064,30 @@
 
   \sectionbox{
   \subsection{Definitions}
-  \textbf{computer virus} is computer program which does: infection, propagation, mutation (polymorphism), executing malcode
+    \textbf{Malicious software (Malware)} is software that is intentionally included or inserted in a computer system for a harmful purpose.
 
-  \textbf{Malicious software (Malware)} is software that is intentionally included or inserted in a computer system for a harmful purpose.
+    \textbf{Trojan}: seemingly offers useful functionalities but contains hidden functionality which undermine system security
 
-  \textbf{Trojan} seemingly offers usefu functionality but contains hidden functionality which undermine system security
+    \textbf{Worm}: Software that can replicate itself from computer to computer across network connections
 
-  \textbf{Worm:} Software that can replicate itself from computer to computer across network connections
+    \textbf{Bot}: malicious software agent running on a compromised machine executing commands by the bot master by listening to the command and control center (\textbf{botnet}= all bots listening to the same C\&C)
 
-  \textbf{Bot:} malicious software agent running on a compromised machine executing commands by the bot master by listening to the command and control center
+    \textbf{Rootkit}: activate during boot, hides from OS
 
-  } \sectionbox{
-  \subsection{Malware on portable storage}
+    \textbf{Keylogger}: records keys pressed to steal information
 
-  \begin{itemize}
-  \item uses sneakernet as non-local propagation
-  \item variants: boot code virus (replaces boot sector), host program infection (embedding into executables)
-  \end{itemize}
-  } \sectionbox{
+    \textbf{Ransomware}: encrypt data and extort money for decryption key
+  }
+
+  \sectionbox{
+  \subsection{Malware on Portable Storage}
+    \begin{itemize}
+      \item Uses Sneakernet(people) as physical propagation
+      \item Variants: boot code virus (replaces boot sector), host program infection (embedding into executables)
+    \end{itemize}
+  }
+
+  \sectionbox{
   \subsection{Problem of malware}
 
   \begin{itemize}
@@ -1090,103 +1096,110 @@
     \item Espionage
     \item Lowering of system security
   \end{itemize}
-  } \sectionbox{
+  }
 
+  \sectionbox{
   \subsection{Malware detection}
+    \textbf{Goal:} Detect malware and disinfect system
 
-  \textbf{Goal:} Detect malware and disinfect system
+    \textbf{Deployment:} Endpoint, Network
 
-  \textbf{Deployment:} endpoint, network
+    \textbf{Evaluation:} Recognition rate (high true positive), False alarm rate
 
-  \textbf{Evaluation:} recognition rate (high true positive), false alarm rate
-
-
-  \subsubsection{Signature Based}
-  \begin{itemize}
-    \item Reactive (based on known malware binaries)
-    \item Signature database (keeps growing, polymorphism)
-    \item Metrics: update delay, coverage, resource consumption
-   \end{itemize}
-
-     \subsubsection{Behaviour Based}
-  \begin{itemize}
-    \item requires bahaviour model (ground truth, baseline)
-    \item problematic: user alerting
-   \end{itemize}
-
-   \subsubsection{Evaluating Antivirus products}
-
-   \begin{itemize}
-      \item Detection (reactive, proactive)
-      \item support for compression
-      \item self-protection
-      \item cleanup
-      \item enterprise deployment features
-    \end{itemize}
-  } \sectionbox{
-    \subsection{Advanced Presistent Threat}
-    Sophisitcated stealth customized attack on selected high value targets
-    \begin{itemize}
-      \item Advanced: sophisticated attack techniques
-      \item Persistent: might launch any time and hide well, hard to detect
-      \item Threat: specific objective, skilled, well funded
-     \end{itemize}
-  } \sectionbox{
-     \subsection{Antivirus Detection Evasion}
-     \begin{itemize}
-        \item Polymorphism
-        \item code obfuscation
-        \item encryption of code
-        \item code changes to prevent disassembly
-        \item sandbox detection
-        \item bootstrapping / multi stage
-      \end{itemize}
-  } \sectionbox{
-
-      \subsection{Worm Propagation Mechanism}
+    \subsubsection{Signature Based}
       \begin{itemize}
-        \item Select a target
-        \item contact target
-        \item check if target is vulnerable
-        \item exploit
-        \item install copy of worm
-        \item start copy
+        \item Reactive (based on known malware binaries)
+        \item Signature database (keeps growing, polymorphism)
+        \item Metrics: update delay, coverage, resource consumption
        \end{itemize}
 
-       Propagation speed: scan rate, vulnerable population, system compromise delay, worm transfer speed
+    \subsubsection{Behaviour Based}
+      \begin{itemize}
+        \item Requires behavior model (ground truth, baseline)
+        \item Problematic: user alerting (when is it a problem ?)
+       \end{itemize}
 
-
-       \subsubsection{SIS Model}
-       SIS: susceptible infected susceptible
-       \begin{itemize}
-          \item two states: susceptible and infected
-        \end{itemize}
-
-        $\rho (t)$ fraction of infected nodes \\
-        $\beta$: infection rate \\
-        $\delta$: cure rate\\
-        $k$: number of outgoing edges at each node\\
-        $\diff \rho (t) / \diff t = \beta k (1 - \rho (t)) \rho (t)  - \delta \rho (t)$\\
-  } \sectionbox{
-        \subsection{Worm Network Impact}
+     \subsubsection{Evaluation Antivirus Softwares}
         \begin{itemize}
-          \item ARP flooding
-          \item ICMP destination unreachable
-          \item higher network and traffic flows
-         \end{itemize}
-  } \sectionbox{
-         \subsection{Malware countermeasures}
-         \begin{itemize}
-            \item End system: patching, firewall, IPS, Antivirus
-            \item Anti-Virus: useful but not too effective
-            \item Monocultures are targeted first
-            \item Slow patching is a huge risk
-            \item Application whitelisting
-            \item No trusted intranet
-            \item Thin Client (e.g. ChromeOS)
-          \end{itemize}
+          \item Detection (reactive, proactive)
+          \item Support for compression
+          \item Self-protection
+          \item Cleanup
+          \item Enterprise deployment features
+        \end{itemize}
+  }
 
-          }
+  \sectionbox{
+  \subsection{Resistant Malware}
+    \subsubsection{Antivirus Detection Evasion}
+      \begin{itemize}
+         \item Polymorphism (signature won't recognize them)
+         \item Code obfuscation (Disguise actual purpose)
+         \item Encryption of code and messages
+         \item Code changes to prevent disassembly
+         \item Sandbox detection (act normal if monitored)
+         \item Bootstrapping / Multi Stage Worms
+       \end{itemize}
+
+    \subsubsection{Advanced Persistent Threat (APT)}
+      Sophisticated stealth customized attack on selected high value targets
+      \begin{itemize}
+        \item \textbf{Advanced}: sophisticated attack techniques
+        \item \textbf{Persistent}: might launch any time and hide well, hard to detect
+        \item \textbf{Threat}: specific objective, skilled, well funded
+      \end{itemize}
+
+      \textbf{Examples}: Aurora(2009) open backdoor, Stuxnet(2010)
+  }
+
+  \sectionbox{
+    \subsection{Worm Propagation Mechanism}
+      \begin{enumerate}
+        \item Select a target host address (hitlist, random scanning\ldots)
+        \item Contact target host
+        \item Check if target is vulnerable
+        \item Exploit vulnerability
+        \item Install copy of worm
+        \item Start copy
+        \item Goto 1
+      \end{enumerate}
+
+      \textbf{Propagation speed}: scan rate, vulnerable population, system compromise delay, worm transfer speed
+
+      \subsubsection{SIS Model (Susceptible-Infected-Susceptible)}
+        \includegraphics[scale=0.3]{img/SISmodel.png}
+
+        \begin{itemize}
+          \item Only two possible states: Susceptible or Infected
+          \item $\rho(t)$ fraction of infected nodes
+          \item $\beta$: infection rate
+          \item $\delta$: cure rate
+          \item $k$: number of outgoing edges at each node
+        \end{itemize}
+  }
+
+  \sectionbox{
+    \subsection{Worm Network Impact}
+      Primary network impact is due to scanning activity
+      \begin{itemize}
+        \item ARP flooding
+        \item High volume of ICMP destination unreachable msg
+        \item Higher network and traffic flows
+       \end{itemize}
+  }
+
+  \sectionbox{
+    \subsection{Malware countermeasures}
+     \begin{itemize}
+        \item End system: patching, firewall, IPS, Antivirus
+        \item Anti-Virus: useful but not too effective
+        \item Monocultures are targeted first (e.g. Windows)
+        \item Slow patching is a huge risk
+        \item Application whitelisting
+        \item No trusted intranet
+        \item Thin Client (e.g. ChromeOS)
+      \end{itemize}
+  }
 
 % Botnets
 \section{Botnets + Malware Development and Demo}
@@ -1208,11 +1221,14 @@
   \item Throw away agent (sell to idiots)
   \end{itemize}
 
-  } \sectionbox{
-  \subsection{Bot command modes}
+  }
 
-  \includegraphics[width=\columnwidth]{img/bot-command-modes.png}
-  } \sectionbox{
+  \sectionbox{
+  \subsection{Bot command modes}
+    \includegraphics[width=\columnwidth]{img/bot-command-modes.png}
+  }
+
+  \sectionbox{
   \subsection{Exploitation Phases}
   \begin{itemize}
     \item ID Theft
