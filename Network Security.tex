@@ -1052,9 +1052,9 @@
   \subsection{Script inclusion (XSSI)}
     \emph{Never include a script you do not trust!}
 
-    \textbf{Direct sourcing}: Malicious script directly include by careless dev.
+    \textbf{Direct sourcing}: honest server includes untrusted code from an external source
 
-    \textbf{Call-back}: Use script from another website when user is still connected to this website from the malicious website.
+    \textbf{Call-back}: attacker’s website includes code (e.g.: scripts to send money) from an honest server which do not verify that the user really intended to execute it.
 
     \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
   }
@@ -1288,39 +1288,65 @@
   }
 
 % E-Mail Spam
-  \section{E-Mail Spam}
+\section{E-Mail Spam}
   \sectionbox{
-  \subsection{Define Spam}
-    \textbf{UCE}: Unsolicited Commercial Email
+  \subsection{Generalities about Spam}
+    \subsubsection{Types of Spam}
+      \textbf{UCE}: Unsolicited Commercial Email
 
-    \textbf{UBE}: Unsolicited Bulk Email (not nescessaryliy commercial)
-  } \sectionbox{
-  \subsection{Blacklists}
-    How Realtime Blacklists Lists Differ:
-    \begin{itemize}
-      \item Nomination (how to get on the list)
-      \item Listing lifetime (how to get off the list)
-      \item Cost
-      \item Operator
-      \item Goal
-    \end{itemize}
+      \textbf{UBE}: Unsolicited Bulk Email (not necessarily commercial)
 
-    Blacklist Caveats:
+    \subsubsection{Where to get emails addresses}
+      \begin{itemize}
+        \item Directory Harvest Attack (DHA) against mail server
+        \item Email address crawlers
+        \item Malware
+        \item Harvesting email addresses from databases
+      \end{itemize}
+
+    \subsubsection{Spam Sending Tactics}
+      \begin{itemize}
+        \item Send from borrowed email accounts
+        \item Send from short-term officially registered domain
+        \item Use fake sender domains
+        \item Sending spam from botnet machines
+        \item Open mail relays (anyone can do it)
+        \item Open proxies
+      \end{itemize}
+  }
+
+  \sectionbox{
+  \subsection{Anti-Spam Techniques}
     \begin{itemize}
-      \item Blacklist evasion (spammer use botnet machines, stolen email accounts)
-      \item Denial of service (if you are on blacklists $\rightarrow$ sucks)
+      \item \textbf{Filter at SMTP time}: lack info. to decide
+      \item \textbf{DNS Blacklists}:
+        \begin{itemize}
+          \item Greylisting: defer 1st email but accept follow-up email (issues with delays and multiple SMTP hosts of larger hosters)
+          \item Blacklisting(DNSBL): can be done either with IP or domain name
+        \end{itemize}
+      \item \textbf{Filtering SMTP traffic at FW}: block outgoing SMTP msg not from SMTP server (prevent email-based worms)
+      \item \textbf{Heuristical Content Filtering}: look at weird font, strange URL \ldots)
+      \item \textbf{Statistical Content Filtering}:\\
+      $P(spam|words) = \frac{P(words|spam)P(spam)}{P(words)}$
+      \item \textbf{Traffic Based Filtering}: Compare flux of emails to recognize bulk mail (DCC = Distributed Checksum Clearinghouse)
+      \item \textbf{Image Spam Filtering}: OCR on images before filtering
+      \item \textbf{Text Filtering Caveats}: Normalize content before filtering text
     \end{itemize}
   }
+
   \sectionbox{
-  \subsection{Email Auth}
+  \subsection{Email Authentication}
     \begin{itemize}
-      \item DomainKeys Identified Mail (DKIM): Pub/Priv Key Signing; pubkey distributed via DNS
-      \item Sender Policy Framework: Domain owners publish list of IPs that are authorized
-      \item SenderID: Match PRA domain against source IP via DNS (PRA is often From: header)
+      \item \textbf{S/MIME}(Secure/MIME): sign and encrypt only msg content (not header)
+      \item \textbf{PGP}(Pretty Good Privacy): auth + encry with Web of Trust
+      \item \textbf{DKIM}(DomainKeys Identified Mail): Sign mails between servers
+      \item \textbf{SPF}(Sender Policy Framework): List of IPs allowed to send emails
+      \item \textbf{SenderID}: Match PRA domain against source IP via DNS (PRA is often From: header)
     \end{itemize}
 
     \includegraphics[width=\columnwidth]{img/emailauth.png}
   }
+
 \section{Guest Lectures}
   \sectionbox {
   \subsection{DMZ}
