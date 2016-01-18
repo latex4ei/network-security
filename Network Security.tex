@@ -1376,9 +1376,34 @@
 
 \section{Guest Lectures}
   \sectionbox {
-  \subsection{DMZ}
-    Compromised hosts in DMZ are no danger for internal network e.g.:(external - webserver(dmz) - database(internal))
+  \subsection{Trusted Computing by Swisscom}
+    Trust is based on 3 conditions
+    \begin{enumerate}
+      \item \textbf{Positive Intention} (always positive intentions)
+      \item \textbf{Transparency and predictability}
+      \item \textbf{Reliability and continuity} (long strong trust)
+    \end{enumerate}
+
+    Need to secure hardware first to have secure software :
+    \begin{enumerate}
+      \item Vendor Flash (MicroCode) initialize TPM
+      \item Microcode initiate boot sequence of Firmware
+      \item During boot time BIOS + tboot log every steps in TPM + hash it
+      \item Boot sequence reported during secure boot sent to attestation server
+      \item Attestation server checks with previously recorded reference values
+      \item Integrity confirmed or rejected (contact Whitelist server)
+      \item Integrity checked; boot or stop ($\simeq$3 minutes)
+    \end{enumerate}
+
+    \begin{itemize}
+      \item \textbf{TPM}: Trusted Platform Module
+      \item \textbf{TEE}: Trusted Execution Environment (e.g. Trust Zone)
+      \item \textbf{TXT}: Trusted Execution Technology (SecureBoot)
+      \item \textbf{SE}: Secure Elements (e.g. SIM- Card MobileID)
+      \item \textbf{CIT}: Cloud Integrity Technology
+    \end{itemize}
   }
+
   \sectionbox {
   \subsection{Certificate Transparency  main goals}
     \begin{itemize}
