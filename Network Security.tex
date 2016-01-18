@@ -1405,12 +1405,39 @@
   }
 
   \sectionbox {
-  \subsection{Certificate Transparency  main goals}
-    \begin{itemize}
-      \item Make it impossible (or at least very difficult) for a CA to issue a SSL certificate for a domain without the certificate being visible to the owner of that domain.
-      \item Provide an open auditing and monitoring system that lets any domain owner or CA determine whether certificates have been mistakenly or maliciously issued.
-      \item Protect users from being duped by certificates that were mistakenly or maliciously issued.
-    \end{itemize}
-}
+  \subsection{Air Traffic Control by ArmaSuisse}
+      Current Air Traffic Control use 2 systems synchronized:
+      \begin{itemize}
+        \item \textbf{PSR}(Primary Surveillance Radar): Independent surveillance made with ground based radar
+        \item \textbf{SSR}(Secondary Surveillance Radar): Dependance surveillance using transponder-based interrogation
+      \end{itemize}
+
+      \underline{Problems}: high cost, low accuracy
+
+      Future Air Traffic Control $\ra$ \textbf{ADS-B}
+      \begin{itemize}
+        \item \textbf{A}utomatic: Always on (no explicit interrogation)
+        \item \textbf{D}ependent: On-board system provides info to other parties
+        \item \textbf{S}urveillance: Precise info (altitude, ID, speed)
+        \item \textbf{B}roadcast: Send to everyone equipped to receive the data
+      \end{itemize}
+
+      \underline{Problems}: No CIA(A), assume everything can be trusted
+      \begin{itemize}
+        \item Eavesdropping: cheap hardware and not encryption (flightradar24.com)
+        \item Active attacks: message injection/deletion/modification
+          \begin{itemize}
+            \item Ghost Aircraft Flooding $\ra$ DOS on surveillance system
+            \item Virtual Trajectory Modification
+            \item \ldots
+          \end{itemize}
+      \end{itemize}
+
+      \underline{Solutions}: Large Sensor Deployment to check, \ldots
+      \begin{itemize}
+        \item Time Difference of Arrival (TDoA) $\Ra$ Position validation
+        \item Secure Track Verification (No need for tight time synchronisation)
+      \end{itemize}
+  }
 
 \end{document}
