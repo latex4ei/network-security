@@ -1440,4 +1440,25 @@
       \end{itemize}
   }
 
+  \sectionbox{
+  \subsection{Fighting Cybercrime as a CERT by SWITCH}
+    \textbf{SWITCH} = non-profit foundation of Swiss Universities, ISP for Universities + in charge of the .ch + monitors flows to detect bots in Switzerland and fake .ch website (usually hosted outside of Switzerland)
+
+    \textbf{CERT}(Computer Emergency Response Team) = support, protect and prevent, internationally networked
+
+    \textbf{Retefe Malware} = Banking Trojan targeting CHE, SWE and JPN
+    \begin{enumerate}
+      \item Executable in an email installs a new root certificate + reconfigure proxy to re-route traffic for targeted banking websites.
+      \item When the victim try to reach his bank's website, the malicious DNS server returns the IP address of a rogue web-server containing a copy of the website.
+      \item No certificate warning from browser because of fake root certificate.
+      \item Victim types in his username, password and send it to the attacker through the fake website.
+      \item Then fake website propose to install a smartphone app to be able to forward the bank's mTan to the attacker.
+      \item Attacker has full control and use another compromised PC in the geographical area as a proxy to connect to the bank account of the victim.
+    \end{enumerate}
+
+    \includegraphics[width=\columnwidth]{img/Retefe-Malware.png}
+
+    \textbf{Carbanak Cybergang} stole \$1bn from 100 banks directly. Malware install on admin computer (targeted attacks). Attackers spies on them to learn how to use the specific money transfer software of each bank.
+  }
+
 \end{document}
