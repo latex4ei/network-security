@@ -1461,4 +1461,23 @@
     \textbf{Carbanak Cybergang} stole \$1bn from 100 banks directly. Malware install on admin computer (targeted attacks). Attackers spies on them to learn how to use the specific money transfer software of each bank.
   }
 
+  \sectionbox{
+  \subsection{Malware Analysis and Prevention by Symantec}
+    \textbf{The 3 Main Attack Vectors}:
+    \begin{enumerate}
+      \item \textbf{Spear Phishing}: Email with link or malicious attachment
+      \item \textbf{Drive-by download attack}: Website uses an exploit to drop malware
+      \item \textbf{Supply-chain hack}: Compromise vendors and supplier software
+    \end{enumerate}
+	  \textbf{Malware analysis procedure}
+	  \begin{enumerate}
+  	  \item Get a sample from customers, traps, crawlers\ldots
+  	  \item Automated analysis (VirusTotal.com, ThreatExpert\ldots)
+  	  \item Blackboxing(Sandboxing): monitor all operating system calls (behavior)
+  	  \item Whiteboxing: Disassembling/debugging code to understand it $\ra$ need to bypass code obfuscation and understand the domain generation algorithm (DGA)
+  	  \item write description of the threat and create a signature to block it
+  	  \item start again (The analysis hamster wheel)
+	  \end{enumerate}
+  }
+
 \end{document}
