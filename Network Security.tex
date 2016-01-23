@@ -16,13 +16,13 @@
 
   \sectionbox{
   \subsection{Security Trends}
-    Network security is an issue since \emph{critical infrastructures} in the open systems with a growing user base (\ra \emph{increasing risk}) are threatend by \emph{organized crime}.
+    Network security is an issue since \emph{critical infrastructures} in the open systems with a growing user base (\ra \emph{increasing risk}) are threatened by \emph{organized crime}.
   }
   \sectionbox{
   \subsection{Security Threats}
     \textbf{Asymmetric Threat:} Defenders must protect against all exploits on all systems but attackers can attack only a few.
 
-    \textbf{Attacker Motivation:} Ego, Revenge, Destruction, Criminal intend, Aquisition of resources, Acquistion of sensitive information
+    \textbf{Attacker Motivation:} Ego, Revenge, Destruction, Criminal intend, Acquisition of resources, Acquisition of sensitive information
   }
   \sectionbox{
   \subsection{Security Concepts}
@@ -35,10 +35,9 @@
 
      Also: Authenticity, Accountability(Responsability), Nonrepudiation (Can't deny), Privacy
 
-     (Classification by Steve Kent)
-     \textbf{Passive attacks:} Confidentiality (Content compromise, Traffic analysis)
+     \textbf{Passive attacks:} Confidentiality (Eavesdropping, Content compromise, Traffic analysis)
 
-     \textbf{Active attacks:} Availabilty (Denial of service), Integrity and Authenticity (Modification, Replay, Fabrication)
+     \textbf{Active attacks:} Availability (Denial of service), Integrity and Authenticity (Modification, Replay, Fabrication)
 
      \textbf{Secure Channel:} secure = authentic (of the sender) and confidential (no eavesdropping)
 
@@ -80,6 +79,7 @@
    \begin{itemize}
      \item Stateless protocol (Server doesn't know which client connects again)
      \item Status Code : 1xx info, 2xx success, 3xx redirection, 4xx client error, 5xx server error
+     \item HTTP\_REFERER : header field, identifies address of webpage  that linked to the resource being requested (due to proxy not always set)
      \item HTTP methods : GET, POST, PUT, DELETE, HEAD
      \item HTTP cookie : name$\leftrightarrow$value (expiration date, stored by client)
      \begin{itemize}
@@ -111,23 +111,27 @@
 
     \includegraphics[width=\columnwidth]{img/VUL-LC.png}
 
-    \textbf{Numbers:}\\
-    50 \% of vulnerabilities known to insiders 30 or more days before disclosure (less-than-zero-day)
-
-    At disclosure:  $\approx 50 \%$ unpatched
-
-    A month after disclosure: $\approx 50 \%$ unpatched \\
-
     \textbf{Zero-day} Date when the vulnerability becomes known by the public
 
     \textbf{Zero-day-exploit} Attack that exploits a previously unknown vulnerability
+
+    \textbf{Numbers:}\\
+    50 \% of vulnerabilities known to insiders 30 or more days before disclosure (less-than-zero-day)
+
+    At disclosure (zero-day):  $\approx 50 \%$ unpatched + $\approx 80 \%$ exploits available
+
+    Exploit availability jumps from 15\% to 80\% after disclosure
+
+    A month after disclosure: $\approx 30 \%$ unpatched
   }
+
+  % Move the numbers in the section below
   \sectionbox{
   \subsection{Dynamics of (In) Security}
     \begin{itemize}
       \item extremely high dynamics around the disclosure
       \item exploit availability stays higher than the patch availability
-      \item insiders: may know undisclosed vulnerabilites
+      \item insiders: may know undisclosed vulnerabilities
     \end{itemize}
 
     \textbf{Gap of insecurity:} Difference between the exploit and patch (the bad a consistently faster than the good)
@@ -163,12 +167,28 @@
   \subsection{Identity and Identity Theft}
     \textbf{Authentication:} Authentication is the process of verifying an identity claim of an entity. It binds the principal to an identity
 
-    \textbf{Criteria:}
+    \textbf{Levels of Anonymity}
+    \begin{itemize}
+      \item \textbf{Identity}: actual principal is known (Public pseudonyms)
+      \item \textbf{Pseudonymity}: indirectly known as the holder of a specific pseudonym (Actual principal is not disclosed) (non-public pseudonyms but known by system operators)
+      \item \textbf{Anonymity}: Principal is known to be part of a defined set. The members of the set cannot be distinguished individually. (Actual principal is not disclosed.) (unlinkable pseudonyms)
+    \end{itemize}
+
+    \textbf{Authentication Criteria:}
     \begin{itemize}
       \item Something an entity knows (e.g. password, PIN)
       \item Something an entity has (e.g. key, card)
       \item Something an entity is (e.g. biometric characteristic)
       \item rarely used: location, ability
+    \end{itemize}
+
+    \textbf{Types of ID Theft}
+    \begin{itemize}
+      \item Financial Identity Theft: using someone else credit card, using another's name and SSN to obtain goods and services (e.g. open a bank account, purchase on invoice)
+      \item Criminal Identity Theft: posing as another when apprehended for a crime
+      \item Identity Cloning: using another's information to assume his or her
+identity in daily life
+      \item Business/Commercial Identity Theft: using another's business name to obtain credit
     \end{itemize}
 
     \textbf{Weak authentication:} checking only one authentication criteria
@@ -258,61 +278,70 @@
     \includegraphics[width=\columnwidth]{img/firewallrule.png}
 
     \subsubsection{Stateless Firewall}
-    Functionality: examine on network layer, decision based on header
+      Examine on network layer, decision based on header
 
-    Pro: application independent, good performance
+      \underline{Pro}: application independent, good performance
 
-    Cons: no state or application context
+      \underline{Cons}: no state or application context, can't prevent probing
 
     \subsubsection{Stateful Firewall}
-    keeps track of state. Decision based on \emph{session state}
+      Keeps track of state. Decision based on \emph{session state}
 
-    Pro: more powerful
+      \underline{Pro}: more powerful
 
-    Cons: no state for UDP, host vs. firewall state, state explosion
+      \underline{Cons}: no state for UDP, host vs. firewall state, state explosion
 
     \subsubsection{Application Layer Firewall}
-    take application state into account
+      Take application state into account
 
-    Pro: application aware
+      \underline{Pro}: application aware
 
-    Cons: many application protocols, performance
+      \underline{Cons}: many application protocols, performance
 
     \subsubsection{Web Application Firewall}
-    protects web-based applications from malicious requests (often reverse proxy)
+      Protects web-based applications from malicious requests (often reverse proxy)
+      \underline{Filtering}: signatures, black/whitelisting
+    }
 
-    Filtering: signatures, black/whitelisting
-    } \sectionbox {
+    \sectionbox {
     \subsection{Firewall Attack techniques}
-    \begin{itemize}
-    \item IP source spoofing
-    \item artificial fragmentation
-    \item vulnerabilities
-    \item Denial of Service (state explosion)
-    \item Tunnelling/Covert channel (ICMP, DNS, \ldots)
-    \end{itemize}
-  } \sectionbox {
-  \subsection{Firewall detection}
-    Port scanning: traceroute, src IP of response
+      \begin{itemize}
+        \item IP source spoofing
+        \item Artificial Fragmentation
+        \item Vulnerabilities
+        \item Denial of Service (state explosion)
+        \item Tunnelling/Covert channel (ICMP, DNS, \ldots)
+      \end{itemize}
+  }
 
-    TTL:  let expire TTL one hop past firewall
-    } \sectionbox {
-    \subsection{Oranizational challenges}
+  \sectionbox {
+  \subsection{Firewall detection}
+    \begin{itemize}
+      \item \textbf{Port scanning}: traceroute, source IP of response
+      \item \textbf{TTL}: let expire TTL one hop past firewall
+    \end{itemize}
+  }
+
+  \sectionbox {
+  \subsection{Oranizational challenges}
     \begin{itemize}
       \item Large rulesets
-      \item Big Organisations
+      \item Big Organizations
       \item Conflict: Networking vs. security staff
     \end{itemize}
-  } \sectionbox {
+  }
+
+  \sectionbox {
   \subsection{IP Tables}
     Netfilter rule:
     iptables -A INPUT -i eth0 -m state --state ESTABLISHED, RELATED -j ACCEPT
 
     Iptables rule:  iptables -A INPUT -p tcp -s 0/0 -d 0/0 --destination-port 80 --syn -j ACCEPT
     \includegraphics[width=\columnwidth]{img/netfilter.png}
-   }
-   \sectionbox {
-   \subsection{NAT (Network Address Translation)}
+  }
+
+  \sectionbox {
+  \subsection{NAT (Network Address Translation)}
     One-to-many (multiple hosts on private network using the same public IP address). IP Address rewriting.
 
     \textbf{Benefits}: Saves address space + Prevents malicious activity from outside (Don't use it for security as a Firewall)
@@ -325,44 +354,44 @@
 
     \includegraphics[width=\columnwidth]{img/nathole.png}
   }
+
   \sectionbox{
   \subsection{Intrustion Detection and Prevention Systems}
     try to detect intrusions on the network by comparing to attack signatures. Block traffic after detection.
 
     \subsubsection{Classification}
-    \textbf{Object of observation:}
+      \textbf{Object of observation:}
 
-    Packet:
+      Packet:
 
-    Flow: scalabilty (+), encryption (+), not content-based (-)
+      Flow: scalability (+), encryption (+), not content-based (-)
 
-    \textbf{Point of observation:}
+      \textbf{Point of observation:}
 
-    Host: hard deployment (-), context information (+), one sensore per machine (+)
+      Host: hard deployment (-), context information (+), one sensore per machine (+)
 
-    Network: easy deployment (+), multiple machines (+), unknown machines(-), preformance (-)
+      Network: easy deployment (+), multiple machines (+), unknown machines(-), performance (-)
 
-    \textbf{Method of observation:}
+      \textbf{Method of observation:}
 
-    Signature: precision (+), not detecting unknown attacks (-)
+      Signature: precision (+), not detecting unknown attacks (-)
 
-    Behavior: unknown attacks (+), difficult to find ground truth (-), false positives (-)
+      Behavior: unknown attacks (+), difficult to find ground truth (-), false positives (-)
 
     \subsubsection{Challenges}
-    \begin{itemize}
-    \item false alarms
-    \item high network speeds
-    \item sensor management and signature distribution
-    \item policy management
-    \item manpower
-    \end{itemize}
+      \begin{itemize}
+        \item false alarms
+        \item high network speeds
+        \item sensor management and signature distribution
+        \item policy management
+        \item manpower
+      \end{itemize}
 
     \subsubsection{Attacks}
-    \begin{itemize}
-    \item Flooding / resource exhaustion
-    \item algorithmic Complexity Attacks (e.g. on hash table)
-
-    \end{itemize}
+      \begin{itemize}
+        \item Flooding / resource exhaustion
+        \item algorithmic Complexity Attacks (e.g. on hash table)
+      \end{itemize}
   }
 
 
@@ -391,47 +420,63 @@
     \textbf{Stub resolver:} Forwards request to recursive name server (typically used by end-hosts)
 
     \textbf{Caching:} Reduces overhead. Lifetime controlled by TTL
+
+    \texttt{dig URL\_TO\_LOOKUP \@DNS\_SERVER} = make a request to a specific DNS
+
+    \texttt{whois IP\_OR\_URL\_TO\_LOOKUP} = get information on a specific IP or URL
+
+    \texttt{nslookup URL\_TO\_LOOKUP} = get IP address from a URL (don't use OS local DNS as \texttt{dig})
   }
+
   \sectionbox{
   \subsection{Attacks on DNS}
     \subsubsection{Denial of Service on DNS}
-    Targeting the 13 DNS root servers which are a bottleneck resource. However over-provisioning (13 clusters) + Anycast (\textgreater 500) (1 address to multiple potential receivers) prevents most attacks.
+      Targeting the 13 DNS root servers which are a bottleneck resource. However over-provisioning (13 clusters) + Anycast (\textgreater 500) (1 address to multiple potential receivers) prevents most attacks.
 
     \subsubsection{Account-Takeover}
-    Attacking the web interfaces of registrars and try to enter malicious name servers.
+      Attacking the web interfaces of registrars and try to enter malicious name servers.
 
     \subsubsection{Manipulate local DNS settings}
-    \begin{itemize}
-    \item Manipulate local host configurations (access to the local machine nescessary)
-    \item Spoof DHCP replies (access to LAN nescessary) \ra countermeasure: authentication for DHCP messages
-    \item Set up Malicious DHCP server that is faster than the valid one
-    \end{itemize}
+      \begin{itemize}
+        \item Manipulate local host configurations (access to the local machine nescessary)
+        \item Spoof DHCP replies (access to LAN nescessary) \ra countermeasure: authentication for DHCP messages
+        \item Set up Malicious DHCP server that is faster than the valid one
+      \end{itemize}
 
     \subsubsection{Manipulate DNS lookup process}
+      \textbf{Bailiwick Checking:} Is the server authorized to respond to DNS requests for the domain.
 
-    \textbf{Bailiwick Checking:} Is the server authorized to respond to DNS requests for the domain.
+      \textbf{Weak authentication:} Port, TXID, Query string - first good answer wins
 
-    \textbf{Weak authentication:} Port, TXID, Query string - first good answer wins
-
-    3 possible answers to DNS queries:
-    \begin{itemize}
-      \item Here is your answer
-      \item go away
-      \item I don't know ask \ldots
-    \end{itemize}
+      3 possible answers to DNS queries:
+      \begin{itemize}
+        \item Here is your answer
+        \item go away
+        \item I don't know ask \ldots
+      \end{itemize}
 
 
     \subsubsection{The Kaminsky Attack}
-    \begin{itemize}
-    \item Inject query on the client \textit{\$Random}.www.bank.com
-    \item reply multiple times  (TXID 0-200)
-    \item Send name server redirections
-    \end{itemize}
-    $\Ra$ Fix: Source Port Randomization. Chance: $65536 \cdot (65536 - 1024)$ to 1
+      \begin{itemize}
+        \item Inject query on the client \textit{\$Random}.www.bank.com
+        \item reply multiple times  (TXID 0-200)
+        \item Send name server redirections
+      \end{itemize}
+      $\Ra$ Fix: Source Port Randomization. Chance: $65536 \cdot (65536 - 1024)$ to 1
   }
 
   \sectionbox{
   \subsection{DNSSEC}
+    \textbf{DNS record types specific to DNSSEC}
+    \begin{itemize}
+      \item \textbf{ZSK}: Zone-Signing Keys (RRset signed with ZSK\_priv $\ra$ RRSIG)
+      \item \textbf{RRSet}: Resource Record Set
+      \item \textbf{RRSIG}: Contains a cryptographic signature
+      \item \textbf{KSK}: Key-Signing Keys 
+      \item \textbf{DNSKEY}: Contains a public signing key
+      \item \textbf{DS}: Contains the hash of a DNSKEY record
+    \end{itemize}
+
     Provides:
     \begin{itemize}
       \item Authenticity
@@ -444,6 +489,7 @@
       \item No confidentiality
       \item No protection against DoS
       \item Must be installed from a trusted source
+      \item Must be deployed at each step in the domain lookup
     \end{itemize}
 
     All records are signed: Key pairs for each zone $\ra$ Integrity
@@ -471,19 +517,21 @@
       \item Backup and Fast Recovery
     \end{itemize}
   }
+
   \sectionbox{
     \subsection{Denial of service}
-    DoS: Resource starvation of CPU, Storage, Network
+    DoS: Resource \textbf{Starvation} of CPU, Storage, Network
 
     Attacks:
     \begin{itemize}
-      \item SYN-Flood: Spam Server with TCP SYNs $\rightarrow$ needs to keep state $\rightarrow$ Solution: Choose carefully constructed initial sequence number (crypto based)
+      \item SYN-Flood: Spam Server with TCP SYNs $\ra$ needs to keep state\\ \underline{Solution}: Choose carefully constructed initial sequence number (crypto based)
       \item Compression Bomb
       \item Source Spoofing/Reflector Attack
       \item Mail Bounce: reply-to: @victim.com, To: and multiple Bcc: @target.com
       \item DNS Amplification: Send small request to recursive servers with spoofed source
     \end{itemize}
   }
+
   \sectionbox{
   \subsection{Dos Countermeasures}
     Prevention
@@ -510,131 +558,135 @@
 
   \sectionbox{
   \subsection{Security by Layer of the TCP/IP Model}
-  Properties of a secure channel: secure = authentic and confidential
+    Properties of a secure channel: secure = authentic and confidential
 
-  \subsubsection{Security at Link Layer}
-  \begin{itemize}
-  \item All traffic over a specific Link
-  \item Often implemented in hardware
-  \end{itemize}
+    \subsubsection{Security at Link Layer}
+      \begin{itemize}
+      \item All traffic over a specific Link (WPA2 uses AES)
+      \item Often implemented in hardware (Quantum Cryptography)
+      \end{itemize}
 
-  Pro: Speed, Seamless
+      \underline{Pro}: Speed, Seamless
 
-  Drawbacks: every link seperately, trust in link operator
+      \underline{Cons}: every link separately, trust in link operator
 
-  \subsubsection{Security at Internet Layer}
-  secure traffic over multiple links between end points (e.g. IPSec)
+    \subsubsection{Security at Network Layer}
+      secure traffic over multiple links between end points (IPSec, OpenVPN, L2TP)
 
-  Pro: seamless security to above layers, IPSec part of IPv6 + IPv4
+      \underline{Pro}: seamless security to above layers, IPSec part of IPv6 + IPv4
 
-  Cons: complex configuration, tunnel mode encrypts only part of a route
+      \underline{Cons}: complex configuration, tunnel mode encrypts only part of a route
 
+    \subsubsection{Security at Transport Layer}
+      Implemented in end-hosts (e.g. TLS/SSL, SSH)
 
-  \subsubsection{Security at Transport Layer}
-  e.g. TLS/SSL, SSH
+      \underline{Pro}: can be added to existing apps, portable and easy configuration
 
-  implemented in end-hosts
+      \underline{Cons} (of TLS): protocol specific(TCP), application must be TLS/SSL aware
 
-  Pro: can be added to existing apps, portable and easy configuration
+    \subsubsection{Security at Application Layer}
 
-  Cons (of TLS): protocol specific, application must be TLS/SSL aware
+      implemented in end hosts (PGP, S/MIME, Skype, \ldots)
 
+      \underline{Pro}: extend app without involving OS, applications understand data
 
-  \subsubsection{Security at Application Layer}
-
-  implemented in end hosts (PGP, S/MIME, Skype, \ldots)
-
-  Pros: extend app without involving OS, applications understand data
-
-  Cons: seperate security for each app
+      \underline{Cons}: separate security for each app
   }
 
   \sectionbox{
   \subsection{VPN}
-  connect networks or machines over an existing network
+    Securely interconnect networks or machines over an existing network.\\
+    IPSec, L2TP, OpenSSH, SSL/TLS can tunnel entire network's traffic (OpenVPN).\\
 
-  \subsubsection{Tunnel mode}
-  \includegraphics[width=\columnwidth]{img/vpntunnel.png}
-  \begin{itemize}
-  \item encrypt and authenticate orgininal IP packet
-  \item transport htis as payload in new IP packet
-  \end{itemize}
-  \includegraphics[width=\columnwidth]{img/vpntunnel2.png}
-  \subsubsection{Transport mode}
-  \includegraphics[width=\columnwidth]{img/vpntransport.png}
-  \begin{itemize}
-  \item end-to-end communication between hosts
-  \item encrypt and authenticate payload only
-  \end{itemize}
-  \includegraphics[width=\columnwidth]{img/vpntransport2.png}
+    \subsubsection{Tunnel Mode (Gateway-to-Gateway)}
+      \includegraphics[width=\columnwidth]{img/vpntunnel.png}
+      \begin{itemize}
+        \item Encrypt and Authenticate original IP packet
+        \item Transport it as payload in new IP packet
+        \item \textbf{IPSec Tunnel Mode} packet architecture :
+      \end{itemize}
+      \includegraphics[width=\columnwidth]{img/vpntunnel2.png}
 
-  \begin{itemize}
-  \item encryption
-  \item randomized IVs
-  \item replay protection
-  \item authentication (HMAC)
-  \end{itemize}
+    \subsubsection{Transport Mode (End-to-End)}
+      \includegraphics[width=\columnwidth]{img/vpntransport.png}
 
-  \subsubsection{Security Association (SA)}
-  A Security Association (SA) is the establishment of shared security attributes between two network entities to support secure communication. An SA may include attributes such as: cryptographic algorithm and mode; traffic encryption key; and parameters for the network data to be passed over the connection.
-  } \sectionbox{
+      \begin{itemize}
+        \item End-to-End communication between hosts
+        \item Encrypt and Authenticate payload only
+        \item \textbf{IPSec Transport Mode} packet architecture :
+      \end{itemize}
+
+      \includegraphics[width=\columnwidth]{img/vpntransport2.png}
+
+      IPSec also provide the following features:
+      \begin{itemize}
+        \item Randomized IVs
+        \item Replay protection
+        \item Authentication (HMAC)
+      \end{itemize}
+
+    \subsubsection{Security Association (SA)}
+      A Security Association (SA) is the establishment of shared security attributes between two network entities to support secure communication. An SA may include attributes such as: cryptographic algorithm and mode; traffic encryption key; and parameters for the network data to be passed over the connection.
+  }
+
+  \sectionbox{
   \subsection{Message Authentication Code (MAC)}
-  Provide data and integrity
-  \begin{itemize}
-  \item message not modigied in transit
-  \item source is authentic
-  \item not delayed
-  \item sequence order
-  \end{itemize}
+    Provide data and integrity
+    \begin{itemize}
+      \item message not modified in transit
+      \item source is authentic
+      \item not delayed
+      \item sequence order
+    \end{itemize}
 
-  MAC (K, M) = DES (K, M) take last 32 bits
+    MAC (K, M) = DES (K, M) take last 32 bits
 
-  \subsubsection*{HMAC (Mac with Hash functions)}
-  \begin{itemize}
-  \item use hash functions (MD5, SHA)
-  \item faster
-  \item easy availible
-  \end{itemize}
+    \subsubsection*{HMAC (Mac with Hash functions)}
+    \begin{itemize}
+      \item use hash functions (MD5, SHA)
+      \item faster
+      \item easy available
+    \end{itemize}
 
-  HMAC (K, M) = H(K' xor opad | H (K' xor ipad | M))
+    HMAC (K, M) = H(K' xor opad | H (K' xor ipad | M))
+  }
 
-
-  } \sectionbox{
+  \sectionbox{
   \subsection{SSH}
-  standard for remote login and encrypted file transfer
+    Standard for remote login and encrypted file transfer.\\
+    Doesn't protect against classic TCP attacks.
 
-  \subsubsection{Protocols}
-  \includegraphics[width=\columnwidth]{img/sshproto.png}
+    \subsubsection{Protocols}
+      \includegraphics[width=\columnwidth]{img/sshproto.png}
 
-  \subsubsection{SSH-Trans}
-  \begin{itemize}
-  \item algorithm negotiation
-  \item session key exchange (e.g. Diffie-Hellman)
-  \item session id
-  \item server authentication
-  \item encryption, integrity, data compression
-  \end{itemize}
+    \subsubsection{SSH-Trans}
+      \begin{itemize}
+        \item algorithm negotiation
+        \item session key exchange (e.g. Diffie-Hellman)
+        \item session id
+        \item server authentication
+        \item encryption, integrity, data compression
+      \end{itemize}
 
-  \subsubsection{SSH-Auth}
-  \begin{itemize}
-  \item authenticates the client with multiple auth mechanisms
-  \item defines format of auth-requests (Username, Method name, Service name)
-  \end{itemize}
+    \subsubsection{SSH-Auth}
+      \begin{itemize}
+        \item authenticates the client with multiple auth mechanisms
+        \item defines format of auth-requests (Username, Method name, Service name)
+      \end{itemize}
 
-  \subsubsection{SSH-Conn}
-  \begin{itemize}
-  \item multiplexing multiple steams
-  \item port forwarding
-  \item compression handling
-  \item interactive and non-interactive sessions
-  \end{itemize}
+    \subsubsection{SSH-Conn}
+      \begin{itemize}
+        \item multiplexing multiple steams
+        \item port forwarding
+        \item compression handling
+        \item interactive and non-interactive sessions
+      \end{itemize}
 
-
-  \subsubsection{Attacks}
-  \begin{itemize}
-  \item password cracking
-  \item traffic analysis
-  \end{itemize}
+    \subsubsection{Attacks}
+      \begin{itemize}
+        \item password cracking
+        \item traffic analysis
+      \end{itemize}
   }
 
 \section{TLS (Transport Layer Security)}
@@ -914,7 +966,8 @@
   \subsubsection{Transport}
     \begin{itemize}
       \item GET: easy (in URL), compatible(+) , logged(-), HTTP referer(-)
-      \item POST: compatible(+)(works with cookies disabled), not obvious(+), more complex development(-), slightly harder to manipulate(-)
+      \item POST: compatible(+)(works with cookies disabled), not obvious(+), more complex development(-), slightly harder to manipulate(-)\\
+      $\ra$ Both GET and POST are vulnerable to \emph{session fixation} attacks !
       \item Cookie: more options(+), not recorded(+), https restriction(+), store on client(-), may be disabled by users(-)
     \end{itemize}
 
@@ -923,9 +976,6 @@
     \item Session Validity: client and server side revocation + time limited
     \item Session Timeout: important with shared computers, expiry time should be minimum
   \end{itemize}
-
-  \subsubsection{Destruction}
-  ??? %TODO See if we need to add something in Destruction
   }
 
   \sectionbox {
@@ -967,7 +1017,7 @@
       \texttt{SELECT uid FROM users WHERE login='\textcolor{red}{' OR ''='}' AND pwd='\textcolor{red}{' OR ''='}';}
 
     \subsubsection{Union Query}
-      Inject \texttt{UNION} query $\Ra$ get union of the 2 queries\\
+      Inject \texttt{UNION} query $\Ra$ get union of the 2 queries. Need same number(\#columns, add same on in case) and type of parameters from both selected queries.\\
       \texttt{SELECT uid FROM users WHERE login=’\textcolor{red}{’ UNION SELECT cardNo from CreditCards WHERE uid=123; --} AND pass=’’;}
 
     \subsubsection{Piggy-Backed Queries}
@@ -1031,13 +1081,15 @@
 
     \textbf{Dangerous content:} advertisements, user contributed content, widgets (counters, scripts \ldots)
 
-    \textbf{Example}: Data Leakage = script reads session cookies and sends them to an evil server ($\ra$ Solution: HTTPOnly cookies)
+    \textbf{Example}: Data Leakage = script reads session cookies and sends them to an evil server ($\ra$ Solution: HTTPOnly cookies $\ra$ browser prevents client side script to access it, not supported by all browsers)
+
+    \textbf{XSS Shell} = XSS backdoor and zombie manager $\ra$ can interactively send requests and get responses from victim ($\simeq$ backdoor the page)
 
     \subsubsection{Countermeasures}
       \begin{itemize}
         \item Test your web app
-        \item Input sanitization (check user submitted content)
-        \item HTML output encoding (escaping)
+        \item Input sanitization (check user submitted content) $\ra$ filter out meta-characters (<, >, \ldots)
+        \item HTML output encoding (escaping) $\ra$ e.g. < is replaced by \&lt;
       \end{itemize}
   }
 
@@ -1068,11 +1120,11 @@
 
     \textbf{Trojan}: seemingly offers useful functionalities but contains hidden functionality which undermine system security
 
-    \textbf{Worm}: Software that can replicate itself from computer to computer across network connections
+    \textbf{Worm}: Self-contained software that can replicate itself from computer to computer across network connections. Upon arrival, may be activated to perform unwanted operation and continue propagating.
 
     \textbf{Bot}: malicious software agent running on a compromised machine executing commands by the bot master by listening to the command and control center (\textbf{botnet}= all bots listening to the same C\&C)
 
-    \textbf{Rootkit}: activate during boot, hides from OS
+    \textbf{Rootkit}: activate during boot, hides from OS, can interfere with reflashing process or reinstall itself (self-healing)
 
     \textbf{Keylogger}: records keys pressed to steal information
 
@@ -1088,7 +1140,7 @@
   }
 
   \sectionbox{
-  \subsection{Problem of malware}
+  \subsection{Problems cause by Malwares}
 
   \begin{itemize}
     \item Unauthorized use of system/network resources
@@ -1134,10 +1186,21 @@
     \subsubsection{Antivirus Detection Evasion}
       \begin{itemize}
          \item Polymorphism (signature won't recognize them)
+         \begin{itemize}
+           \item different code with same effect (while instead of do - while)
+           \item change order of code
+           \item insert noise (sleep(0), if (1==1) or NOPs)
+           \item compiler setting modulation (using different compiler options).
+         \end{itemize}
          \item Code obfuscation (Disguise actual purpose)
          \item Encryption of code and messages
          \item Code changes to prevent disassembly
          \item Sandbox detection (act normal if monitored)
+         \begin{itemize}
+           \item read flags/API that would indicate the process is being debugged
+           \item self debugging: failure indicates that the program is already being debugged
+           \item measuring deltas between timestamps around exception handlers
+         \end{itemize}
          \item Bootstrapping / Multi Stage Worms
        \end{itemize}
 
@@ -1203,6 +1266,14 @@
 
 \section{Botnets + Malware Development}
   \sectionbox{
+    \textbf{Bot Agent}: crime-ware tool installed on victims
+    \textbf{Botnet}: collection of all bot agents
+    \textbf{Bot Master}: the criminal(s) operating the botnet
+    \textbf{Command and Control}(CnC): botnets management system
+    \textbf{Opt-in Botnet}: Voluntary botnets (e.g. Orbit Ion Cannon)
+  }
+
+  \sectionbox{
   \subsection{Objectives to best utilize infected machines}
     \begin{itemize}
       \item \textbf{Buildup} efficient infection and spreading
@@ -1224,8 +1295,13 @@
   }
 
   \sectionbox{
-  \subsection{Bot Command Modes}
-    \includegraphics[width=\columnwidth]{img/bot-command-modes.png}
+  \subsection{Bot Command Modeles}
+    \begin{itemize}
+      \item \textbf{No Control}: default malicious behaviours, self propagation defaults, less flexible, most likely detected by signatures, most resistant to global shutdown
+      \item \textbf{Private Channel}: custom and covert channels, abuse and alteration of common protocols, short-term stealth, signature detection easy once CnC observed
+      \item \textbf{Public Infrastructure}: use common applications API, generally reliable and anonymous, mostly IRC, some P2P and microblogging (95\% of today's botnets)
+      \item \textbf{Resilient hybrids}: (all models) default malicious behaviors, fall-back plans if CnC unavailable, pre-programmed contact points (drop boxes)
+    \end{itemize}
   }
 
   \sectionbox{
@@ -1237,12 +1313,10 @@
       \item Attack Support (Host of Phishing Site, Proxying)
       \item External/Noisy Attacks (Scanning, Spam, DDoS)
     \end{enumerate}
-
-    \textbf{CnC Topologies:} Star, multi-server, hierarchical, random
   }
 
   \sectionbox{
-  \subsection{CnC Topology}
+  \subsection{Command and Control Topology}
     \begin{itemize}
       \item \textbf{Star}: Single centralized CnC (+ Speed of control, - 1 point of failure)
       \item \textbf{Multi-server}: Multiple CnC communicating together (+ No single point of failure, + Geographical optimization, - Advanced planning required)
@@ -1296,7 +1370,7 @@
 
   \sectionbox{
   \subsection{Security Information Provider}
-    \textbf{SIP} = Organizations that efficiently monitor the primary sources of security information, validate the content found, and publish their findings as security advisories in a consistent format (NVD, CVE). (e.g. CERT, X-Force(IBM), Secunia\ldots)
+    \textbf{SIP} = Private and government organizations that efficiently monitor the primary sources of security information, validate the content found, and publish their findings as security advisories in a consistent format (NVD, CVE). (e.g. CERT, X-Force(IBM), Secunia\ldots)
 
     \textbf{NVD} = National (USA) Vulnerability Database
 
@@ -1349,7 +1423,7 @@
       \item \textbf{DNS Blacklists}:
         \begin{itemize}
           \item Greylisting: defer 1st email but accept follow-up email (issues with delays and multiple SMTP hosts of larger hosters)
-          \item Blacklisting(DNSBL): can be done either with IP or domain name
+          \item Blacklisting(DNSBL): can be done either with IP or domain name. The DNS A record indicates if the IP address is on the list or not.
         \end{itemize}
       \item \textbf{Filtering SMTP traffic at FW}: block outgoing SMTP msg not from SMTP server (prevent email-based worms)
       \item \textbf{Heuristical Content Filtering}: look at weird font, strange URL \ldots)
