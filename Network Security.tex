@@ -264,15 +264,30 @@ identity in daily life
     \subsubsection{802.1x : Port-Based Network Access Control}
       Client-server based access control protocol that restricts unauthorized devices from connecting to a (W)LAN through publicly accessible ports.
 
+      For each 802.1x switch port, the switch creates \textbf{TWO virtual access points} at each port. The controlled port is open only when the device connected to that port has been authorized by 802.1x
+
       \includegraphics[width=\columnwidth]{img/8021x.png}
 
-      \textbf{EAP} (Extensible Authentication Protocol): Authentication framework on the data link layer supporting multiple methods (MD5, OTP, TLS, TTLS) without requiring an IP.
+      \textbf{EAP} (Extensible Authentication Protocol): Authentication framework on the data link layer supporting multiple methods (MD5, OTP=one-time passwords, TLS, TTLS) without requiring an IP.
 
-      \textbf{Identity and Security}: Authentication (Who?) , Authorization (What?) , Access Control, Policy enforcement
+      \textbf{Roles : Identity and Security}: Authentication (Who?) , Authorization (What?) , Access Control, Policy enforcement
 
       \textbf{Benefits:} Standard based technology, control at link layer, interoperating wifi and wired, centralized user administration
 
       \textbf{Drawbacks:} Authenticator authentication, Man-in-the-middle, session hijacking
+    }
+
+    \sectionbox{
+      \includegraphics[width=\columnwidth]{img/8021x_exam.png}
+
+      \begin{enumerate}
+        \item Workstation A sends a DHCP request toward the DHCP server $\ra$ there is no reply, the request is blocked at the switch. Only EAP queries pass through the uncontrolled port are allowed by the switch.
+        \item Workstation A sends an EAP-Response packet $\ra$ links 1,2,3,5 can see this packet.\\
+        Now assume the Workstation A is authenticated using 802.1x.
+        \item Workstation B tries to access http://www.example.com on the Internet $\ra$ He receives an answer because A opened the port on the switch for both machines.
+        \item In this network, IEEE 802.1x does NOT prevents malicious users/hosts to steal HTTP session cookies. 802.1x does not provide any encryption and both users are connected with a cable.
+        \item The IEEE 802.1x protocol does NOT require fully functional DHCP and DNS services since it operates on OSI layer 2 (link/MAC layer), nothing above this layer is required.
+      \end{enumerate}
     }
 
     \sectionbox{
@@ -300,130 +315,201 @@ identity in daily life
   \subsection{Firewalls}
     Hardware or software device which is configured to permit, deny or proxy data through a computer network with different levels of trust. The configuration is called \emph{policy}.
 
-    \textbf{Types:} simple packet filter, statefull filter, application layer proxy
+    \textbf{Types:} simple packet filter, stateful filter, application layer proxy
 
-    \textbf{Rules:} Filtering (outgoing (egress), incoming), Default (accept, reject), Deny (Drop, Reject), Addressing Transparency (firewall and network fingerprinting)
-    \includegraphics[width=\columnwidth]{img/firewallrule.png}
+    \textbf{Rules:} Filtering (outgoing (egress), incoming (ingress)), Default policy (accept, reject), Deny (Drop silently, Reject), Addressing Transparency (firewall and network fingerprinting)
 
     \subsubsection{Stateless Firewall}
       Examine on network layer, decision based on header
 
-      \underline{Pro}: application independent, good performance
+      \underline{Pro}: application independent, good performance and scalability
 
       \underline{Cons}: no state or application context, can't prevent probing
 
     \subsubsection{Stateful Firewall}
       Keeps track of state. Decision based on \emph{session state}
 
-      \underline{Pro}: more powerful
+      \underline{Pro}: more powerful rules
 
-      \underline{Cons}: no state for UDP, host vs. firewall state, state explosion
+      \underline{Cons}: no state for UDP, host vs. firewall state (inconsistent), state explosion
 
     \subsubsection{Application Layer Firewall}
       Take application state into account
 
       \underline{Pro}: application aware
 
-      \underline{Cons}: many application protocols, performance
+      \underline{Cons}: many application protocols, performance, scalability
 
     \subsubsection{Web Application Firewall}
       Protects web-based applications from malicious requests (often reverse proxy)
+
       \underline{Filtering}: signatures, black/whitelisting
     }
 
     \sectionbox {
     \subsection{Firewall Attack techniques}
       \begin{itemize}
-        \item IP source spoofing
+        \item IP source spoofing (doesn't work well with TCP based attacks)
         \item Artificial Fragmentation
         \item Vulnerabilities
         \item Denial of Service (state explosion)
-        \item Tunnelling/Covert channel (ICMP, DNS, \ldots)
+        \item Tunnelling/Covert channel (ICMP, DNS\ldots)
       \end{itemize}
   }
 
   \sectionbox {
   \subsection{Firewall detection}
     \begin{itemize}
-      \item \textbf{Port scanning}: traceroute, source IP of response
-      \item \textbf{TTL}: let expire TTL one hop past firewall
+      \item \textbf{Port scanning}: traceroute, source IP of response $\ra$ improve obscurity by spoofing src address as target host
+      \item \textbf{TTL}: let expire TTL one hop past firewall $\ra$ reset low TTL, spoof or create response
+      \item Trying to keep existence of firewall secret is OK, but it's \textbf{not a security technique}
     \end{itemize}
   }
 
   \sectionbox {
   \subsection{Oranizational challenges}
     \begin{itemize}
-      \item Large rulesets
-      \item Big Organizations
-      \item Conflict: Networking vs. security staff
+      \item \textbf{Large Rulesets}: complex, hard to manage and understand
+      \item \textbf{Big Organizations}: tools for hundreds of FW, process to change?
+      \item \textbf{Conflict}: Networking vs. security staff
     \end{itemize}
   }
 
   \sectionbox {
-  \subsection{IP Tables}
-    Netfilter rule:
-    iptables -A INPUT -i eth0 -m state --state ESTABLISHED, RELATED -j ACCEPT
+  \subsection{Firewall configuration : IP Tables}
+    Rule (source destination port/IP and target):
+    \texttt{iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 80 --syn -j ACCEPT}
 
-    Iptables rule:  iptables -A INPUT -p tcp -s 0/0 -d 0/0 --destination-port 80 --syn -j ACCEPT
-    \includegraphics[width=\columnwidth]{img/netfilter.png}
+    \textbf{Rule Targets}(when packet matches rule)
+
+    ACCEPT; DROP; REJECT; QUEUE–(rarely used); RETURN–(rarely used);
+
+    MASQUERADE–only in nat table: rewrite source or destination address with address of outgoing or incoming interface
   }
 
   \sectionbox {
   \subsection{NAT (Network Address Translation)}
-    One-to-many (multiple hosts on private network using the same public IP address). IP Address rewriting.
+    One-to-one IP Address rewriting, keeps port numbers.
+
+    \textbf{NAPT} = Network Address and Port Translation (Most used one) is  many-to-one (multiple hosts on private network using the same public IP address)
 
     \textbf{Benefits}: Saves address space + Prevents malicious activity from outside (Don't use it for security as a Firewall)
 
     \textbf{Drawbacks}: no end-to-end connectivity + P2P and IPSec don't work
 
-    \textbf{NAPT} = Network Address and Port Translation (Most used one)
-
     \subsubsection{NAT UDP Hole Punching (using RDV server)}
 
     \includegraphics[width=\columnwidth]{img/nathole.png}
+
+    \subsubsection{NAT Security}
+    No protection against application vulnerabilities once a connection is established. Prevents outsiders to initiate a connection. Network discovery through NAT is possible. NATs allowing hole punching for P2P may be vulnerable
   }
 
   \sectionbox{
   \subsection{Intrustion Detection and Prevention Systems}
-    try to detect intrusions on the network by comparing to attack signatures. Block traffic after detection.
+    Try to detect intrusions on the network by comparing to attack signatures. Block traffic after detection. \textbf{Output:} alerts, action, reporting, analysis
 
     \subsubsection{Classification}
       \textbf{Object of observation:}
 
-      Packet:
+      \underline{Packet}: (-)IP fragmentation, (-)not scalable (explosion)
 
-      Flow: scalability (+), encryption (+), not content-based (-)
+      \underline{Flow}: (+)scalability, (+)encryption not problem, (-)not content-based
 
       \textbf{Point of observation:}
 
-      Host: hard deployment (-), context information (+), one sensore per machine (+)
+      \underline{Host}: (-)hard deployment, (+)context information, (+)one sensor per machine
 
-      Network: easy deployment (+), multiple machines (+), unknown machines(-), performance (-)
+      \underline{Network}: (+)easy deployment, (+)multiple machines, (-)unknown machines, (-)performance (no context)
 
       \textbf{Method of observation:}
 
-      Signature: precision (+), not detecting unknown attacks (-)
+      \underline{Signature}: (+)precision, (-)not detecting unknown attacks
 
-      Behavior: unknown attacks (+), difficult to find ground truth (-), false positives (-)
+      \underline{Behavior}: (+)unknown attacks, (-)difficult to find ground truth, (-)false positives
 
     \subsubsection{Challenges}
       \begin{itemize}
-        \item false alarms
-        \item high network speeds
-        \item sensor management and signature distribution
-        \item policy management
-        \item manpower
+        \item False alarms and false silences
+        \item Cope with high network speeds
+        \item Sensor management and signature distribution
+        \item Policy management
+        \item Manpower for interventions 24x7
       \end{itemize}
 
-    \subsubsection{Attacks}
+    \subsubsection{Attacks and IDS evasion techniques}
+    DoS attacks can also be used as a component of an attack. It enables other attacks to remain undetected.
       \begin{itemize}
         \item Flooding / resource exhaustion
-        \item algorithmic Complexity Attacks (e.g. on hash table)
+        \item algorithmic Complexity Attacks (e.g. on hash table) $\ra$ use some randomness
       \end{itemize}
   }
 
 
 \section{The Domain Name System Security}
+
+  \sectionbox{
+  \subsection{Routing}
+    \textbf{ASes}(Autonomous System): define by AS Number $\simeq 40000$
+    \begin{itemize}
+      \item \underline{Tier 1ISP}: can access all internet for free or by reciprocal agreement
+      \item \underline{Transit}: AS transiting msg for other (for \$)
+      \item \underline{Tier 2ISP}: need to purchase transit
+    \end{itemize}
+
+    \subsubsection{BGP (Border Gateway Protocol)}
+      Used to exchange routing and exchangeability information (inter ASes $\ra$ \textbf{iBGP}, between ASes $\ra$ \textbf{eBGP})
+
+      BGP routers have Routing Information Base (RIB) $\ra$ if update its RIB $\Ra$ notify others around
+
+      \textbf{Attacks on BGP}: eavesdropping, replay, msg insertion, deletion and modification, MitM, DOS + TCP attacks (reset attack)
+
+      \textbf{Solutions}: BGP + TCP MD5 signature (not efficient), SBGP, SCION
+  }
+
+  \sectionbox{
+  \subsection{Attacks on DNS}
+    \subsubsection{Denial of Service on DNS}
+      Targeting the 13 DNS root servers which are a bottleneck resource.
+
+      \textbf{Defense}: Over-provisioning (13 clusters) + Anycast (\textgreater 500) (1 address to multiple potential receivers) prevents most attacks.
+
+    \subsubsection{Account-Takeover}
+      Attacking the web interfaces of registrars and try to enter malicious name servers. Possible solution: Multi-channel authentication
+
+    \subsubsection{Manipulate local DNS settings}
+      \begin{itemize}
+        \item Manipulate local host configurations (access to the local machine nescessary)
+        \item Spoof DHCP replies (access to LAN nescessary) \ra countermeasure: authentication for DHCP messages
+        \item Set up Malicious DHCP server that is faster than the valid one
+      \end{itemize}
+
+      \textbf{Example:} DNS-Changer-Botnet (4million infected hosts, difficult malicious DNS servers shut-down : still used by at least 250 000 hosts)
+
+    \subsubsection{DNS Spoofing}
+      Successful insertion of incorrect resolution information by a host that has no authority to provide that information. Attacker sniffs traffic for a victim request and get the TXID. He can reply with the right TXID. Works only if attacker is faster than legitimate DNS Response.
+
+    \subsubsection{Manipulate DNS lookup process (Cache Poisoning)}
+      Inject faked Domain,IP information into caching name server.
+
+      \underline{Process}: attacker asks caching server for attack.com, attacker server replies with fake records in the additional section (e.g. www.bank.com)
+
+      This worked because early DNS implementations accepted records in the additional section without proper checking.
+
+      \textbf{Bailiwick Checking}: Is the server authorized to respond to DNS requests for the domain. They check the hierarchy : 83.www.bank.com can return any record for www.bank.com but cannot for bank.com (which cannot for .com)
+
+      \textbf{Weak authentication:} Port, TXID, Query string - first good answer wins
+
+    \subsubsection{The Kaminsky Attack}
+      \begin{enumerate}
+        \item Inject query on the client \textit{\$Random}.www.bank.com
+        \item reply multiple times  (TXID 0-200)
+        \item Send name server redirections in additional section
+        \item if it fails, return to step 1
+      \end{enumerate}
+      $\Ra$ Fix: Source Port Randomization. Chance: $65536 \cdot (65536 - 1024)$ to 1
+  }
+
   \sectionbox{
   \subsection{DNS}
     \emphbox{DNS is a global, distributed, robust system for name to IP address resolution}
@@ -437,60 +523,32 @@ identity in daily life
     \item Use UDP on port 53
     \end{itemize}
 
-    \textbf{Zone:} Collection of hostnames/IP pairs managed together
+    \textbf{Zone:} Collection of hostnames/IP pairs managed together by same entity
+
+    \textbf{Domain:} just a name, part of hierarchy of the DNS
 
     \textbf{Nameserver (authoritative): } Server that answers DNS queries (Responsible DNS Server for each zone)
 
     \textbf{Resolver:} Client part of DNS that resolves domain names
 
-    \textbf{Recursive name server:}  Answers queries for all zones
+    \textbf{Recursive name server:}  Answers queries for all zones (1- Root Server, 2- TLD Server, 3- Authoritative DNS Server)
 
     \textbf{Stub resolver:} Forwards request to recursive name server (typically used by end-hosts)
 
     \textbf{Caching:} Reduces overhead. Lifetime controlled by TTL
 
-    \texttt{dig URL\_TO\_LOOKUP \@DNS\_SERVER} = make a request to a specific DNS
+    \texttt{dig URL\_TO\_LOOKUP @DNS\_SERVER} = make a request to a specific DNS
 
     \texttt{whois IP\_OR\_URL\_TO\_LOOKUP} = get information on a specific IP or URL
 
     \texttt{nslookup URL\_TO\_LOOKUP} = get IP address from a URL (don't use OS local DNS as \texttt{dig})
-  }
 
-  \sectionbox{
-  \subsection{Attacks on DNS}
-    \subsubsection{Denial of Service on DNS}
-      Targeting the 13 DNS root servers which are a bottleneck resource. However over-provisioning (13 clusters) + Anycast (\textgreater 500) (1 address to multiple potential receivers) prevents most attacks.
-
-    \subsubsection{Account-Takeover}
-      Attacking the web interfaces of registrars and try to enter malicious name servers.
-
-    \subsubsection{Manipulate local DNS settings}
-      \begin{itemize}
-        \item Manipulate local host configurations (access to the local machine nescessary)
-        \item Spoof DHCP replies (access to LAN nescessary) \ra countermeasure: authentication for DHCP messages
-        \item Set up Malicious DHCP server that is faster than the valid one
-      \end{itemize}
-
-    \subsubsection{Manipulate DNS lookup process}
-      \textbf{Bailiwick Checking:} Is the server authorized to respond to DNS requests for the domain.
-
-      \textbf{Weak authentication:} Port, TXID, Query string - first good answer wins
-
-      3 possible answers to DNS queries:
-      \begin{itemize}
-        \item Here is your answer
-        \item go away
-        \item I don't know ask \ldots
-      \end{itemize}
-
-
-    \subsubsection{The Kaminsky Attack}
-      \begin{itemize}
-        \item Inject query on the client \textit{\$Random}.www.bank.com
-        \item reply multiple times  (TXID 0-200)
-        \item Send name server redirections
-      \end{itemize}
-      $\Ra$ Fix: Source Port Randomization. Chance: $65536 \cdot (65536 - 1024)$ to 1
+    3 possible answers to DNS queries:
+    \begin{itemize}
+      \item Here is your answer
+      \item go away
+      \item I don't know ask \ldots
+    \end{itemize}
   }
 
   \sectionbox{
