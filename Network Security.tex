@@ -311,6 +311,35 @@ identity in daily life
 
 
 \section{Firewalls, IDS and NAT Traversal}
+    \sectionbox {
+    \subsection{Firewall Attack techniques}
+      \begin{itemize}
+        \item IP source spoofing (doesn't work well with TCP based attacks)
+        \item Artificial Fragmentation
+        \item Vulnerabilities
+        \item Denial of Service (state explosion)
+        \item Tunnelling/Covert channel (ICMP, DNS\ldots)
+      \end{itemize}
+  }
+
+  \sectionbox {
+  \subsection{Firewall detection}
+    \begin{itemize}
+      \item \textbf{Port scanning}: traceroute, source IP of response $\ra$ improve obscurity by spoofing src address as target host
+      \item \textbf{TTL}: let expire TTL one hop past firewall $\ra$ reset low TTL, spoof or create response
+      \item Trying to keep existence of firewall secret is OK, but it's \textbf{not a security technique}
+    \end{itemize}
+  }
+
+  \sectionbox {
+  \subsection{Oranizational challenges}
+    \begin{itemize}
+      \item \textbf{Large Rulesets}: complex, hard to manage and understand
+      \item \textbf{Big Organizations}: tools for hundreds of FW, process to change?
+      \item \textbf{Conflict}: Networking vs. security staff
+    \end{itemize}
+  }
+
   \sectionbox{
   \subsection{Firewalls}
     Hardware or software device which is configured to permit, deny or proxy data through a computer network with different levels of trust. The configuration is called \emph{policy}.
@@ -346,47 +375,6 @@ identity in daily life
       \underline{Filtering}: signatures, black/whitelisting
     }
 
-    \sectionbox {
-    \subsection{Firewall Attack techniques}
-      \begin{itemize}
-        \item IP source spoofing (doesn't work well with TCP based attacks)
-        \item Artificial Fragmentation
-        \item Vulnerabilities
-        \item Denial of Service (state explosion)
-        \item Tunnelling/Covert channel (ICMP, DNS\ldots)
-      \end{itemize}
-  }
-
-  \sectionbox {
-  \subsection{Firewall detection}
-    \begin{itemize}
-      \item \textbf{Port scanning}: traceroute, source IP of response $\ra$ improve obscurity by spoofing src address as target host
-      \item \textbf{TTL}: let expire TTL one hop past firewall $\ra$ reset low TTL, spoof or create response
-      \item Trying to keep existence of firewall secret is OK, but it's \textbf{not a security technique}
-    \end{itemize}
-  }
-
-  \sectionbox {
-  \subsection{Oranizational challenges}
-    \begin{itemize}
-      \item \textbf{Large Rulesets}: complex, hard to manage and understand
-      \item \textbf{Big Organizations}: tools for hundreds of FW, process to change?
-      \item \textbf{Conflict}: Networking vs. security staff
-    \end{itemize}
-  }
-
-  \sectionbox {
-  \subsection{Firewall configuration : IP Tables}
-    Rule (source destination port/IP and target):
-    \texttt{iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 80 --syn -j ACCEPT}
-
-    \textbf{Rule Targets}(when packet matches rule)
-
-    ACCEPT; DROP; REJECT; QUEUE–(rarely used); RETURN–(rarely used);
-
-    MASQUERADE–only in nat table: rewrite source or destination address with address of outgoing or incoming interface
-  }
-
   \sectionbox {
   \subsection{NAT (Network Address Translation)}
     One-to-one IP Address rewriting, keeps port numbers.
@@ -403,6 +391,18 @@ identity in daily life
 
     \subsubsection{NAT Security}
     No protection against application vulnerabilities once a connection is established. Prevents outsiders to initiate a connection. Network discovery through NAT is possible. NATs allowing hole punching for P2P may be vulnerable
+  }
+
+  \sectionbox {
+  \subsection{Firewall configuration : IP Tables}
+    Rule (source destination port/IP and target):
+    \texttt{iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 80 --syn -j ACCEPT}
+
+    \textbf{Rule Targets}(when packet matches rule)
+
+    ACCEPT; DROP; REJECT; QUEUE–(rarely used); RETURN–(rarely used);
+
+    MASQUERADE–only in nat table: rewrite source or destination address with address of outgoing or incoming interface
   }
 
   \sectionbox{
@@ -553,46 +553,54 @@ identity in daily life
 
   \sectionbox{
   \subsection{DNSSEC}
-    \textbf{DNS record types specific to DNSSEC}
-    \begin{itemize}
-      \item \textbf{ZSK}: Zone-Signing Keys (RRset signed with ZSK\_priv $\ra$ RRSIG)
-      \item \textbf{RRSet}: Resource Record Set
-      \item \textbf{RRSIG}: Contains a cryptographic signature
-      \item \textbf{KSK}: Key-Signing Keys
-      \item \textbf{DNSKEY}: Contains a public signing key
-      \item \textbf{DS}: Contains the hash of a DNSKEY record
-    \end{itemize}
+    \underline{Provides}: Authenticity, Integrity, Backward compatibility
 
-    Provides:
-    \begin{itemize}
-      \item Authenticity
-      \item Integrity
-      \item Backward compatibility
-    \end{itemize}
-
-    Drawbacks
-    \begin{itemize}
-      \item No confidentiality
-      \item No protection against DoS
-      \item Must be installed from a trusted source
-      \item Must be deployed at each step in the domain lookup
-    \end{itemize}
+    \underline{Drawbacks}: No confidentiality, No protection against DoS, Must be installed from a trusted source, Must be deployed at each step in the domain lookup.
 
     All records are signed: Key pairs for each zone $\ra$ Integrity
 
-    Chain of trust $\ra$ Authenticity
+   Chain of trust $\ra$ Authenticity
+
+   \textbf{DNS record types specific to DNSSEC}
+   \begin{itemize}
+     \item \textbf{ZSK}: Zone-Signing Keys (RRset signed with ZSK\_priv $\ra$ RRSIG)
+     \item \textbf{RRSet}: Resource Record Set of the same type records
+     \item \textbf{RRSIG}: Contains a cryptographic signature of RRsets
+     \item \textbf{DNSKEY}: Contains a public signing key (ZSK or KSK)
+     \item \textbf{KSK}: Key-Signing Keys, signs DNSKEY records of public ZSK creating a RRSIG record
+     \item \textbf{ZSK}: Zone-Signing Keys, each zone has a/several pair(s) used to sign all other records (priv: signs, pub: verifies)
+     \item \textbf{DS}: Contains the hash of a DNSKEY record
+   \end{itemize}
+
+   \textbf{To validate .ch:}
+  \begin{enumerate}
+    \item Request the KSK key of .ch by querying the parent zone (here, root) for a DS record (record set signed in RRSIG by root's ZSK)
+    \item Verify RRSIG of DS record with root's public KSK (must be stored localy)
+    \item Request desired RRset to contact .ch (containing A and NS records for .ch), with the corresponding RRSIG to sign it (using the .ch's ZSK)
+    \item Request DNSKEY of .ch with public ZSK(s) and KSK with the RRSIG of DNSKEY RRset (using the domain's KSK)
+    \item Verify RRSIG of RRset with the .ch's public ZSK
+    \item Verify the .ch KSK key by hashing it and comparing it to the DS received in 1
+  \end{enumerate}
+
+   \includegraphics[width=\columnwidth]{img/DNSSECzone.png}
+
+   There are two signing keys (ZSK and KSK) because the KSK is longer (i.e more secure and less often changed and used) than the ZSK (which can be changed more often and is used to sign a lot more records). The parent zone signs the KSK (not done often) which in turn can sign the ZSK (faster to use shorter keys).
+
+   The DS (Delegation Signer) record glues the chain of trust :
+
+   \includegraphics[width=\columnwidth]{img/DNSSECchain.png}
   }
 
 \section{Availability and Denial of Service}
   \sectionbox{
   \subsection{System Level Agreements (SLA)}
-    \begin{tabular}{ l | l | l }
-      Level & Percentage & Downtime \\ \hline
-      Two-nines & 99 & 3.5 days \\
-      Three-nines & 99.9 & 9 hours \\
-      Four-nines & 99.99 & 53 minutes \\
-      Five-nines & 99.999 & 5 minutes \\
-      Six-nines & 99.9999 & 31 seconds \\
+    \begin{tabular}{ l | l | l | l }
+      Level & \% & Downtime (year) & Downtime (month) \\ \hline
+      Two-nines & 99 & 3.65 days & 7.2 hours\\
+      Three-nines & 99.9 & 8.76 hours & 43.8 minutes \\
+      Four-nines & 99.99 & 52.56 minutes & 4.38 minutes \\
+      Five-nines & 99.999 & 5.26 minutes & 25.9 seconds \\
+      Six-nines & 99.9999 & 31.5 seconds & 2.59 seconds \\
     \end{tabular}
 
     How to achieve 99.999:
@@ -600,44 +608,47 @@ identity in daily life
       \item High Redundancy + Fast Failover (Quick Change)
       \item Failure Resilience
       \item Over Provisioning
-      \item Backup and Fast Recovery
+      \item Backup, Close Monitoring and Fast Recovery
     \end{itemize}
   }
 
   \sectionbox{
-    \subsection{Denial of service}
-    DoS: Resource \textbf{Starvation} of CPU, Storage, Network
+    \subsection{Denial of service (DoS)}
+      DoS attack : aims to prevent legitimate users from accessing a specific service. $\ra$ Resource starvation of CPU, Storage, Network
 
-    Attacks:
+    \textbf{Attacks}:
     \begin{itemize}
-      \item SYN-Flood: Spam Server with TCP SYNs $\ra$ needs to keep state\\ \underline{Solution}: Choose carefully constructed initial sequence number (crypto based)
-      \item Compression Bomb
-      \item Source Spoofing/Reflector Attack
-      \item Mail Bounce: reply-to: @victim.com, To: and multiple Bcc: @target.com
-      \item DNS Amplification: Send small request to recursive servers with spoofed source
+      \item \underline{SYN-Flood}: Spam Server with TCP SYNs $\ra$ needs to keep state \emph{Solution}: Choose carefully constructed initial sequence number (crypto based) and SYN cookies (client keep state and present it later)
+      \item \underline{Compression Bomb} \emph{Solution} :restrictions on size, depth and time
+      \item \underline{Source Spoofing/Reflector Attack} from any vulnerable service, by botnet or broadcast addresses (Smurf attack)
+      \item \underline{Mail Bounce}: reply-to: @victim.com, To: and multiple invalid Bcc: @target.com $\ra$ victim will receive many bounce emails from target.com
+      \item \underline{DNS Amplification}: Send small request to recursive servers with spoofed source
     \end{itemize}
   }
 
   \sectionbox{
   \subsection{Dos Countermeasures}
-    Prevention
+    \textbf{Prevention}:
     \begin{itemize}
-      \item secure systems (e.g. prevent machine compromise to build bot
-      nets by patching, IDS/IPS, firewall etc.)
-      \item secure protocols (e.g. prevent IP spoofing, use TCP SYN
+      \item \underline{Secure systems}: (e.g. prevent machine compromise to build botnets by patching, IDS/IPS, firewall etc.)
+      \item \underline{Secure protocols}: (e.g. prevent IP spoofing, use TCP SYN
       cookies, HashCash: add client CPU cycles)
-      \item resource accounting (server commits resources only to
+      \item \underline{Resource accounting}: (server commits resources only to
       authenticated/trustworthy clients)
-      \item resource multiplication (resource over provisioning for the case
-      of an attack)
-      \item late resource binding (bind resources as late as possible)
+      \item \underline{Resource multiplication}: (resource over provisioning for the case of an attack)
+      \item \underline{Late resource binding}: (bind resources as late as possible)
     \end{itemize}
 
-    Reaction:
+    \textbf{Reaction}:
     \begin{itemize}
-      \item detect (using pattern, anomaly, third party)
-      \item react (rate-limit, filter, reconfigure, identify agents)
+      \item \underline{Detect} (using pattern, anomaly, third party)
+      \item \underline{React} (rate-limit, filter, reconfigure, identify agents)
     \end{itemize}
+  }
+
+  \sectionbox{
+  \subsection{Data Sizes : SI Vs Binary symbols}
+    \includegraphics[width=\columnwidth]{img/sizesTable.PNG}
   }
 
 \section{Secure Channels: Principles, VPN, SSH}
@@ -657,7 +668,7 @@ identity in daily life
       \underline{Cons}: every link separately, trust in link operator
 
     \subsubsection{Security at Network Layer}
-      secure traffic over multiple links between end points (IPSec, OpenVPN, L2TP)
+      Secure traffic over multiple links between end points (IPSec, L2TP)
 
       \underline{Pro}: seamless security to above layers, IPSec part of IPv6 + IPv4
 
@@ -680,67 +691,9 @@ identity in daily life
   }
 
   \sectionbox{
-  \subsection{VPN}
-    Securely interconnect networks or machines over an existing network.\\
-    IPSec, L2TP, OpenSSH, SSL/TLS can tunnel entire network's traffic (OpenVPN).\\
-
-    \subsubsection{Tunnel Mode (Gateway-to-Gateway)}
-      \includegraphics[width=\columnwidth]{img/vpntunnel.png}
-      \begin{itemize}
-        \item Encrypt and Authenticate original IP packet
-        \item Transport it as payload in new IP packet
-        \item \textbf{IPSec Tunnel Mode} packet architecture :
-      \end{itemize}
-      \includegraphics[width=\columnwidth]{img/vpntunnel2.png}
-
-    \subsubsection{Transport Mode (End-to-End)}
-      \includegraphics[width=\columnwidth]{img/vpntransport.png}
-
-      \begin{itemize}
-        \item End-to-End communication between hosts
-        \item Encrypt and Authenticate payload only
-        \item \textbf{IPSec Transport Mode} packet architecture :
-      \end{itemize}
-
-      \includegraphics[width=\columnwidth]{img/vpntransport2.png}
-
-      IPSec also provide the following features:
-      \begin{itemize}
-        \item Randomized IVs
-        \item Replay protection
-        \item Authentication (HMAC)
-      \end{itemize}
-
-    \subsubsection{Security Association (SA)}
-      A Security Association (SA) is the establishment of shared security attributes between two network entities to support secure communication. An SA may include attributes such as: cryptographic algorithm and mode; traffic encryption key; and parameters for the network data to be passed over the connection.
-  }
-
-  \sectionbox{
-  \subsection{Message Authentication Code (MAC)}
-    Provide data and integrity
-    \begin{itemize}
-      \item message not modified in transit
-      \item source is authentic
-      \item not delayed
-      \item sequence order
-    \end{itemize}
-
-    MAC (K, M) = DES (K, M) take last 32 bits
-
-    \subsubsection*{HMAC (Mac with Hash functions)}
-    \begin{itemize}
-      \item use hash functions (MD5, SHA)
-      \item faster
-      \item easy available
-    \end{itemize}
-
-    HMAC (K, M) = H(K' xor opad | H (K' xor ipad | M))
-  }
-
-  \sectionbox{
   \subsection{SSH}
-    Standard for remote login and encrypted file transfer.\\
-    Doesn't protect against classic TCP attacks.
+    Standard for remote login and encrypted file transfer, provide PFS.
+    Security algorithms and parameters used are negotiable.
 
     \subsubsection{Protocols}
       \includegraphics[width=\columnwidth]{img/sshproto.png}
@@ -768,11 +721,78 @@ identity in daily life
         \item interactive and non-interactive sessions
       \end{itemize}
 
-    \subsubsection{Attacks}
+    \subsubsection{Attacks SSH cannot counter}
       \begin{itemize}
-        \item password cracking
+        \item password cracking (passwords must be strong and not reused)
         \item traffic analysis
+        \item IP and TCP attacks
       \end{itemize}
+  }
+
+  \sectionbox{
+  \subsection{VPN}
+    Securely interconnect networks or machines over an existing network.\\
+    IPSec, L2TP, OpenSSH, SSL/TLS can tunnel entire network's traffic (OpenVPN).\\
+
+    \begin{itemize}
+      \item Encryption $\ra$ confidentiality
+      \item Randomized Initialisation Vectors (IVs)
+      \item Replay protection $\ra$ unique ID or timestamp in packets before signature
+      \item Authentication (HMAC) $\ra$ integrity and authenticity
+    \end{itemize}
+
+    \subsubsection{Tunnel Mode (Gateway-to-Gateway)}
+      \includegraphics[width=\columnwidth]{img/vpntunnel.png}
+      \begin{itemize}
+        \item Encrypt and Authenticate original IP packet
+        \item Transport it as payload in new IP packet (IP encapsulation)
+        \item \textbf{IPSec Tunnel Mode} packet architecture :
+      \end{itemize}
+      \includegraphics[width=\columnwidth]{img/vpntunnel2.png}
+
+    \subsubsection{Transport Mode (End-to-End)}
+      \includegraphics[width=\columnwidth]{img/vpntransport.png}
+
+      \begin{itemize}
+        \item End-to-End communication between hosts
+        \item Encrypt and Authenticate payload only
+        \item \textbf{IPSec Transport Mode} packet architecture :
+      \end{itemize}
+
+      \includegraphics[width=\columnwidth]{img/vpntransport2.png}
+
+    \subsubsection{IPSec Security Association (SA)}
+      A Security Association (SA) is the establishment of shared security attributes between two network entities to support secure communication.
+
+      SA is uniquely defined by a triple of :
+      \begin{itemize}
+        \item Security Parameter Index (SPI): number placed in ESP datagrams.
+        \item IP Destination Address
+        \item Security Protocol Identifier:AH or ESP
+      \end{itemize}
+  }
+
+  \sectionbox{
+  \subsection{Message Authentication Code (MAC)}
+    Provide data integrity and authentification
+    \begin{itemize}
+      \item message not modified in transit
+      \item source is authentic
+      \item not delayed
+      \item sequence order
+    \end{itemize}
+
+    \texttt{MAC (K, M) = DES (K, M)} take last 32 bits
+
+    \subsubsection*{HMAC (Mac with Hash functions)}
+    \begin{itemize}
+      \item use hash functions (MD5, SHA)
+      \item faster
+      \item easy available
+      \item less affected by collisions than hash functions $\ra$ if MD5 or SHA-1 broken, corresponding HMAC can still be secure.
+    \end{itemize}
+
+    \texttt{HMAC (K, M) = H(K' xor opad | H (K' xor ipad | M))}
   }
 
 \section{TLS (Transport Layer Security)}
@@ -960,35 +980,36 @@ identity in daily life
         \item User is no longer certified by this CA
         \item CA’s certificate is assumed to be compromised.
       \end{enumerate}
-      \textbf{CRL}(Certificates Revocation List): listing of all the revocated certifactes by a CA.
+      \textbf{CRL}(Certificates Revocation List): listing of all the revocated certificates by a CA.
     }
 
     \sectionbox{
     \subsection{OCSP (Online Certificate Status Protocol)}
+    Verify certificate status, ensure it is valid and has not been revoked.
       \begin{itemize}
-        \item Small bandwidth needs $\Ra$ Real-time checks
+        \item Small bandwidth needs $\Ra$ Real-time checks but not always reliable
         \item Privacy issues $\leftarrow$ OCSP responder can track users
         \item OCSP servers need to answer every client request (no cache)
         \item if connection fails, client has to make the choice on its own
-        \item OCSP stapling: certificate owner give OCSP response with its certificate
+        \item OCSP stapling: certificate owner give OCSP response with its certificate $\Ra$ \textbf{Not secure} active attacker dropping requests, default behavior is to validate for no responder
       \end{itemize}
     }
 
     \sectionbox{
     \subsection{GL: Certificate Transparency}
       Protocol for publicly logging the certificates activity.\\
-      $Ra$ augment chain-of-trust for the entire SSL certificate system.
+      $\Ra$ augment chain-of-trust for the entire SSL certificate system.
       \begin{itemize}
         \item \textbf{Logs}: log cryptographically secured in a Merkle hash tree
         \item \textbf{Monitors}: watch for suspicious or missing certificates in logs
-        \item \textbf{Auditors} : verify the overall integrity of logs
+        \item \textbf{Auditors} : verify the overall integrity of logs (Signed Certificate Timestamp (SCT))
       \end{itemize}
 
       \includegraphics[width=\columnwidth]{img/CT.png}
 
       \textbf{Benefits:} Gradual rollout + Minimal impact on existing infrastructure
 
-      \textbf{Disadvantages:} MitM, no support revocation, still need to contact log to verify
+      \textbf{Disadvantages:} MitM (but can be detected externally), no support revocation, still need to contact log to verify
     }
 
     \sectionbox{
@@ -1029,6 +1050,15 @@ identity in daily life
   }
 
 \section*{Session Management}
+  \sectionbox {
+  \subsection{Attacks}
+    \begin{itemize}
+      \item Network sniffing $\ra$ use HTTPS to prevent it
+      \item Don't mix HTTP and HTTPS SessionID
+      \item Random SessionID is important
+      \item Brute Force $\ra$ Not predictable Username and Password
+    \end{itemize}
+  }
 
   \sectionbox {
   \subsection{Anatomy of a Web App \& Threat Vectors}
@@ -1051,10 +1081,10 @@ identity in daily life
 
   \subsubsection{Transport}
     \begin{itemize}
-      \item GET: easy (in URL), compatible(+) , logged(-), HTTP referer(-)
-      \item POST: compatible(+)(works with cookies disabled), not obvious(+), more complex development(-), slightly harder to manipulate(-)\\
+      \item GET: easy (in URL), (+)compatible , (-)logged on intermediate devices, (-)HTTP referer
+      \item POST: (+)compatible(works with cookies disabled), (+)not obvious, (-)more complex development, (-)slightly harder to manipulate\\
       $\ra$ Both GET and POST are vulnerable to \emph{session fixation} attacks !
-      \item Cookie: more options(+), not recorded(+), https restriction(+), store on client(-), may be disabled by users(-)
+      \item Cookie: (+)more options, (+)not recorded, (+)https restriction, (-)store on client, (-)may be disabled by users
     \end{itemize}
 
   \subsubsection{Revocation}
@@ -1062,16 +1092,9 @@ identity in daily life
     \item Session Validity: client and server side revocation + time limited
     \item Session Timeout: important with shared computers, expiry time should be minimum
   \end{itemize}
-  }
 
-  \sectionbox {
-  \subsection{Attacks}
-    \begin{itemize}
-      \item Network sniffing $\ra$ use HTTPS to prevent it
-      \item Don't mix HTTP and HTTPS SessionID
-      \item Random SessionID is important
-      \item Brute Force $\ra$ Not predictable Username and Password
-    \end{itemize}
+  \subsubsection{Destruction}
+  % Important to keep because it is part of the all
   }
 
 \section*{SQL Injection (SQLi)}
@@ -1085,6 +1108,17 @@ identity in daily life
       \item Data is part of a string executed as a command by app
       \item App gives attacker privilege or info that he would otherwise not have
     \end{enumerate}
+  }
+
+  \sectionbox{
+  \subsection{SQL Injection Defense}
+    \begin{itemize}
+    \item constrain and sanitize all client data on the server (input validation)
+    \item use parametrized prepared statements
+    \item use stored procedures (restraint possible actions)
+    \item avoid disclosing error information
+    \item run DB with reduced privileges
+    \end{itemize}
   }
 
   \sectionbox{
@@ -1114,7 +1148,7 @@ identity in daily life
       Execute stored procedures present in the database\\
       \texttt{SELECT * FROM users WHERE uid=’abc’ AND password=’\textcolor{red}{’; SHUTDOWN; --}';}
 
-    \subsubsection{Inference}
+    \subsubsection{Inference / Determine DB Engine}
       If DB doesn't return error msg $\Ra$ change behaviour of DB to guess (Blind Injection or Time Injection (e.g. example)\\
       \url{http://www.example.com/product.php?product_id=}\texttt{\textcolor{red}{100 AND IF(version() like ‘5\%’, sleep(15), ‘false’));--}}\\
       $\ra$ check MySQL version 5.x or not $\Ra$ if yes server delays answer 15s
@@ -1128,17 +1162,7 @@ identity in daily life
       \item \texttt{;} $\ra$ terminates a command
       \item \texttt{--} $\ra$ considers everything afterwards as a comment.
       \item Error messages can provide hints on which DB is used.
-      \item \textbf{IDS Detection} can be avoided by varying the command (e.g. through the insertion of whitespaces)
-    \end{itemize}
-  }
-
-  \sectionbox{
-  \subsection{SQL Injection Defense}
-    \begin{itemize}
-    \item constrain and sanitize all client data on the server
-    \item use stored procedures (restraint possible actions)
-    \item avoid disclosing error information
-    \item run DB with reduced privileges
+      \item \textbf{IDS Detection Evasion} by varying the command (e.g. through the insertion of whitespaces or comments UNION/**/SELECT)
     \end{itemize}
   }
 
@@ -1158,32 +1182,10 @@ identity in daily life
   }
 
   \sectionbox{
-  \subsection{XSS Attacks}
-    XSS flaws occur whenever a web app takes user supplied datas and sends it to another web browser without first \emph{validating} or \emph{encoding} the content ($\Ra$ allows injection of malicious code).
-
-    \textbf{Target:} The user of the web app
-
-    \textbf{Infection path:} email, chat, uploaded files \ldots
-
-    \textbf{Dangerous content:} advertisements, user contributed content, widgets (counters, scripts \ldots)
-
-    \textbf{Example}: Data Leakage = script reads session cookies and sends them to an evil server ($\ra$ Solution: HTTPOnly cookies $\ra$ browser prevents client side script to access it, not supported by all browsers)
-
-    \textbf{XSS Shell} = XSS backdoor and zombie manager $\ra$ can interactively send requests and get responses from victim ($\simeq$ backdoor the page)
-
-    \subsubsection{Countermeasures}
-      \begin{itemize}
-        \item Test your web app
-        \item Input sanitization (check user submitted content) $\ra$ filter out meta-characters (<, >, \ldots)
-        \item HTML output encoding (escaping) $\ra$ e.g. $<$ is replaced by \&lt;
-      \end{itemize}
-  }
-
-  \sectionbox{
   \subsection{Request Forgery (XSRF)}
-    A form from one domain posts a request to a different domain through an authenticated session (= write-only attack)
+    A form from one domain posts a request to a different domain through an authenticated session (= write-only attack) (E.g.: Reset password)
 
-    \textbf{Countermeasures:} CSRF Token, ask for old password, check HTTP referer, show captcha
+    \textbf{Countermeasures:} (CSRF) hidden security Token (unique and cannot be read by attacker), ask for (old) password, check HTTP referer headers (indicates the page making the request, not always set $\ra$ not really efficient), show CAPTCHA
   }
 
   \sectionbox{
@@ -1194,7 +1196,34 @@ identity in daily life
 
     \textbf{Call-back}: attacker’s website includes code (e.g.: scripts to send money) from an honest server which do not verify that the user really intended to execute it.
 
-    \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST, check HTTP referer
+    \textbf{Countermeasures:} security tokens derived from the cookie and a server challenge, use only HTTP POST for XSSI call-back, check HTTP referer
+  }
+
+  \sectionbox{
+  \subsection{XSS Attacks}
+    XSS flaws occur whenever a web app takes user supplied datas and sends it to another web browser without first \emph{validating} or \emph{encoding} the content ($\Ra$ allows injection of malicious code).
+
+    \textbf{Target:} The user of the web app
+
+    \textbf{Infection path:}
+    \begin{itemize}
+      \item \underline{Reflected(1:1,URL)}: email, chat, uploaded files, third party content \ldots
+      \item \underline{Stored}: script in database from forum messages, comments, username \ldots
+      \item \underline{DOM Based}: stays in browser (DOM)
+    \end{itemize}
+
+    \textbf{Dangerous content:} advertisements, user contributed content, widgets (counters, scripts \ldots)
+
+    \textbf{Example}: Data Leakage = script reads session cookies and sends them to an evil server ($\ra$ Solution: HTTPOnly cookies $\ra$ browser prevents client side script to access it, not supported by all browsers)
+
+    \textbf{XSS Shell} = XSS backdoor and zombie manager $\ra$ can interactively send requests and get responses from victim ($\simeq$ backdoor the page)
+
+    \subsubsection{Countermeasures}
+      \begin{itemize}
+        \item Test your web app
+        \item Input sanitization (check user submitted content) $\ra$ filter out meta-characters ($<$, $>$, \ldots)
+        \item HTML output encoding (escaping) $\ra$ e.g. $<$ is replaced by \&lt;
+      \end{itemize}
   }
 
 % Malware
@@ -1222,6 +1251,7 @@ identity in daily life
     \begin{itemize}
       \item Uses Sneakernet(people) as physical propagation
       \item Variants: boot code virus (replaces boot sector), host program infection (embedding into executables)
+      \item E.g. Stuxnet infected nuclear plants in Iran from USB sticks
     \end{itemize}
   }
 
@@ -1242,7 +1272,7 @@ identity in daily life
 
     \textbf{Deployment:} Endpoint, Network
 
-    \textbf{Evaluation:} Recognition rate (high true positive), False alarm rate
+    \textbf{Evaluation:} Recognition rate (high true positive), False alarm rate (low)
 
     \subsubsection{Signature Based}
       \begin{itemize}
@@ -1262,7 +1292,7 @@ identity in daily life
           \item Detection (reactive, proactive)
           \item Support for compression
           \item Self-protection
-          \item Cleanup
+          \item Cleanup of already infected system
           \item Enterprise deployment features
         \end{itemize}
   }
@@ -1309,8 +1339,7 @@ identity in daily life
         \item Check if target is vulnerable
         \item Exploit vulnerability
         \item Install copy of worm
-        \item Start copy
-        \item Goto 1
+        \item Start copy and Goto 1
       \end{enumerate}
 
       \textbf{Propagation speed}: scan rate, vulnerable population, system compromise delay, worm transfer speed
@@ -1328,6 +1357,17 @@ identity in daily life
   }
 
   \sectionbox{
+    \subsection{Massive Worm examples}
+      \begin{itemize}
+        \item "Morris" Internet worm (1988)
+        \item SQL Slammer, UDP database worm (2003)
+        \item Blaster, RPC(=Remote Procedure Call) internet worm (2003)
+        \item Sobig.F , Email worm (2003)
+        \item Witty worm , "firewall" worm (2004)
+       \end{itemize}
+  }
+
+  \sectionbox{
     \subsection{Worm Network Impact}
       Primary network impact is due to scanning activity
       \begin{itemize}
@@ -1335,12 +1375,13 @@ identity in daily life
         \item High volume of ICMP destination unreachable msg
         \item Higher network and traffic flows
        \end{itemize}
+        \textbf{Network activity anomaly detection:} Entropy measurement of flow header fields. $H = - \sum_{i=1}^{n} p_{i} \log (p_{i})$ ; if $H \leq T $ then raise alert. Determine threshold T using training data.
   }
 
   \sectionbox{
     \subsection{Malware countermeasures}
      \begin{itemize}
-        \item End system: patching, firewall, IPS, Antivirus
+        \item End system: patching, firewall, IPS, Antivirus and educate users (awareness)
         \item Anti-Virus: useful but not too effective
         \item Monocultures are targeted first (e.g. Windows)
         \item Slow patching is a huge risk
@@ -1403,10 +1444,11 @@ identity in daily life
 
   \sectionbox{
   \subsection{Command and Control Topology}
+    The ability of a bot agent to locate the CnC infrastructure is a critical requirement for maintaining control of the entire botnet.
     \begin{itemize}
       \item \textbf{Star}: Single centralized CnC (+ Speed of control, - 1 point of failure)
       \item \textbf{Multi-server}: Multiple CnC communicating together (+ No single point of failure, + Geographical optimization, - Advanced planning required)
-      \item \textbf{Hierarchical}: Multiple layers below CnC (+ Botnet awareness, Ease or resale, - Latency)
+      \item \textbf{Hierarchical}: Multiple layers below CnC (+ Botnet awareness: single bot agent don't give entire botnet, Ease or resale, - Latency)
       \item \textbf{Random}: No centralized CnC (+ Highly resilient, - Latency,
       - Botnet enumeration)
     \end{itemize}
@@ -1414,12 +1456,15 @@ identity in daily life
 
   \sectionbox{
   \subsection{Fluxing Technologies}
+  Botnet takedown attempts typically target the CnC infrastructure
   \begin{itemize}
     \item \textbf{IP-Flux}: Constant change of IP address information related to a particular fully-qualified domain name (FQDN) (cnc.net$\ra$multiple IPs)
     \item \textbf{Domain Flux}: Constant change and allocation of multiple fully-qualified domain names (FQDN) (cnc.net, cnc.ru, abc.net$\ra$ multiple IPs)
     \item \textbf{Single-Flux}: The FQDN of the CnC’s host has multiple IPs addresses assigned (DNS A record)
     \item \textbf{Double-Flux}: The name servers of the CnC’s FQDN as well as the FQDN of the CnC’s host have multiple IP addresses assigned (DNS A and NS records)
   \end{itemize}
+
+  \textbf{Defenders advantage:} Sinkholing: register domain generated by the botnet’s DGAs. "Confickr" generates 50,000 domains per day, and introduced non-determinism in DGA. Taking over all domains costs between \$91.3 million and \$182.5 million per year. Domain registrars are the entity best positioned to mitigate malware that relies on DNS.
   }
 
   \sectionbox{
@@ -1455,33 +1500,49 @@ identity in daily life
   \emphbox{A vulnerability is a weakness in software (or hardware) that enables an attacker to compromise the software or the data that it processes}
 
   \sectionbox{
+  \subsection{Correlation of Detection Failures}
+    Detection failures are \textbf{correlated} – they are not independent events
+
+    The combined failure rate of layered security is typically considerably higher than the product of individual failure rates. $P_{AB} \gg P_{A} \cdot P_{B}$
+
+    Ignoring correlation predicts zero exploits to bypass four or more devices
+  }
+
+  \sectionbox{
   \subsection{Security Information Provider}
-    \textbf{SIP} = Private and government organizations that efficiently monitor the primary sources of security information, validate the content found, and publish their findings as security advisories in a consistent format (NVD, CVE). (e.g. CERT, X-Force(IBM), Secunia\ldots)
+    \textbf{SIP} = Private and government organizations that \textbf{collect} vulnerabilities, efficiently \textbf{monitor} the primary sources of security information, \textbf{validate} the content found, and \textbf{publish} their findings as security advisories in a consistent format (NVD, CVE). (e.g. CERT, X-Force(IBM), Secunia\ldots)
 
     \textbf{NVD} = National (USA) Vulnerability Database
 
     \textbf{CVE} = Common Vulnerabilities and Exposures
+
+    SIPs inform the vendor in order to release a patch $\ra$ average exposure time: 153 days
+
+    When the vendor is not informed about new vulnerabilities $\ra$ average 0-day attack persists: 312 days
   }
 
   \sectionbox{
     \subsection{Disclosure Options}
     \begin{itemize}
       \item Keep it secret (No disclosure)
+      \item Quietly alert vendor
       \item Exploit it by-yourself
       \item Sell on Black Market (Cybercriminals, Governments) between 40k-160k
-      \item Sell on White Market (ZDI, VCP, vendor) $\ra$ Coordinated/Responsible Disclosure (if fails then Full Disclosure)
+      \item Sell on White Market (purchase programs: ZeroDayInitiative, VulnerabilityContributorProgram or vendor) $\ra$ Coordinated/Responsible Disclosure (if fails then Full Disclosure)
       \item Full Disclosure
     \end{itemize}
+    Choice depends on \textbf{discoverer incentives}: economics, ethics, resources, past experience, publicity, legal constraints
   }
 
 % E-Mail Spam
 \section{E-Mail Spam}
   \sectionbox{
   \subsection{Generalities about Spam}
+    More than 60\% of email traffic is spam
     \subsubsection{Types of Spam}
       \textbf{UCE}: Unsolicited Commercial Email
 
-      \textbf{UBE}: Unsolicited Bulk Email (not necessarily commercial)
+      \textbf{UBE}: Unsolicited Bulk Email (not necessarily commercial, sent in masses)
 
     \subsubsection{Where to get emails addresses}
       \begin{itemize}
@@ -1500,26 +1561,58 @@ identity in daily life
         \item Open mail relays (anyone can do it)
         \item Open proxies
       \end{itemize}
+
+      \subsubsection{Business Models behind Spam}
+      \begin{itemize}
+        \item Direct sales business: some recipients actually buy spam advertised products; cheap advertising channel; easy to disguise actual sender; hard to enforce anti-spam laws, low risk of getting caught
+        \item Internet underground business: operators rent out botnets for sending spam: 1million spam emails sent for 250-700\$ ; 10million email addresses for 100euros
+      \end{itemize}
+      }
   }
 
   \sectionbox{
   \subsection{Anti-Spam Techniques}
     \begin{itemize}
-      \item \textbf{Filter at SMTP time}: lack info. to decide
-      \item \textbf{DNS Blacklists}:
+      \item \textbf{Filter at SMTP time}: +cheap and fast -lack info. to decide
+      \item \textbf{Whitelists}: allow only emails matching non spam criteria
+      \item \textbf{Greylists}: defer 1st email but accept follow-up email (issues with delays and multiple SMTP hosts of larger hosters)
+      \item \textbf{Blacklists}: reject email matching spam criteria
         \begin{itemize}
-          \item Greylisting: defer 1st email but accept follow-up email (issues with delays and multiple SMTP hosts of larger hosters)
-          \item Blacklisting(DNSBL): can be done either with IP or domain name. The DNS A record indicates if the IP address is on the list or not.
+          \item DNS Blacklisting: can be done either with IP or domain name.   URL which redirects to another URL $\ra$ defeats Blacklists.
+          \item Blacklists caveats: evasion (botnet,stolen email, short term unpaid domains), denial of service (email on list don't work anymore$\ra$blacklists operators have power)
         \end{itemize}
       \item \textbf{Filtering SMTP traffic at FW}: block outgoing SMTP msg not from SMTP server (prevent email-based worms)
       \item \textbf{Heuristical Content Filtering}: look at weird font, strange URL \ldots)
       \item \textbf{Statistical Content Filtering}:\\
       $P(spam|words) = \frac{P(words|spam)P(spam)}{P(words)}$
+
+      Misspellings in text $\ra$ defeats Naive Bayesian filter.
       \item \textbf{Traffic Based Filtering}: Compare flux of emails to recognize bulk mail (DCC = Distributed Checksum Clearinghouse)
       \item \textbf{Image Spam Filtering}: OCR on images before filtering
       \item \textbf{Text Filtering Caveats}: Normalize content before filtering text
     \end{itemize}
   }
+
+\sectionbox{
+ \subsection{Spam fighting at ETH}
+  Bayesian filter not used (broad range of messages at University)
+
+   Running parallel SMTP sessions with filtering processes : this is a best effort service.
+   They reject confirmed spam email directly. They keep in a “phish trap” suspected spam.
+   They provide tag-only option for spam, and personal blacklist/whitelist
+
+   \textbf{Phishing Countermeasures:} (other than Phish trap)
+   \begin{itemize}
+     \item Set a daily limit on the number of messages that can be sent by a user
+     \item Lock accounts sending spam/phish/malware messages or hosting a phishing web page
+     \item Inform phishing recipients that their account may be “phished”
+     \item Remove phishing messages from user mailboxes
+     \item Redirect a phishing URL to a warning web page OR Block a phishing URL’s IP-address
+   \end{itemize}
+   \textbf{ETH is keeping logs for one year:} sender-host/IP; sender/recipient address; subject header (40 characters); attachment file name; delivery/rejection status
+
+   \textbf{For:} filter modifications - check for false positives/negatives; message tracking; data mining - identify botnet members, etc.; statistics
+ }
 
   \sectionbox{
   \subsection{Email Authentication}
@@ -1616,7 +1709,7 @@ identity in daily life
       \item Attacker has full control and use another compromised PC in the geographical area as a proxy to connect to the bank account of the victim.
     \end{enumerate}
 
-    \includegraphics[width=\columnwidth]{img/Retefe-Malware.png}
+    %\includegraphics[width=\columnwidth]{img/Retefe-Malware.png}
 
     \textbf{Carbanak Cybergang} stole \$1bn from 100 banks directly. Malware install on admin computer (targeted attacks). Attackers spies on them to learn how to use the specific money transfer software of each bank.
   }
@@ -1639,5 +1732,74 @@ identity in daily life
   	  \item start again (The analysis hamster wheel)
 	  \end{enumerate}
   }
+
+  \sectionbox{
+    \subsection{SCION Secure Next-Generation Internet Architecture}
+    SCION is an isolation architecture only for the control plane, in the data plane it is a transparency architecture.
+    \subsubsection{Isolation Domain (ISD)}
+    Region that can agree on a common root of trust $\Ra$ authenticate entities only within each ISD (e.g. domain on geographical regions) political and legal issues arise
+
+    \subsubsection{SCION Architectural Design Goals}
+    \begin{itemize}
+        \item High availability, even for networks with malicious parties
+        \item Adversary: access to management plane of router
+        \item Communication should be available if adversary-free path exists
+        \item Secure entity authentication that scales to global heterogeneous (dis)trusted environment
+        \item Flexible trust: operate in heterogeneous trust environment
+        \item Transparent operation: Clear what is happening to packets and whom needs to be relied upon for operation $\Ra$ \textbf{Packet-Carried State:} Packets carrying forwarding information
+        \item Balanced control among ISPs, Senders, and Receiver
+        \item Scalability, efficiency, flexibility
+    \end{itemize}
+    \textbf{Beaconing for Route Discovery:} Scalable and secure dissemination of path/topological information from core to edge. Policy-constrained multi-path flood to provide multiple paths.
+
+    \subsubsection{SCION Dangers}
+    \begin{itemize}
+        \item Too many top-level ISDs , ISPs part of ISD core
+        \item Large packet header size
+        \item Too many extensions used
+        \item Higher complexity (Extensions, PKI)
+        \item Extremely high path fluctuations, changes
+      \end{itemize}
+    }
+
+    % \section{Hacking labs}
+    % \sectionbox{
+    % \subsection{Tools}
+    % \begin{itemize}
+    %     \item \textit{nslookup website.ch} : Generate DNS traffic
+    %     \item to check ARP table : \textit{arp -a} $\Ra$ ARP is a layer 2 protocol
+    %     \item \textbf{Wireshark} : GUI tool to capture traffic
+    %     \item \textbf{Tshark} is a command line tool like tcpdump. Command line tools are more reliable than GUI tools because it might happen that your CPU gets overloaded and some packets have to be dropped.
+    %
+    %     Use the following command to capture HTTP traffic on the interface 2: \textit{tshark -i 2 -f "port 80" -w output.pcap}
+    %     \item \textbf{Nmap or Fingerprinting}
+    %     Used to find vulnerable targets and services.
+    %
+    %     \textit{nmap -O -oX nmap\_result.xml -sV - -reason targetIP}
+    %
+    %     -O : This is an operating system scan.
+    %
+    %     -oX : Output the scan to an XML file.
+    %
+    %     -sV: Tests open ports to determine the listened service and its version
+    %
+    %     - -reason: Give the reason for the apparent state of a port.
+    %     \item \textbf{Scapy} is a powerful interactive packet manipulation program. It is able to forge or decode packets of a wide number of protocols, send them on the wire, capture them, match requests and replies, and much more. It can easily handle most classical tasks like scanning, tracerouting, probing, unit tests, attacks or network discovery.
+    %     \item \textbf{Metasploit} : penetration testing tool. It simulates real-world attacks to find weak points before a malicious attacker does.
+    %     \item \textbf{XSS Shell} = XSS backdoor and zombie manager $\ra$ can interactively send requests and get responses from victim ($\simeq$ backdoor the page)
+    % \end{itemize}
+    % }
+    %
+    % \sectionbox{
+    % \subsection{Worm Conficker Attack}
+    %  computer worm targeting the Microsoft Windows operating system that was first detected in November 2008. It uses flaws in Windows OS software and dictionary attacks on administrator passwords to propagate while forming a botnet, and has been unusually difficult to counter because of its combined use of many advanced malware techniques.
+    % }
+    %
+    % \sectionbox{
+    % \subsection{Session Fixation}
+    %   the victim is fixing the session for the attacker.
+    %   Most session fixation attacks are web based and most rely on session identifiers being accepted from URLs (query string) or POST data. Session-Fixation is related to Session-Hijacking. The attacker will send his victim a link with a valid web application session (asked from the webApp) appended. Through social engineering, a trustful victim will click on the link and provide credentials.
+    % }
+
 
 \end{document}
