@@ -103,7 +103,7 @@
  }
 
 
-\section{(In)securtity, Risk and the Lifecycle of Vulnerablities}
+\section{(In)securtity, Risk \& Vulnerability Lifecycle}
 
   \sectionbox{
   \subsection{(In)security Landscape}
@@ -113,15 +113,9 @@
   }
   \sectionbox{
   \subsection{Vulnerablity Lifecycle}
-    \textbf{Security vulnerability} \\
-    a weakness in a system allowing an attacker to violate the confidentiality, integrity, availability of the system or the data and applications it hosts
+    \textbf{Security vulnerability}: A weakness in a system allowing an attacker to violate the confidentiality, integrity, availability of the system or the data and applications it hosts disagreement on what is a vulnerability possible (it's a a feature not a vulnerability)
 
-    disagreement on what is a vulnerability possible (it's a a feature not a vulnerability)
-
-    \textbf{CVE}
-    Standard names for all publicly known vulnerabilities and security exposures. De facto standard.
-
-    Form: \emph{CVE-Year-AnyDigits}
+    \textbf{CVE}: Standard names for all publicly known vulnerabilities and security exposures. De facto standard. (Form: \emph{CVE-Year-AnyDigits})
 
     \includegraphics[width=\columnwidth]{img/VUL-LC.png}
 
@@ -149,10 +143,14 @@
     \end{itemize}
 
     \textbf{Gap of insecurity:} Difference between the exploit and patch (the bad a consistently faster than the good)
+
+    \textbf{Security is slow:} Many vulnerabilities are unpatched even 100 days after disclosure.
+
+    \textbf{Market for new vulnerabilities:} ZeroDayInitiative and Black Market, pricing from 1000 to more than 200 000 USD
   }
 
   \sectionbox{
-  \subsection{Risk}
+  \subsection{Risk Management}
     There is no such thing as absolute security
 
     Trade-Off between security and financial, social, functional, \ldots
@@ -165,28 +163,22 @@
       \item What other risks does the security solution cause?
       \item What costs and trade-offs does the security solution impose?
     \end{itemize}
-    \ra is the trade-off worth if?
+    \ra Is the trade-off worth if?
 
     \subsubsection{Risk management}
     Security is relative \Ra manage risks
 
-    Options: avoid, decrease, transfer, accept risk
+    \underline{Options}: avoid, decrease, transfer, accept risk
 
-    Business sense: risk $<$ opportunity
+    \underline{Business sense}: risk $<$ opportunity
   }
 
 
 \section{Identity and Authentication}
+
   \sectionbox{
   \subsection{Identity and Identity Theft}
     \textbf{Authentication:} Authentication is the process of verifying an identity claim of an entity. It binds the principal to an identity
-
-    \textbf{Levels of Anonymity}
-    \begin{itemize}
-      \item \textbf{Identity}: actual principal is known (Public pseudonyms)
-      \item \textbf{Pseudonymity}: indirectly known as the holder of a specific pseudonym (Actual principal is not disclosed) (non-public pseudonyms but known by system operators)
-      \item \textbf{Anonymity}: Principal is known to be part of a defined set. The members of the set cannot be distinguished individually. (Actual principal is not disclosed.) (unlinkable pseudonyms)
-    \end{itemize}
 
     \textbf{Authentication Criteria:}
     \begin{itemize}
@@ -198,87 +190,109 @@
 
     \textbf{Types of ID Theft}
     \begin{itemize}
-      \item Financial Identity Theft: using someone else credit card, using another's name and SSN to obtain goods and services (e.g. open a bank account, purchase on invoice)
-      \item Criminal Identity Theft: posing as another when apprehended for a crime
-      \item Identity Cloning: using another's information to assume his or her
+      \item \underline{Financial Identity Theft}: using someone else credit card, using another's name and SSN to obtain goods and services (e.g. open a bank account, purchase on invoice)
+      \item \underline{Criminal Identity Theft}: posing as another when apprehended for a crime
+      \item \underline{Identity Cloning}: using another's information to assume his or her
 identity in daily life
-      \item Business/Commercial Identity Theft: using another's business name to obtain credit
+      \item \underline{Business/Commercial Identity Theft}: using another's business name to obtain credit
     \end{itemize}
 
     \textbf{Weak authentication:} checking only one authentication criteria
 
     \textbf{Strong authentication:} checking two or more authentication criteria
-  }
-  \subsection{Authentication Protocols}
-  \sectionbox{
-  \subsubsection{OpenID}
-    Standard for decentralised user authentication:
-    use existing account to sign in to multiple websites without creating a new password
 
-    \includegraphics[width=\columnwidth]{img/OpenID.png}
-  }
-  \sectionbox{
-  \subsubsection{OAuth}
-    A web user (resource owner) grants a
-    printing service (client) access to her protected photos stored at a photo sharing service (resource server), without sharing her username and password with the printing service.
-    Instead, she authenticates directly with a server trusted by the photo sharing service (authorization server) which issues the printing service delegation-specific credentials (access token).
+    \textbf{FIDO (Fast IDentity Online) Alliance}
 
-    \includegraphics[width=\columnwidth]{img/OAuth.png}
-
-    (A) Client requests authorisation from the resource owner or authorization server. \\
-    (B) Client receives an authorisation grant by the resource owner. Authorization grant type depends on the method used by the client and supported by the authorisation server to obtain it. \\
-    (C) Client requests an access token by authenticating with the authorization server using its client credentials (prearranged between the client and authorization server) and presenting the authorization grant. \\
-    (D) Authorisation server validates  client credentials and the authorisation grant, and if valid issues an access token.\\
-    (E) Client requests protected resource from the resource server. Authentication by access token.\\
-    (F) Resource server validates the access token \ra valid \ra serves request\\
-  }
-  \sectionbox{
-  \subsubsection{3D Secure}
-    A protocol used widely to authenticate online card transactions.
-
-    \includegraphics[width=\columnwidth]{img/3DSecure.png}
-    After entering payment card details on merchant site:
+    Non-profit organization addressing:
     \begin{itemize}
-    \item 3D Secure pops up a password entry form to a bank customer
-    \item customer enters a password and, if it was correct,
-    \item customer is returned to the merchant website to complete the
-    transaction and
-    \item the merchant gets an authorisation code to submit to his bank
+      \item lack of interoperability among strong authentication devices
+      \item problems users face with creating and remembering multiple usernames and passwords
     \end{itemize}
-
-    \textbf{Problems:} Pop-Up blockers, Activation during shopping, SLL verification not visible, liability shift, weak bank authentication, no password reset procedure, privacy issues\\
-  }
-  \sectionbox{
-  \subsubsection{802.1x : Port-Based Network Access Control}
-    Client-server based access control protocol that restricts unauthorised devices from connecting to a (W)LAN through publicly accessible ports.
-
-    \includegraphics[width=\columnwidth]{img/8021x.png}
-
-    \textbf{EAP} (Extensible Authentication Protocol): Authentication framework on the data link layer supporting multiple methods (MD5, OTP, TLS, TTLS) without requiring an IP.
-
-    \textbf{Identity and Security}: Authentication (Who?) , Authorisation (What?) , Access Control, Policy enforcement
-
-    \textbf{Benefits:} Standard based technology, control at link layer, interoperating wifi and wired, centralised user administration
-
-    \textbf{Drawbacks:} Authenticator authentication, Man-in-the-middle, session hijacking
+    Members : Google, Microsoft, PayPal, Samsung, intel, RSA etc
   }
 
-  \sectionbox{
-  \subsection{Anonymization}
-    \textbf{Levels of Anonymity:} Identity (principal known), Pseudonymity (indirectly kown as pseudonym), anonymity (part of anonymity set but within no distinguishing)
+  \subsection{Authentication Protocols}
 
-    \textbf{Pseudonyms:} public (\ra identification), non-public (\ra pseudonymity), unlinkable (\ra anonymity)
+    \sectionbox{
+    \subsubsection{OAuth}
+      Allows sharing of private resources across web sites.
 
-    \textbf{Use cases:} \\
-    physical: feedback, voting, whistleblowing, censorship \\
-    digital: digital cash, digital voting, illegal activities
+      To access the data, tokens are used instead of credentials.
 
-    \textbf{Oninon routing: } Data is encapsulated multiple times and only the next hop is known to each node
+      \textbf{Limitation:} possibility of impersonation of resource owner (via phishing)
 
-    \textbf{Mixnet:} proxy handles messages in batches (transformed and premutated) \Ra unlinkablity of incoming and outgoing messages
+      \textbf{Many eggs in one basket} if central account becomes hacked, or you simply choose to close the account, then the serious repercussions are felt across several sites instead of just one.
 
-    \textbf{Attacks:} Traceback (break systems on path), Collusion (bad nodes), Traffic analysis (tagging with bit errors, replay messages - defense: heartbeats, traffic shaping, padding) , Logging (???)
-  }
+      \includegraphics[width=\columnwidth]{img/OAuth.png}
+
+      \textbf{Resource Owner}: Entity capable of granting access to a protected resource. When resource owner is a person, it is referred to as an end-user.
+
+      \textbf{Client}: An application making protected resource requests on behalf of the resource owner and with its authorization (e.g. a web browser for a printing service webpage).
+
+      \textbf{Authorization server}: The server issuing access tokens to the client after successfully authenticating the resource owner and obtaining authorization
+
+      \textbf{Resource server}: Server hosting the protected resources, capable of accepting and responding to protected resource requests using access tokens.
+    }
+
+    \sectionbox{
+    \subsubsection{OpenID}
+      Standard for decentralized user authentication:
+      use existing account to sign in to multiple websites without creating a new password
+
+      \includegraphics[width=\columnwidth]{img/OpenID.png}
+      \textbf{Need to trust the identity provider.}
+    }
+
+    \sectionbox{
+    \subsubsection{3D Secure}
+      A protocol used widely to authenticate online card transactions.
+
+      \includegraphics[width=\columnwidth]{img/3DSecure.png}
+      After entering payment card details on merchant site:
+      \begin{itemize}
+        \item 3D Secure pops up a password entry form to a bank customer
+        \item customer enters a password and, if it was correct,
+        \item customer is returned to the merchant website to complete the
+        transaction and
+        \item the merchant gets an authorization code to submit to his bank
+      \end{itemize}
+
+      \textbf{Problems}: Pop-Up blockers (changed to iframes), Activation during shopping (phishing attacks), SLL verification not visible, liability shift (customer becomes liable for losses), weak bank authentication, no password reset procedure, privacy issues
+    }
+
+    \sectionbox{
+    \subsubsection{802.1x : Port-Based Network Access Control}
+      Client-server based access control protocol that restricts unauthorized devices from connecting to a (W)LAN through publicly accessible ports.
+
+      \includegraphics[width=\columnwidth]{img/8021x.png}
+
+      \textbf{EAP} (Extensible Authentication Protocol): Authentication framework on the data link layer supporting multiple methods (MD5, OTP, TLS, TTLS) without requiring an IP.
+
+      \textbf{Identity and Security}: Authentication (Who?) , Authorization (What?) , Access Control, Policy enforcement
+
+      \textbf{Benefits:} Standard based technology, control at link layer, interoperating wifi and wired, centralized user administration
+
+      \textbf{Drawbacks:} Authenticator authentication, Man-in-the-middle, session hijacking
+    }
+
+    \sectionbox{
+    \subsection{Anonymization}
+      There is no perfect anonymity in reality.
+
+      \textbf{Levels of Anonymity:} Identity (principal known), Pseudonymity (indirectly kown as pseudonym), anonymity (part of anonymity set but no distinguishing within)
+
+      \textbf{Pseudonyms:} public (\ra identification), non-public (\ra pseudonymity), unlinkable (\ra anonymity)
+
+      \textbf{Use cases:} \\
+      \underline{physical}: feedback, voting, whistleblowing, censorship \\
+      \underline{digital}: digital cash, digital voting, illegal activities
+
+      \textbf{Oninon routing: } Data is encapsulated multiple times and only the next hop is known to each node (Default TOR = 3 nodes)
+
+      \textbf{Mixnet:} proxy handles messages in batches (transformed and premutated) \Ra unlinkability of incoming and outgoing messagesat each proxy
+
+      \textbf{Attacks:} Traceback (break systems on path - defense : more proxies), Collusion (bad nodes - defense : reputation system), Traffic analysis (tagging with bit errors, replay messages - defense: heartbeats, traffic shaping, padding messages to constant size) , Logging (most initiators want to continue end-to-end communication across path changes, compromised proxy records predecessor;Required server relays:TOR first and last, Mixnet all)
+    }
 
 
 \section{Firewalls, IDS and NAT Traversal}
@@ -286,7 +300,7 @@ identity in daily life
   \subsection{Firewalls}
     Hardware or software device which is configured to permit, deny or proxy data through a computer network with different levels of trust. The configuration is called \emph{policy}.
 
-    \textbf{Types:} simple packet filter, stateful filter, application layer proxy
+    \textbf{Types:} simple packet filter, statefull filter, application layer proxy
 
     \textbf{Rules:} Filtering (outgoing (egress), incoming), Default (accept, reject), Deny (Drop, Reject), Addressing Transparency (firewall and network fingerprinting)
     \includegraphics[width=\columnwidth]{img/firewallrule.png}
