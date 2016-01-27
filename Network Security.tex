@@ -5,10 +5,13 @@
 \documentclass[english, leagacyboxes, nologo]{latex4ei/latex4ei_sheet}
 
 \usepackage{upquote}
+\usepackage{latex4ei/latex4ei_colors}
+\usepackage{float}
+\usepackage{graphicx}
 
 \begin{document}
 \title{Network Security}
-\author{Stephan Dollberg, Martin Zellner, Lucas Vandroux}
+\author{Stephan Dollberg, Martin Zellner, Nelly Afonso, Pierre Dumont and Lucas Vandroux}
 \myemail{lucas.vandroux@gmail.com}      % optional, delete if unchanged
 \mywebsite{www.latex4ei.de}     % optional, delete if unchanged
 \maketitle
@@ -43,36 +46,47 @@
 
      \textbf{Security on OSI-Layers:} Physical (Link encryption), Network (IPSEC), Transport (SSL), Application (SSH)
    }
+
    \sectionbox{
    \subsection{OSI (Open Systems Interconnection)}
      \begin{tabular}{ | l | l | l |}
        \hline
-       OSI Model & Data Seq. & Protocols + Port  \\
+       OSI Model & Data Seq. & Protocols + Port\\
        \hline
-       Application & Message & FTP 20-21, SSH 22, Telnet 23 \\
+       \cellcolor{notsodarkblue} Application & Message & FTP 20-21, SSH 22, Telnet 23\\
        \cline{1-1}
-       Presentation* & & SMTP 25, HTTP/s 80/443 \\
+       \cellcolor{notsodarkblue} Presentation* & & SMTP 25, HTTP/s 80/443\\
        \cline{1-1}
-       Session* & & DHCP, NTP, BGP 179 \\
+      \cellcolor{notsodarkblue} Session* & & DHCP, NTP, BGP 179, TLS\\
        \hline
-       Transport & Segment & TCP, UDP\\
+       \cellcolor{notsodarkgreen} Transport & Segment & TCP, UDP\\
        \hline
-       Network & Datagram & IP, IPSec, ICMP, IGMP\\
-       %& & ARP, ICMP \\
+       \cellcolor{notsodarkpurple} Network & Datagram & IP, IPSec, ICMP, IGMP, OpenVPN\\
        \hline
-       Data Link* & Frames & Ethernet, ARP\\
+       \cellcolor{notsodarkred} Data Link* & Frames & Ethernet, ARP\\
        \cline{1-2}
-       Physical  & Bit Stream & 802.11 (WiFi)\\
+       \cellcolor{notsodarkred} Physical  & Bit Stream & 802.11 (WiFi)\\
        \hline
      \end{tabular}\\
-     * \textit{Don't exist in TCP/IP Model}
+     * \textit{Don't exist in \textbf{TCP/IP Model:}}  \textcolor{notsodarkpurple}{Internet Layer} \textcolor{notsodarkred}{Link Layer}
    }
 
- \sectionbox{
- \subsection{ARP (Address Resolution Protocol)}
- % TODO is ARP link layer or Network layer protocol ?
+  \sectionbox{
+  \subsection{ARP (Address Resolution Protocol)}
+    Use to find MAC add. corresponding to IP add. in LAN $\ra$ request is broadcast MAC add. (FF:FF:FF:FF:FF:FF) $\ra$ answer store in ARP cache
 
- }
+    \textbf{ARP Spoofing}(=ARP cache poisoning/ARP poison routing) $\ra$ possible because ARP stateless + no authentication $\Ra$ MitM + DOS attacks
+
+    $\Ra$ \underline{Defense}: static ARP entries +/ certify/cross-check ARP answers
+
+    \textbf{Cache lifetime}: a few 10 seconds (avoiding frequent ARP requests)
+
+    \textbf{Switch}: extends LAN (layer 2) $\ra$ forward Frames
+
+    \textbf{Router}: forward IP datagram (layer 3)
+
+    \textbf{Note:} ARP req. + MAC broadcasts don't go across routers
+  }
 
  \sectionbox {
  \subsection{HTTP (Hypertext Transfer Protocol)}
